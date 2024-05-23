@@ -1,0 +1,1 @@
+export { QueryResolver } from './QueryResolver';

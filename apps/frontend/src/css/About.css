@@ -1,0 +1,157 @@
+.about-container {
+  height: 100vh;
+}
+
+.navBar{
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+    align-items: center;
+}
+
+  .icon {
+    color: white; /* Adjust the color of the icon */
+    font-size: 28px;
+    
+  }
+  
+
+
+  .navBarButton{
+    color: #ffffff; /* text-white */
+    font-weight: 500; /* font-medium */
+    font-size: 14px;
+    transition: all 0.3s ease; /* transition-all */
+    margin-left: 3%;
+  }
+
+  .content{
+    display: flex;
+    flex-direction: row;
+    margin-top: 4%;
+    justify-content: center;
+    
+  }
+   
+ /* .pictureFrame {
+    width: 350px;
+    height: 490px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 5%;
+    margin-left: 5%;
+} */
+
+
+
+.picture {
+    width: 450px;
+    height: 580px;
+    background-size: cover; 
+    background-position: center; 
+    
+    /* border: 10px solid white;  */
+}
+
+.textBox{
+    /* display: flex;
+    background-color: red; */
+    width: 450px;
+    height: 580px;
+    flex-direction: column;
+    margin-left: 7%;
+    position: relative;
+}
+
+.line{
+    position: absolute;
+    width: 45%;
+    height: 2px;
+    background-color: #fd5e53;
+   
+}
+
+
+.Name{
+    font-size: 80px; /* text-4xl */
+    font-weight: 600;  /* font-semibold */
+    font-family: "Bebas Neue", sans-serif;
+    color: white;
+    position: relative;
+    margin-top: 2%;
+}
+
+.subHeader{
+    font-size: 15px; /* text-4xl */
+    margin-top: -5%;
+    background: linear-gradient(to right, #ff7f50, #fd5e53, #f94e63, #d2386c);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+}
+
+.aboutContent{
+    font-size: 17px;
+    color: white;
+    text-align: left;
+    margin-top: 10%;
+}
+
+.socialsBox{
+    display: flex;
+    gap: 25px;
+    bottom: 0;
+    margin-top: 8%;
+}
+
+
+.socialMedia{
+    transition: all 0.3s ease; /* transition-all */
+}
+
+.socialMedia{
+    color: #ff7f50;
+}
+
+#Insta:hover{
+    
+    transform: scale(0.95); /* active:scale-95 */
+}
+
+#LinkedIn:hover{
+    
+    transform: scale(0.95); /* active:scale-95 */
+}
+
+#GitHub:hover{
+    
+    transform: scale(0.95); /* active:scale-95 */
+}
+
+
+.requestSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.requestQuestion{
+    color: white;
+}
+
+/* .requestButton{
+    color: #fd5e53;
+} */
+
+.requestButton {
+    color: white;
+    transition: all 0.3s ease; /* transition-all */
+    margin-top: 1%;
+}
+
+.requestButton:hover{
+    color: #d2386c;
+    transform: scale(0.95); /* active:scale-95 */
+}
