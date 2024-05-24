@@ -74,7 +74,7 @@ else
     echo -e "${YELLOW}Skipping Brew dependencies installation (use --full, if needed). ${NC}"
     echo -e "${YELLOW}Skipping env verification (use --full, if needed).${NC}"
     echo "Installing app dependencies..."
-    # pnpm install > /dev/null 2>&1
+    pnpm install > /dev/null 2>&1
     
     cd apps/backend
 
@@ -83,9 +83,9 @@ else
         printf "\n✨Setup Finished. You can now run engine up\n"
        exit 0
     else
-    # TEST ME TESTE ME TESTE ME
         if [ "$DID_VM_MOUNT" = "TRUE" ]; then
-            echo "DID_VM_MOUNT is true. Skipping Colima start."
+            echo "DID_VM_MOUNT is true. Skipping Colima vm."
+            colima start
         else
             echo "DID_VM_MOUNT is false. Attempting to start Colima VM..."
             if ! colima start --vm-type vz; then

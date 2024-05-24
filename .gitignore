@@ -40,3 +40,7 @@ yarn-error.*
 **/dist
 
 **/.env
+
+.env
+
+**/.turbo
