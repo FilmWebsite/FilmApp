@@ -2,7 +2,8 @@
   "private": true,
   "name": "@film/monorepo",
   "scripts": {
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "permission": "sudo chmod -R 755 ./engine"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -14,9 +15,10 @@
     }
   },
   "devDependencies": {
+    "@film/postgres-api": "workspace:*",
     "jest": "^29.7.0",
-    "ts-node": "^10.9.2",
     "turbo": "^1.12.2",
-    "typescript": "^5.3.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }

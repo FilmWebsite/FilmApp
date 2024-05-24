@@ -1,1 +1,2 @@
-export * from './resolvers/QueryResolver.ts';
+export * from './resolvers';
+export * from './GQLContext';
