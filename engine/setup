@@ -10,6 +10,12 @@ if [ "$last_word" = "--full" ]; then
     brew bundle install
     echo "Installing app dependencies..."
     pnpm install > /dev/null 2>&1
+     colima start --vm-type vz      
+    # SET ENV VARIBLE DID_VM_MOUNT = TRUE             
+    docker build -t film-backend .    
+    colima stop  
+
+     printf "\n✨Setup Finished. You can now run engine up\n"
 #     echo "Setup Installed, Verifying environment files"
 
 #         cd apps/mongo-node
@@ -38,7 +44,17 @@ else
     echo -e "${YELLOW}Skipping Brew dependencies installation (use --full, if needed). ${NC}"
     echo -e "${YELLOW}Skipping env verification (use --full, if needed).${NC}"
     echo "Installing app dependencies..."
-    pnpm install > /dev/null 2>&1
-    printf "\n✨Setup Finished. You can now run take super✨\n"
+    # pnpm install > /dev/null 2>&1
+    pwd
+    cd apps/backend
+    colima start --vm-type vz      
+    # SET ENV VARIBLE DID_VM_MOUNT = TRUE             
+    docker build -t film-backend .    
+    colima stop  
+
+#  SET ENV VARIBLE IS_DOCKER_BUILD = TRUE
+
+    printf "\n✨Setup Finished. You can now run engine up\n"
+
 fi
 
