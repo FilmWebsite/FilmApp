@@ -11,6 +11,4 @@ trap cleanup EXIT INT TERM
 
 # Start backend services
 colima start
-
-
 pnpm dev

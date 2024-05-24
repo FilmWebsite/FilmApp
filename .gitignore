@@ -38,3 +38,5 @@ yarn-error.*
 **/node_modules
 **/.expo
 **/dist
+
+**/.env
