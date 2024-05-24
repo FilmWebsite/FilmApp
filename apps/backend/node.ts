@@ -48,6 +48,12 @@ node.get('/', async (req, res) => {
   return res.redirect('/graphql');
 });
 
+node.post('/testing', async (req, res) => {
+  const { name } = req.body;
+  console.log(name);
+  res.status(200).send({ message: 'hello' });
+});
+
 createFilmServer(node).then(() => {
   const PORT = 3002;
   node.listen(PORT);
