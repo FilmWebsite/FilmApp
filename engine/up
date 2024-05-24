@@ -1,7 +1,17 @@
 #!/bin/bash
 
+# Define a cleanup function
+cleanup() {
+   colima stop
+   echo 'Engine powered down, service stopped!'
+}
+
+# Set the trap to call the cleanup function on script exit (EXIT), interrupt (INT), or termination (TERM)
+trap cleanup EXIT INT TERM
+
 # Start backend services
+colima start
 cd apps/backend
-pnpm docker:up &
-cd ../..
-pnpm dev &
+docker build -t film-backend .    
+cd ../..    
+pnpm dev
