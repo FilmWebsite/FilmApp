@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -e ts -w . -x pnpm run watch:serve",
+    "docker:up": "docker-compose up",
     "watch:serve": "node --loader ts-node/esm node.ts"
   },
   "license": "ISC",
