@@ -7,8 +7,8 @@ const getPostgresPool = () => {
     user: '',
     host: 'localhost',
     database: 'film',
-    password: '',
-    port: 5000, // Default PostgreSQL port is 5432
+    password: 'password',
+    port: 5432, // Default PostgreSQL port is 5432
   });
   return pool;
 };

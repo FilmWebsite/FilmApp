@@ -1,1 +1,5 @@
-export interface GQLContext {}
+import { PhotoLoader } from './loaders';
+
+export interface GQLContext {
+  photos: PhotoLoader;
+}

@@ -6,6 +6,9 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: ''
   app:
-    image: film-backend
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    image: film/backend:local
     ports:
-      - '13000:3002'
+      - '8080:8080'

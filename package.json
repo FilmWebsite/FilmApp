@@ -15,7 +15,6 @@
     }
   },
   "devDependencies": {
-    "@film/postgres-api": "workspace:*",
     "jest": "^29.7.0",
     "turbo": "^1.12.2",
     "ts-node": "^10.9.2",

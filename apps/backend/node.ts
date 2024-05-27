@@ -1,4 +1,10 @@
-import { QueryResolver, MutationResolver, GQLContext } from './source';
+import {
+  QueryResolver,
+  MutationResolver,
+  GQLContext,
+  PostgresPhotoStore,
+  PhotoLoader,
+} from './source';
 import { mergeSchemas } from '@graphql-tools/schema';
 import express, { Application } from 'express';
 import { ApolloServer } from 'apollo-server-express';
@@ -23,7 +29,11 @@ export const configServer = _.memoize(async () => {
   const server = new ApolloServer({
     schema,
     context: (): GQLContext => {
-      return {};
+      const postgresPhotoStore = new PostgresPhotoStore(pg);
+      const photos = new PhotoLoader(postgresPhotoStore);
+      return {
+        photos,
+      };
     },
   });
 
@@ -55,9 +65,9 @@ node.post('/testing', async (req, res) => {
 });
 
 createFilmServer(node).then(() => {
-  const PORT = 3002;
+  const PORT = process.env.PORT || 8080;
   node.listen(PORT);
-  console.log('Backend successfully starting listening to node 🚀');
+  console.log('Listening on port 8080 🚀');
 });
 
 export { node };
