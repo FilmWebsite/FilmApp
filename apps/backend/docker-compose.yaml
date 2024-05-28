@@ -4,7 +4,8 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_USER: ''
+      POSTGRES_USER: user
+      POSTGRES_DB: film
   app:
     build:
       context: .
@@ -12,3 +13,9 @@ services:
     image: film/backend:local
     ports:
       - '8080:8080'
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: film
