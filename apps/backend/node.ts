@@ -67,7 +67,7 @@ node.post('/testing', async (req, res) => {
 createFilmServer(node).then(() => {
   const PORT = process.env.PORT || 8080;
   node.listen(PORT);
-  console.log('Listening on port 8080 🚀');
+  console.log('Listening on port 8080!🚀');
 });
 
 export { node };

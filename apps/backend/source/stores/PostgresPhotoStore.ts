@@ -7,7 +7,7 @@ export class PostgresPhotoStore {
   constructor(pool: Pool) {
     this.pool = pool;
   }
-  getBusinessQuery = `SELECT * FROM photos.photo`;
+  getBusinessQuery = `SELECT current_database();`;
   async getPhotos() {
     try {
       const results = await this.pool.query(this.getBusinessQuery);

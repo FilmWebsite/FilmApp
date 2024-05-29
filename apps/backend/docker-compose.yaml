@@ -8,13 +8,19 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
       POSTGRES_DB: film
+
   app:
     build:
-      context: .
-      dockerfile: apps/backend/Dockerfile
+      context: ../.. # Point to the root of the monorepo
+      dockerfile: Dockerfile
     image: film/backend:local
+    command: pnpm dev
+    working_dir: /usr/local/app/apps/backend # Ensure it runs in the correct directory
     ports:
       - '8080:8080'
+    volumes:
+      - ../../apps/backend:/usr/local/app/apps/backend # Map the backend app directory
+      - ../../node_modules:/usr/local/app/node_modules # Ensure shared dependencies are available
     environment:
       DB_HOST: db
       DB_PORT: 5432

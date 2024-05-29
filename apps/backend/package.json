@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "dock": "pnpm run watch:serve",
     "dev": "nodemon -e ts -w . -x pnpm run watch:serve",
     "watch:serve": "node --loader ts-node/esm node.ts"
   },

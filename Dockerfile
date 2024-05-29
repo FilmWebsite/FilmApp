@@ -12,13 +12,20 @@ RUN npm i -g npm@latest && \
     npm install -g pnpm && \
     pnpm --version
 
-WORKDIR /usr/local/app/apps/backend
+# Set PNPM_HOME
+ENV PNPM_HOME="/usr/local/app/node_modules/.bin"
+ENV PATH=$PNPM_HOME:$PATH
 
-# Install dependencies
+# Install project dependencies
 RUN pnpm install
 
+WORKDIR /usr/local/app/apps/backend
+
+# Set environment variables
 ENV PORT=8080
 
+# Expose the port
 EXPOSE 8080
 
+# Start the application
 CMD ["pnpm", "dev"]
