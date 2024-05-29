@@ -12,7 +12,7 @@ trap cleanup EXIT INT TERM
 # Function to wait for backend to start
 wait_for_backend() {
     echo "Waiting for backend to start..."
-    docker compose logs -f backend | grep -q "Listening on port 8080!🚀"
+    docker compose logs -f film/backend:local | grep -q "Listening on port 8080!🚀"
 }
 
 # Start the backend in the background
