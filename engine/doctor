@@ -1,0 +1,28 @@
+#!/bin/bash
+
+open -a Docker
+
+
+# # Function to wait until Docker is ready
+# wait_for_docker() {
+#     while ! pgrep -f 'Docker.app' >/dev/null 2>&1 || ! docker info >/dev/null 2>&1; do
+#         echo "Waiting for Docker to start..."
+#         sleep 2
+#     done
+#     echo "Docker is up and running!"
+# }
+
+# if [[ "$#" -lt 1 ]]; then
+#     # Uncomment the following lines if you want to use them
+#     # pnpm clean > /dev/null 2>&1
+#     # printf "✨Cleanup successful, please run take super✨"
+#     echo 'hi'
+# elif [[ "$1" == '--hard' ]]; then
+#     open -a Docker
+
+#     # Wait for Docker to be ready
+#     wait_for_docker
+
+#     # Proceed with Docker commands
+#     docker system prune
+# fi
