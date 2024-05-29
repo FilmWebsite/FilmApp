@@ -14,7 +14,7 @@ services:
       context: ../.. # Point to the root of the monorepo
       dockerfile: Dockerfile
     image: film/backend:local
-    command: pnpm dev
+    command: pnpm dock
     working_dir: /usr/local/app/apps/backend # Ensure it runs in the correct directory
     ports:
       - '8080:8080'
