@@ -1,0 +1,46 @@
+#!/bin/zsh
+
+# Define the .zshrc file path
+ZSHRC_FILE="$HOME/.zshrc"
+
+
+# Function to add the take function to .zshrc if it's not already present
+add_engine_function() {
+    # Check if the function is already in the file
+    if ! grep -q "engine()" "$ZSHRC_FILE"; then
+        echo "Creating function to $ZSHRC_FILE"
+
+        # Append the function to the file
+        cat << 'EOF' >> "$ZSHRC_FILE"
+
+# Function to manage custom scripts
+engine() {
+    local script_path="./engine/$1"
+    if [[ -f "$script_path" && -x "$script_path" ]]; then
+        shift
+        "$script_path" "$@"
+    else
+        if [[ "$1" == "--v" ]]; then
+            echo "engine 1.0.0"
+        else
+            echo -e "\e[91mFilm Engine does not support '$1'\e[0m"
+        fi
+    fi
+}
+EOF
+    else
+        echo "Film engine function already present in $ZSHRC_FILE"
+    fi
+}
+
+# Function to source the .zshrc file
+source_zshrc() {
+    echo "Sourcing $ZSHRC_FILE"
+    source "$ZSHRC_FILE"
+}
+
+# Main script execution
+add_engine_function
+source_zshrc
+
+echo "Setup complete. The function has been added to your .zshrc and sourced."

@@ -1,0 +1,111 @@
+#!/bin/bash
+
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Function to set or update environment variable in .env file
+set_env_var() {
+    local var_name="$1"
+    local var_value="$2"
+    local env_file="../../.env"
+
+    if grep -q "^${var_name}=" "$env_file"; then
+        # If the variable exists, replace its value
+        sed -i '' "s|^${var_name}=.*|${var_name}=${var_value}|" "$env_file"
+    else
+        # If the variable does not exist, append it
+        echo "${var_name}=${var_value}" >> "$env_file"
+    fi
+}
+
+# Function to get value of environment variable from .env file
+get_env_var() {
+    local var_name="$1"
+    local env_file=".env"
+
+    if grep -q "^${var_name}=" "$env_file"; then
+        grep "^${var_name}=" "$env_file" | cut -d '=' -f2- | tr '[:lower:]' '[:upper:]'
+    fi
+}
+
+# Read environment variables from .env file
+IS_DOCKER_BUILD=$(get_env_var "IS_DOCKER_BUILD")
+DID_VM_MOUNT=$(get_env_var "DID_VM_MOUNT")
+
+
+last_word=$(echo "$1" | rev | cut -d' ' -f1 | rev)
+
+if [ "$last_word" = "--full" ]; then
+    echo "Installing brew dependencies.."    
+    brew bundle install
+    echo "Installing app dependencies..."
+    pnpm install > /dev/null 2>&1
+    colima start --vm-type vz      
+    # SET ENV VARIABLE DID_VM_MOUNT = TRUE             
+    docker build -t film-backend .    
+    colima stop  
+
+    printf "\n✨Setup Finished. You can now run engine up\n"
+#     echo "Setup Installed, Verifying environment files"
+
+#         cd apps/mongo-node
+
+#         if [ -f .env ]; then
+#             echo "[Mongo-Node]: .env file found, skipping..."
+#               printf "\n✨Setup Finished. You can now run take super✨\n"
+#         else
+#             touch .env
+
+#             #  create a process that grabs mongo url
+#   echo -e "${YELLOW}[mongo]: It looks like you are missing the Mongo connection URL. 
+#         This URL is like a special address that allows your Mongo-node server to find and communicate with your Mongo database. 
+#         Here's what you need to do:${NC}
+
+#         Grab your Mongo connection URL. It should look something like this: 
+#         mongodb+srv://<username>:<password>@<hostname>:<port>/<databasename>?retryWrites=true&w=majority"
+
+#     read -p "Enter the Mongo connection URL: " response
+#       echo "DATABASE_URL='${response}'" >> .env
+#             echo "PORT='6001'" >> .env
+#             echo "[Mongo-Node]: Created env file"
+#             printf "\n✨Setup Finished. You can now run take super✨\n"
+#         fi
+else
+    echo -e "${YELLOW}Skipping Brew dependencies installation (use --full, if needed). ${NC}"
+    echo -e "${YELLOW}Skipping env verification (use --full, if needed).${NC}"
+    echo "Installing app dependencies..."
+    pnpm install > /dev/null 2>&1
+    
+    cd apps/backend
+
+    if [ "$IS_DOCKER_BUILD" = "TRUE" ]; then
+        echo -e "${YELLOW}Skipping Docker Config (See .env)${NC}"
+        printf "\n✨Setup Finished. You can now run engine up\n"
+       exit 0
+    else
+        if [ "$DID_VM_MOUNT" = "TRUE" ]; then
+            echo "DID_VM_MOUNT is true. Skipping Colima vm."
+            colima start
+        else
+            echo "DID_VM_MOUNT is false. Attempting to start Colima VM..."
+            if ! colima start --vm-type vz; then
+                echo "Colima start failed. Exiting script."
+                set_env_var "DID_VM_MOUNT" "FALSE"
+                exit 1
+            fi
+            set_env_var "DID_VM_MOUNT" "TRUE"
+        fi
+
+        echo "Building Docker image..."
+        if ! docker build -t film-backend .; then
+            echo "Docker build failed."
+            set_env_var "IS_DOCKER_BUILD" "FALSE"
+            exit 1
+        fi
+
+        set_env_var "IS_DOCKER_BUILD" "TRUE"
+        colima stop
+    fi
+
+    printf "\n✨Setup Finished. You can now run engine up\n"
+fi
