@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS photos.photo 
+ADD COLUMN collection VARCHAR(255);
