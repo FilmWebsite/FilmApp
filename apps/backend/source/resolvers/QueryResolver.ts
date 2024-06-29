@@ -1,14 +1,24 @@
 import { GQLContext } from '../GQLContext';
 
 export const QueryResolver = {
-  async getPhotoTest(_root: {}, args: {}, context: GQLContext) {
+  async getPhotos(_root: {}, args: {}, context: GQLContext) {
     try {
       // Filter Business within zip code
-      const p = context.photos.getData();
-      console.log('hi');
-      return p;
+      const photos = context.photos.getStores();
+      return photos;
     } catch (error) {
-      console.error('Error fetching stores:', error);
+      console.error('Error fetching photos:', error);
+      return [];
+    }
+  },
+
+  async getCollections(_root: {}, args: {}, context: GQLContext) {
+    try {
+      // Filter Business within zip code
+      const collections = context.photos.getCollections();
+      return collections;
+    } catch (error) {
+      console.error('Error fetching collections:', error);
       return [];
     }
   },

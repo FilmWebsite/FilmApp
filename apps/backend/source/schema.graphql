@@ -1,3 +1,18 @@
 type Query {
-  getPhotoTest: [String]
+  getPhotos: [Photo]
+  getCollections: [Collection]
+}
+
+type Photo {
+  image_url: String!
+  id: String!
+  collection: String!
+  home_display: Boolean!
+}
+
+type Collection {
+  name: String!
+  cover: String!
+  path: String!
+  ref: String!
 }

@@ -4,6 +4,9 @@
 cleanup() {
     echo 'Engine powered down, service stopped!'
     docker compose down
+
+
+
 }
 
 # Set the trap to call the cleanup function on script exit (EXIT), interrupt (INT), or termination (TERM)
@@ -11,19 +14,19 @@ trap cleanup EXIT INT TERM
 
 # Function to wait for backend to start
 wait_for_backend() {
-    echo "Waiting for backend to start..."
-    docker compose logs -f film/backend:local | grep -q "Listening on port 8080!🚀"
+   echo "Current logs:"
+    tail -n 10 /var/log/syslog  # Adjust the log file path as per your requirement
 }
 
 # Start the backend in the background
 cd apps/backend
-docker compose up -d
+docker compose up &
 
 # Wait for the backend to start
 wait_for_backend
 
-# Move back to the root directory
-cd ../..
+# # Move back to the root directory
+# cd ../..
 
-# Start the rest of the services
-pnpm dev
+# # Start the rest of the services
+# pnpm dev

@@ -1,4 +1,4 @@
-import { PostgresPhotoStore } from '../stores';
+import { PostgresPhotoStore } from './../stores/PostgresPhotoStore';
 
 export class PhotoLoader {
   private store: PostgresPhotoStore;
@@ -7,11 +7,19 @@ export class PhotoLoader {
     this.store = store;
   }
 
-  getData = async (): Promise<any> => {
+  getStores = async (): Promise<any> => {
     try {
       return await this.store.getPhotos();
     } catch (error) {
-      throw new Error('Failed to get stores');
+      throw new Error('Failed to get photos');
+    }
+  };
+
+  getCollections = async (): Promise<any> => {
+    try {
+      return await this.store.getCollections();
+    } catch (error) {
+      throw new Error('Failed to get collections');
     }
   };
 }

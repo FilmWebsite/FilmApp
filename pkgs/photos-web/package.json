@@ -1,0 +1,24 @@
+{
+  "name": "@film/photos-web",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project ./tsconfig.json --outDir ./dist ",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "./take/scripts/cleaner.sh ",
+    "lint": "eslint . --max-warnings 0",
+    "bundle": "node ../../esbuild.config.js",
+    "generate:component": "turbo gen react-component"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.10.8",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "tslib": "^2.6.2",
+    "@types/react": "^18.3.3"
+  }
+}
