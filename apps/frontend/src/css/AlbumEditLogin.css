@@ -1,0 +1,116 @@
+.background {
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* adjust as needed */
+    width: 100vw; /* adjust as needed */
+    background-position: center center;
+    
+  }
+
+   .background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Dark overlay */
+  }
+
+  .homeBtn{
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 28px;
+    color: white;
+    left: 2%;
+    top: 2%;
+    transition: all 0.3s ease;
+    z-index: 2; /* Ensure the link appears above the blurred box */
+    text-decoration: none; /* Remove default underline */
+    position: relative;
+  }
+
+  .homeBtn:hover{
+    color: #ff7f50;
+    transform: scale(0.95);
+    cursor: pointer;
+  }
+
+
+ 
+
+  .blurredBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(245, 245, 245, 0.1); /* Semi-transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Apply blur effect to background */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for depth */
+  }
+
+  
+
+.passwordContentBox{
+    /* background-color: red; */
+    width: 60%;
+    display: flex;
+    flex-direction: column; /* Arrange children in a column */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    margin: auto; /* Center the box itself horizontally */
+    
+
+}
+
+.passwordContentHeader{
+    font-size: 35px;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+    margin-bottom: 12%;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+/* .passwordForm{
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+} */
+
+.password{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    width: 75%;
+    flex: 1;
+    display: flex;
+    margin-right: 10px;
+  }
+
+  .password:focus {
+    border-color: #fd5e53; 
+  }
+
+
+  .enterButton {
+    padding: 5px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    border: none; /* Remove default border */
+    border-radius: 25px; /* Make the button oval-shaped */
+    color: #fd5e53; /* Button text color */
+    margin-top: 7%;
+    font-family: "Bebas Neue", sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .enterButton:hover{
+    background-color: #fd5e53;
+    color: white;
+    transform: scale(0.95);
+  }
