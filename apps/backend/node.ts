@@ -11,9 +11,28 @@ import { ApolloServer } from 'apollo-server-express';
 import { readFileSync } from 'fs';
 import _ from 'lodash';
 import bodyParser from 'body-parser';
-import { mergeModulesSchemaWith, pool as pg } from '@film/postgres-api';
+import pkg from 'pg';
 
 const PATH = '/graphql';
+export function mergeModulesSchemaWith(mergeIn: any) {
+  return mergeSchemas({
+    ...mergeIn,
+  });
+}
+
+const getPool = () => {
+  const { Pool } = pkg;
+  const pool = new Pool({
+    user: '',
+    host: 'localhost',
+    database: 'film',
+    password: '',
+    port: 5000,
+  });
+  return pool;
+};
+
+const pool = getPool();
 
 export const configServer = _.memoize(async () => {
   const typeDefs = readFileSync('./source/schema.graphql', 'utf8');
@@ -29,7 +48,7 @@ export const configServer = _.memoize(async () => {
   const server = new ApolloServer({
     schema,
     context: (): GQLContext => {
-      const postgresPhotoStore = new PostgresPhotoStore(pg);
+      const postgresPhotoStore = new PostgresPhotoStore(pool);
       const photos = new PhotoLoader(postgresPhotoStore);
       return {
         photos,
@@ -41,6 +60,8 @@ export const configServer = _.memoize(async () => {
 
   return server;
 });
+
+
 
 export async function createFilmServer(app: any) {
   const server = await configServer();

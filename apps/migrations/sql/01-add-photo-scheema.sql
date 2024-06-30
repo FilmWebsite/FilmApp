@@ -17,16 +17,10 @@ $$ LANGUAGE plpgsql;
 
 -- Migration for adding photo table
 CREATE TABLE IF NOT EXISTS photos.photo (
-    name VARCHAR(255) NOT NULL,
     id VARCHAR(255) PRIMARY KEY, 
     image_url VARCHAR(255),
-    description VARCHAR(255),
-    city VARCHAR(255),
-    state VARCHAR(255),
-    zip_code VARCHAR(10),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    date VARCHAR(255)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Migration for updating timestamps using the provided function

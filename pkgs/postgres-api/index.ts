@@ -4,11 +4,11 @@ import { mergeSchemas } from '@graphql-tools/schema';
 const getPostgresPool = (local: boolean = false) => {
   const { Pool } = pkg;
   const pool = new Pool({
-    user: 'user',
+    user: '',
     host: 'localhost',
     database: 'film',
-    password: 'password',
-    port: 5432,
+    password: '',
+    port: 5000,
   });
   return pool;
 };
