@@ -6,13 +6,7 @@ import "../css/Footer.css";
 function Footer() {
   return (
     <div className="footer">
-      {/* <div className="footerSignature">
-        <div className="footerTitleBox">
-          <IoCameraOutline className="footerRotatedIcon" />
-          <p className="footTitle">ddot studio</p>
-        </div>
-        <text className="copyright">Copyright © 2024 DDot Studio</text>
-      </div> */}
+
 
       <div className="usefulLinks">
         <h1 className="footerHeaders">Useful Links</h1>
@@ -22,6 +16,9 @@ function Footer() {
           </a>
           <a href="/request-photos" className="footerLink">
             Request Photos
+          </a>
+          <a href="/albums-login" className="footerLink">
+            Owner
           </a>
         </div>
       </div>
