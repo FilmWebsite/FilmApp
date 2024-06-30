@@ -5,7 +5,7 @@ const getPostgresPool = (local: boolean = false) => {
   const { Pool } = pkg;
   const pool = new Pool({
     user: 'user',
-    host: 'localhost',
+    host: 'db',
     database: 'film',
     password: 'password',
     port: 5432,

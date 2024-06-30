@@ -23,6 +23,9 @@ function Footer() {
           <a href="/request-photos" className="footerLink">
             Request Photos
           </a>
+          <a href="/albums-login" className="footerLink">
+            Owner
+          </a>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres
@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_DB: film
     ports:
-      - '5432:5432'
+      - "5432:5432"
 
   app:
     build:
@@ -19,7 +19,7 @@ services:
     command: pnpm dock
     working_dir: /usr/local/app/apps/backend # Ensure it runs in the correct directory
     ports:
-      - '8080:8080'
+      - "8080:8080"
     volumes:
       - ../../apps/backend:/usr/local/app/apps/backend # Map the backend app directory
       - ../../node_modules:/usr/local/app/node_modules # Ensure shared dependencies are available
