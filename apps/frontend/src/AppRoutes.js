@@ -10,9 +10,9 @@ import QuickTrips from "./QuickTrips";
 import Landmarks from "./Landmarks";
 import About from "./About";
 import RequestPhotos from "./RequestPhotos";
-import { Page } from "./Page.tsx";
 import AlbumEditLogin from "./AlbumEditLogin.js";
 import AlbumEdit from "./AlbumEdit.js";
+import Downloads from "./Downloads.js";
 
 function AppRoutes() {
   const location = useLocation();
@@ -29,7 +29,7 @@ function AppRoutes() {
         <Route path="/landmarks" element={<Landmarks />} />
         <Route path="/about" element={<About />} />
         <Route path="/request-photos" element={<RequestPhotos />} />
-        
+        <Route path="/downloads" element={<Downloads />} />
         <Route path="/albums-login" element={<AlbumEditLogin />} />
         <Route path="/albums-edit" element={<AlbumEdit />} />
       </Routes>
