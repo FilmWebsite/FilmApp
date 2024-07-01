@@ -6,7 +6,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --project ./tsconfig.json --outDir ./dist ",
+    "dev": "tsc --project ./tsconfig.json --outDir ./dist ",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "./take/scripts/cleaner.sh ",
     "lint": "eslint . --max-warnings 0",
