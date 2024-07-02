@@ -11,13 +11,15 @@ const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { collection } = useParams<{ collection: string }>();
 
+  // @ts-ignore
   const { data, loading, error } = useCollection(collection);
   const [collectionData, setCollectionData] = useState<any>({});
   const [photos, setPhotos] = useState<any[]>([]);
-
   useEffect(() => {
     if (data && Object.keys(data).length !== 0) {
+      // @ts-ignore
       setCollectionData(data.collection.collection);
+      // @ts-ignore
       setPhotos(data.collection.photos);
     }
   }, [data]);
