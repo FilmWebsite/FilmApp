@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./css/AlbumEditLogin.css";
+import { usePhotos } from "@film/photos-web";
 // import passwordImgOne from "./pics/passwordImgOne.jpeg";
 
 function AlbumEditLogin() {
+  const { collections, homePhotos } = usePhotos();
+  console.log(homePhotos);
+//   homePhotos[7].image_url}
   return (
     <div
       className="background"
-    //   style={{
-    //     backgroundImage: `url(${passwordImgOne})`,
-    //   }}
+      style={{
+        backgroundImage: homePhotos && homePhotos.length > 7 ? `url(${homePhotos[7].image_url})` : ""
+          
+      }}
     >
       <a className="homeBtn" href="/">
         Home

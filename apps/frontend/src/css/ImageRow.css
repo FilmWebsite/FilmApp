@@ -13,9 +13,14 @@
   }
   
   .thumbnail {
-    height: 275px; /* Adjust the height of the image */
-    width: auto; /* Set width to auto for responsive scaling */
+    height: 275px; 
+    width: auto;
     cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .thumbnail:hover{
+    transform: scale(0.93);
   }
   
   .first-thumbnail {

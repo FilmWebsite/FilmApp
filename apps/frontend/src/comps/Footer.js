@@ -6,16 +6,17 @@ import "../css/Footer.css";
 function Footer() {
   return (
     <div className="footer">
-
-
       <div className="usefulLinks">
         <h1 className="footerHeaders">Useful Links</h1>
         <div className="links">
+        <a href="/" className="footerLink">
+            Home
+          </a>
           <a href="/about" className="footerLink">
             About
           </a>
-          <a href="/request-photos" className="footerLink">
-            Request Photos
+          <a href="/downloads" className="footerLink">
+            Downloads
           </a>
           <a href="/albums-login" className="footerLink">
             Owner
