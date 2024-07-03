@@ -1,13 +1,14 @@
 .downloadsPage{
     height: 100vh;
     display: flex;
-    padding: 3%;
+    padding: 3% 2%;
+    /* padding: 3%; */
     
 }
 
 .leftSide{
     text-align: center; 
-    width: 30%;
+    width: 40%;
     /* background-color: grey; */
 }
 
@@ -15,23 +16,21 @@
     font-size: 60px; /* text-4xl */
     font-weight: 600;  /* font-semibold */
     font-family: "Bebas Neue", sans-serif;
-    margin: 0 auto;
-    /* margin-left: 33%; */
     color: #fd5e53;
 }
 
 .downloadDesc {
     color: white;
-    display: inline-block;           /* Ensure it is a block element */
-    margin: 0 auto;
+    /* display: inline-block;            */
+    /* margin: 0 auto; */
     
 }
 
 .box{
-    
-    width: 80%;
+    width: auto;
     height: 70%;
     margin: 5% auto;
+
 }
 
 
@@ -40,6 +39,7 @@
     width: 100%;
     background-size: cover;
     background-position: center;
+    border-radius: 20px;
 }
 
 
@@ -58,7 +58,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Three columns */
     grid-gap: 10px;         /* Space between items */
-    padding: 10px;
+    /* padding: 0 1%; */
     box-sizing: border-box; /* Ensure padding is included in width */
     overflow-y: scroll;     /* Enable vertical scrolling */
     scrollbar-width: none;  /* Hide scrollbar for Firefox */
@@ -72,8 +72,8 @@
 
 .picContainer {
     position: relative;
-    height: 250px;
-    width: 250px;
+    height: 215px;
+    width: 215px;
     overflow: hidden;
     background-color: #e2e2e2; /* bg-neutral-200 */
 }
@@ -92,7 +92,7 @@
 }
 
 .dropdown {
-    margin-top: 1%;     /* Adjust spacing as needed */
+    margin-top: 0;
 }
 
 .dropdown select {
