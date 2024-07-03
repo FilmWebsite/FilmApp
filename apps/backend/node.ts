@@ -4,6 +4,7 @@ import {
   GQLContext,
   PostgresPhotoStore,
   PhotoLoader,
+  CollectionController,
 } from './source';
 import { mergeSchemas } from '@graphql-tools/schema';
 import express, { Application } from 'express';
@@ -12,6 +13,7 @@ import { readFileSync } from 'fs';
 import _ from 'lodash';
 import bodyParser from 'body-parser';
 import pkg from 'pg';
+import cors from 'cors';
 
 const PATH = '/graphql';
 export function mergeModulesSchemaWith(mergeIn: any) {
@@ -61,8 +63,6 @@ export const configServer = _.memoize(async () => {
   return server;
 });
 
-
-
 export async function createFilmServer(app: any) {
   const server = await configServer();
   server.applyMiddleware({
@@ -72,6 +72,7 @@ export async function createFilmServer(app: any) {
 }
 
 const node = express();
+node.use(cors());
 node.use(bodyParser.json({ limit: '30mb' }));
 node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
@@ -79,10 +80,15 @@ node.get('/', async (req, res) => {
   return res.redirect('/graphql');
 });
 
-node.post('/testing', async (req, res) => {
-  const { name } = req.body;
-  console.log(name);
-  res.status(200).send({ message: 'hello' });
+node.post('/collections/:collection', async (req, res) => {
+  const { collection } = req.params;
+  // @ts-ignore
+  const data = await CollectionController(collection);
+  if (data) {
+    return res.status(200).send({ collection: data });
+  } else {
+    return {};
+  }
 });
 
 createFilmServer(node).then(() => {

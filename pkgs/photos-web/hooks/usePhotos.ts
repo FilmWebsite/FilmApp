@@ -2,29 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
 // FIXME: remove .js extension
 import { GET_PHOTOS, GET_COLLECTIONS } from '../mutations/index.js';
+import { P, C, Photo } from '@film/photos-iso';
 
-// TODO: move to iso if necessary
-type Photo = {
-  image_url: string;
-  id: string;
-  collection: 'NYC' | 'landmarks' | 'qt' | 'grenada';
-  home_display: boolean;
-};
-
-type Collection = {
-  name: string;
-  cover: string;
-  path: string;
-  ref: Photo['collection'];
-};
-
-interface P {
-  getPhotos: Photo[];
-}
-
-interface C {
-  getCollections: Collection[];
-}
 export function usePhotos() {
   const { loading, error, data } = useQuery<P>(GET_PHOTOS);
 

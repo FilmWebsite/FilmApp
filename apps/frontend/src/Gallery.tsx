@@ -98,7 +98,7 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
 
 const Card = ({ card }: { card: Collection }) => {
   return (
-    <a href={card.path} className='group'>
+    <a href={`/collections${card.path}`} className='group'>
       <div
         // key={card.id}
         className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'
