@@ -1,0 +1,3 @@
+ALTER TABLE IF EXISTS photos.collection 
+ADD COLUMN "desc" VARCHAR(1000),
+ADD COLUMN colors JSONB;

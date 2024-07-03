@@ -6,7 +6,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --project ./tsconfig.json --outDir ./dist ",
+    "dev": "tsc --watch --project ./tsconfig.json --outDir ./dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "./take/scripts/cleaner.sh ",
     "lint": "eslint . --max-warnings 0",
@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.8",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "@film/photos-iso": "workspace:*"
   },
   "devDependencies": {
     "tslib": "^2.6.2",
