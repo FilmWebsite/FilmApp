@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import './css/Downloads.css';
 import { usePhotos } from '@film/photos-web';
-import { CollectionType } from '@film/photos-iso';
+import { CollectionType, Photo } from '@film/photos-iso';
 
 function Downloads() {
-  const { collections, homePhotos, getPhotosbyCID } = usePhotos();
+  const { collections, getPhotosbyCID } = usePhotos();
 
-  const [selectedAlbum, setSelectedAlbum] = useState<CollectionType | 'all'>(
-    'all'
-  );
+  // local type
+  type CollectionId = CollectionType | 'all';
+  const [collectionId, setCollectionId] = useState<CollectionId>('all');
+  const photos = getPhotosbyCID({ id: collectionId });
 
-  const photos = getPhotosbyCID({ id: selectedAlbum });
-
-  // Function to handle album selection
   const handleAlbumSelect = (albumName) => {
-    setSelectedAlbum(albumName);
+    setCollectionId(albumName);
   };
 
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
   // Function to handle when a photo is clicked
   const handlePhotoClick = (pic) => {
@@ -32,7 +30,7 @@ function Downloads() {
           Easily download any pictures you've seen on the website. Simply browse
           through the gallery, select a picture, and download.
         </p>
-        {/* POI: 1 */}
+
         <div className='box'>
           {selectedPhoto && (
             <div
@@ -58,7 +56,7 @@ function Downloads() {
       </div>
       <div className='dropdown'>
         <select
-          value={selectedAlbum}
+          value={collectionId}
           onChange={(e) => {
             handleAlbumSelect(e.target.value);
           }}
