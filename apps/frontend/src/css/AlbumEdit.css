@@ -56,8 +56,26 @@
     color: white;
     font-family: "Bebas Neue", sans-serif;
     font-size: 20px;
-    margin: 10px 0;
+    margin: 30px 0 0 0;
 }
+
+
+.inputContainer {
+  display: flex;
+  flex-wrap: wrap;         /* Allow wrapping if needed */
+  gap: 20px;               /* Space between input pairs */
+  /* background-color: red; */
+}
+
+.inputPair {
+  display: flex;
+  flex-direction: column;  /* Stack header and input vertically */
+  width: 40%;
+}
+
+
+
+
 
 .albumTitle{
     background-color: rgba(255, 255, 255, 0.2); /* Use an rgba color with low alpha for transparency */
@@ -142,13 +160,40 @@
     color: white;
     transform: scale(0.95);
   }
+  
 
+  .imagePreviewsSlider {
+    width: 100%;                 /* Full width container */
+    overflow-x: auto;            /* Enable horizontal scrolling */
+    scroll-snap-type: x mandatory; /* Enable snap scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+  }
+  
+  .imagePreviewsSlider::-webkit-scrollbar {
+    display: none;               /* Hide scrollbar in WebKit browsers */
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .imagePreviewsSlider {
+    -ms-overflow-style: none;    /* IE and Edge */
+    scrollbar-width: none;       /* Firefox */
+  }
+  
   .imagePreviews {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
-    margin-top: 20px;
   }
+  
+  .previewContainer {
+    flex: 0 0 auto;              /* Prevent shrinking and growing */
+    scroll-snap-align: center;   /* Center snap alignment */
+    position: relative;
+    display: inline-block;
+  }
+  
   
   .imagePreview, .thumbnailPreview {
     width: 150px;
@@ -166,7 +211,7 @@
   }
   
   .deletePreview:hover {
-    color: #f94e63; /* Change to your preferred hover color */
+    color: #f94e63; 
     transform: scale(1.1);
   }
 

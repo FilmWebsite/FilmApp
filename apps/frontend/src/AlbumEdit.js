@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./css/AlbumEdit.css";
-// import Cards from "./comps/Cards";
-// import SquareData from "./comps/SquareData";
 import { MdEdit, MdDelete, MdOutlineFindReplace } from "react-icons/md";
 import { usePhotos } from "@film/photos-web";
 
@@ -50,7 +48,6 @@ function AlbumEdit() {
     if (e.target.files && e.target.files[0]) {
       const newPicUrl = URL.createObjectURL(e.target.files[0]);
       setSelectedPic({ ...selectedPic, src: newPicUrl });
-      // Optionally update the source in SquareData if needed.
     }
   };
 
@@ -65,12 +62,10 @@ function AlbumEdit() {
 
   const handleConfirmDelete = () => {
     if (deleteConfirmation === albumToDelete.title) {
-      // Handle the deletion logic here
       setIsDeletePopupOpen(false);
       setAlbumToDelete(null);
       setDeleteConfirmation("");
     } else {
-      // Handle mismatch case
       alert("Album name does not match.");
     }
   };
@@ -111,6 +106,26 @@ function AlbumEdit() {
         <h1 className="addAlbumHeader">Add Albums</h1>
         <h2 className="addAlbumHeaders">Title:</h2>
         <input className="inputField" type="text" placeholder="Album Title" />
+
+        <div className="inputContainer">
+          <div className="inputPair">
+            <h2 className="addAlbumHeaders">Text Color:</h2>
+            <input
+              className="inputField"
+              type="text"
+              placeholder="Hex Code #RRGGBB"
+            />
+          </div>
+          <div className="inputPair">
+            <h2 className="addAlbumHeaders">Shadow Color:</h2>
+            <input
+              className="inputField"
+              type="text"
+              placeholder="Hex Code #RRGGBB"
+            />
+          </div>
+        </div>
+
         <h2 className="addAlbumHeaders">Album Description:</h2>
         <textarea
           className="inputField descriptionBox"
@@ -125,6 +140,7 @@ function AlbumEdit() {
               className="thumbnailPreview"
             />
             <button
+              type="button"
               className="deletePreview"
               onClick={() => setThumbnailPreview(null)}
             >
@@ -140,22 +156,25 @@ function AlbumEdit() {
         />
 
         <h2 className="addAlbumHeaders">Select Pictures for Album:</h2>
-        <div className="imagePreviews">
-          {previews.map((src, index) => (
-            <div key={index} className="previewContainer">
-              <img
-                src={src}
-                alt={`preview ${index}`}
-                className="imagePreview"
-              />
-              <button
-                className="deletePreview"
-                onClick={() => handleDeletePreview(index)}
-              >
-                <MdDelete />
-              </button>
-            </div>
-          ))}
+        <div className="imagePreviewsSlider">
+          <div className="imagePreviews">
+            {previews.map((src, index) => (
+              <div key={index} className="previewContainer">
+                <img
+                  src={src}
+                  alt={`preview ${index}`}
+                  className="imagePreview"
+                />
+                <button
+                  type="button"
+                  className="deletePreview"
+                  onClick={() => handleDeletePreview(index)}
+                >
+                  <MdDelete />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
         <input
           className="inputField"
@@ -163,6 +182,9 @@ function AlbumEdit() {
           multiple
           onChange={handleFileChange}
         />
+
+        <h2 className="addAlbumHeaders">Display Name:</h2>
+        <input className="inputField" type="text" placeholder="Null" />
         <div className="buttonContainer">
           <button className="addAlbumButton" type="submit">
             Add New Album
@@ -182,7 +204,10 @@ function AlbumEdit() {
             <span className="close" onClick={handleClosePopup}>
               &times;
             </span>
-            <img src={selectedPic.image_url} alt={`Selected ${selectedPic.id}`} />
+            <img
+              src={selectedPic.image_url}
+              alt={`Selected ${selectedPic.id}`}
+            />
             <input type="file" onChange={handlePopupFileChange} />
           </div>
         </div>
