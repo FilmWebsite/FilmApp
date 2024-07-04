@@ -1,4 +1,4 @@
-export type CollectionType = 'NYC' | 'landmarks' | 'qt' | 'grenada';
+export type CollectionType = 'nyc' | 'landmarks' | 'qt' | 'grenada' | 'howard';
 
 export type Photo = {
   image_url: string;
@@ -7,12 +7,19 @@ export type Photo = {
   home_display: boolean;
 };
 
+type ColorType = {
+  textColor: string;
+  shadowColor: string;
+};
+
 export type Collection = {
+  id: string;
   name: string;
   cover: string;
   path: string;
   ref: CollectionType;
   display_name: string;
+  colors: ColorType;
 };
 
 export interface P {
