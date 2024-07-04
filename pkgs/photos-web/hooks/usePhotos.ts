@@ -41,36 +41,6 @@ export function usePhotos() {
     [data]
   );
 
-  // const filterNYCPhotos = useCallback(() => {
-  //   if (data && data.getPhotos) {
-  //     return data.getPhotos.filter(
-  //       (store: Photo) => store.collection === 'nyc'
-  //     );
-  //   } else {
-  //     return [];
-  //   }
-  // }, [data]);
-
-  //  const filterHowardPhotos = useCallback(() => {
-  //    if (data && data.getPhotos) {
-  //      return data.getPhotos.filter(
-  //        (store: Photo) => store.collection === 'howard'
-  //      );
-  //    } else {
-  //      return [];
-  //    }
-  //  }, [data]);
-
-  // const filterGPhotos = useCallback(() => {
-  //   if (data && data.getPhotos) {
-  //     return data.getPhotos.filter(
-  //       (store: Photo) => store.collection === 'howard'
-  //     );
-  //   } else {
-  //     return [];
-  //   }
-  // }, [data]);
-
   return {
     getPhotosbyCID: getPhotosByCollectionId,
     collections: returnCollections(),
