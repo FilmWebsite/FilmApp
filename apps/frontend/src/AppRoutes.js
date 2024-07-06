@@ -8,6 +8,7 @@ import AlbumEditLogin from './AlbumEditLogin.js';
 import AlbumEdit from './AlbumEdit.js';
 import { Collection } from './Collection.tsx';
 import Downloads from './Downloads.tsx';
+import { FindMe } from './findme/index.tsx';
 
 function AppRoutes() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function AppRoutes() {
         <Route path='/albums-login' element={<AlbumEditLogin />} />
         <Route path='/albums-edit' element={<AlbumEdit />} />
         <Route path='/downloads' element={<Downloads />} />
+        <Route path='/find-me' element={<FindMe />} />
       </Routes>
       {location.pathname !== '/about' &&
         location.pathname !== '/albums-login' &&
