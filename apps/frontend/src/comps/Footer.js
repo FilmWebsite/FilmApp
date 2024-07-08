@@ -22,7 +22,7 @@ function Footer() {
             Owner
           </a>
 
-          <a href='/find-me' className='footerLink'>
+          <a href='/detection' className='footerLink'>
             Find Me (Beta)
           </a>
         </div>

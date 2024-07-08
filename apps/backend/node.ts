@@ -1,3 +1,7 @@
+// NOTE: DO NOT REMOVE THESE IMPORTS
+import tf from '@tensorflow/tfjs-node-gpu'; // this loads tensorflow for speed optimization
+import faceapi from '@vladmandic/face-api/dist/face-api.node-gpu.js'; // this loads face-api version with correct bindings for tfjs-node-gpu
+
 import {
   QueryResolver,
   GQLContext,
@@ -16,7 +20,7 @@ import pkg from 'pg';
 import cors from 'cors';
 import { getPhotoViaId } from './source/controllers/DownloadImage';
 import axios from 'axios';
-import * as faceapi from 'face-api.js';
+// import * as faceapi from 'face-api.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -158,7 +162,7 @@ initFaceApi()
           //  TODO: REMOVE SLICING
           const photoUrls = urls.map((url) => url.image_url);
           // const photoUrls = [
-          //   'https://doron-photo-app.s3.amazonaws.com/five.jpeg',
+          //   'https://doron-photo-app.s3.amazonaws.com/quicktripsPics/nine.JPG',
           // ];
 
           // Example modification in your async function handling image comparison
@@ -191,7 +195,7 @@ initFaceApi()
                 });
 
                 const hasMatches = matches.some(
-                  (match) => match.distance < 0.6
+                  (match) => match.distance < 0.5
                 );
 
                 if (hasMatches) {
@@ -207,11 +211,7 @@ initFaceApi()
           );
 
           const matchedUrls = results.filter((url) => url !== null);
-
-          console.log(matchedUrls, 'hello');
-
-          // console.log(matchedResults, 'hi');
-          // res.status(200).json({ matchedPhotoUrls });
+          res.status(200).json({ matchedUrls });
         } catch (error) {
           console.error('Error processing image:', error);
           res.status(500).json({ message: 'Failed to process image.' });

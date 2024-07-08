@@ -29,6 +29,15 @@ importers:
       '@graphql-tools/schema':
         specifier: ^10.0.0
         version: 10.0.4(graphql@16.9.0)
+      '@tensorflow/tfjs-node':
+        specifier: ^4.20.0
+        version: 4.20.0(seedrandom@3.0.5)
+      '@tensorflow/tfjs-node-gpu':
+        specifier: ^4.20.0
+        version: 4.20.0(seedrandom@3.0.5)
+      '@vladmandic/face-api':
+        specifier: ^1.7.13
+        version: 1.7.13
       apollo-server-express:
         specifier: ^3.12.0
         version: 3.13.0(express@4.19.2)(graphql@16.9.0)
@@ -198,6 +207,9 @@ importers:
       react-icons:
         specifier: ^5.0.1
         version: 5.2.1(react@18.3.1)
+      react-preloader-icon:
+        specifier: ^1.0.0
+        version: 1.0.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-reveal:
         specifier: ^1.2.2
         version: 1.2.2(react@18.3.1)
@@ -207,6 +219,9 @@ importers:
       react-scripts:
         specifier: ^5.0.1
         version: 5.0.1(@babel/plugin-syntax-flow@7.24.7(@babel/core@7.24.7))(@babel/plugin-transform-react-jsx@7.24.7(@babel/core@7.24.7))(@types/babel__core@7.20.5)(canvas@2.11.2)(eslint@8.57.0)(react@18.3.1)(sass@1.77.6)(ts-node@10.9.2(@types/node@20.14.9)(typescript@5.5.2))(type-fest@0.21.3)(typescript@5.5.2)
+      reactjs-popup:
+        specifier: ^2.0.6
+        version: 2.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       split-text-js:
         specifier: ^1.0.3
         version: 1.0.3
@@ -2248,6 +2263,10 @@ packages:
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
 
+  '@mapbox/node-pre-gyp@1.0.9':
+    resolution: {integrity: sha512-aDF3S3rK9Q2gey/WAttUlISduDItz5BU3306M9Eyv6/oS40aMprnopshtlKTykxRNIBEZuRMaZAnbrQ4QtKGyw==}
+    hasBin: true
+
   '@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1':
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
 
@@ -2687,9 +2706,53 @@ packages:
     resolution: {integrity: sha512-DOBOK255wfQxguUta2INKkzPj6AIS6iafZYiYmHn6W3pHlycSRRlvWKCfLDG10fXfLWqE3DJHgRUOyJYmARa7g==}
     engines: {node: '>=10'}
 
+  '@tensorflow/tfjs-backend-cpu@4.20.0':
+    resolution: {integrity: sha512-1QRQ6AqAa/VB8JOArf5nY3Dc/QQHXbfuxgdIdQhKrABEHgvlaWt2Vv696UhIlVl75YoNY+vWlCwBdGQIKYfFGw==}
+    engines: {yarn: '>= 1.3.2'}
+    peerDependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
+  '@tensorflow/tfjs-backend-webgl@4.20.0':
+    resolution: {integrity: sha512-M03fJonJGxm2u3SCzRNA2JLh0gxaAye64SEmGAXOehizowxy42l+lMsPWU8xU7r7mN6PEilBNkuKAf5YJ7Xumg==}
+    engines: {yarn: '>= 1.3.2'}
+    peerDependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
+  '@tensorflow/tfjs-converter@4.20.0':
+    resolution: {integrity: sha512-UJ2ntQ1TNtVHB5qGMwB0j306bs3KH1E1HKJ9Dxvrc6PUaivOV+CPKqmbidOFG5LylXeRC36JBdhe+gVT2nFHNw==}
+    peerDependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
   '@tensorflow/tfjs-core@1.7.0':
     resolution: {integrity: sha512-uwQdiklNjqBnHPeseOdG0sGxrI3+d6lybaKu2+ou3ajVeKdPEwpWbgqA6iHjq1iylnOGkgkbbnQ6r2lwkiIIHw==}
     engines: {yarn: '>= 1.3.2'}
+
+  '@tensorflow/tfjs-core@4.20.0':
+    resolution: {integrity: sha512-m/cc9qDc63al9UhdbXRUYTLGfJJlhuN5tylAX/2pJMLj32c8a6ThGDJYoKzpf32n5g3MQGYLchjClDxeGdXMPQ==}
+    engines: {yarn: '>= 1.3.2'}
+
+  '@tensorflow/tfjs-data@4.20.0':
+    resolution: {integrity: sha512-k6S8joXhoXkatcoT6mYCxBzRCsnrLfnl6xjLe46SnXO0oEEy4Vuzbmp5Ydl1uU2hHr73zL91EdAC1k8Hng/+oA==}
+    peerDependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+      seedrandom: ^3.0.5
+
+  '@tensorflow/tfjs-layers@4.20.0':
+    resolution: {integrity: sha512-SCHZH29Vyw+Y9eoaJHiaNo6yqM9vD3XCKncoczonRRywejm3FFqddg1AuWAfSE9XoNPE21o9PsknvKLl/Uh+Cg==}
+    peerDependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
+  '@tensorflow/tfjs-node-gpu@4.20.0':
+    resolution: {integrity: sha512-CsJU4yR7KCjUUM5Hguur6Z6QpNNFlr02MVK76Lu3lWLpz4ToW5YEYvjrMyRaUF7Y6ipJLQ4G1BbNfA2i8F4Cow==}
+    engines: {node: '>=8.11.0'}
+
+  '@tensorflow/tfjs-node@4.20.0':
+    resolution: {integrity: sha512-pVSOlzsVqh5ck3aiNPJCltB3ASKjsLqNPvJ28lXn9Xg648U4eHDk8G47m9w4uf0FdVcWDfjPM3hDCbBZ/E2KXg==}
+    engines: {node: '>=8.11.0'}
+
+  '@tensorflow/tfjs@4.20.0':
+    resolution: {integrity: sha512-+ZLfJq2jyIOE2/+yKPoyD/gfy3RZypbfMrlzvBDgodTK5jnexprihhX38hxilh9HPWvWQXJqiUjKJP5ECCikrw==}
+    hasBin: true
 
   '@testing-library/dom@10.2.0':
     resolution: {integrity: sha512-CytIvb6tVOADRngTHGWNxH8LPgO/3hi/BdCEHOf7Qd2GvZVClhVP0Wo/QHzWhpki49Bk0b4VT6xpt3fx8HTSIw==}
@@ -2853,6 +2916,9 @@ packages:
   '@types/multer@1.4.11':
     resolution: {integrity: sha512-svK240gr6LVWvv3YGyhLlA+6LRRWA4mnGIU7RcNmgjBYFl6665wcXrRfxGp5tEPVHUNm5FMcmq7too9bxCwX/w==}
 
+  '@types/node-fetch@2.6.11':
+    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
+
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
@@ -2867,6 +2933,9 @@ packages:
 
   '@types/offscreencanvas@2019.3.0':
     resolution: {integrity: sha512-esIJx9bQg+QYF0ra8GnvfianIY8qWB0GBx54PK5Eps6m+xTj86KLavHv6qDhzKcu5UUOgNfJ2pWaIIV7TRUd9Q==}
+
+  '@types/offscreencanvas@2019.7.3':
+    resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -2903,6 +2972,9 @@ packages:
 
   '@types/seedrandom@2.4.27':
     resolution: {integrity: sha512-YvMLqFak/7rt//lPBtEHv3M4sRNA+HGxrhFZ+DQs9K2IkYJbNwVIb8avtJfhDiuaUBX/AW0jnjv48FV8h3u9bQ==}
+
+  '@types/seedrandom@2.4.34':
+    resolution: {integrity: sha512-ytDiArvrn/3Xk6/vtylys5tlY6eo7Ane0hvcx++TKo6RxQXuVfW0AF/oeWqAj9dN29SyhtawuXstgmPlwNcv/A==}
 
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
@@ -3022,6 +3094,10 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
+  '@vladmandic/face-api@1.7.13':
+    resolution: {integrity: sha512-tYSXcM/46lJe1T2AuEf+yR0+2Qwtj7uy0HJRprBlp5IXzGCqqA3EGxefymaRhNwPaJqHBUIqpGydMlwwjlgX0Q==}
+    engines: {node: '>=14.0.0'}
+
   '@webassemblyjs/ast@1.12.1':
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
 
@@ -3066,6 +3142,9 @@ packages:
 
   '@webassemblyjs/wast-printer@1.12.1':
     resolution: {integrity: sha512-+X4WAlOisVWQMikjbcvY2e0rwPsKQ9F688lksZhBcPycBBuii3O7m8FACbDMWDojpAqvjIncrG8J0XHKyQfVeA==}
+
+  '@webgpu/types@0.1.38':
+    resolution: {integrity: sha512-7LrhVKz2PRh+DD7+S+PVaFd5HxaWQvoMqBbsV9fNJO1pjUs1P8bM2vQVNfk+3URTqbuTI7gkXi0rfsN0IadoBA==}
 
   '@whatwg-node/events@0.0.3':
     resolution: {integrity: sha512-IqnKIDWfXBJkvy/k6tzskWTc2NK3LcqHlb+KHGCrjOCH4jfQckRX0NAiIcC/vIqQkzLYw2r2CTSwAxcrtcD6lA==}
@@ -3167,6 +3246,14 @@ packages:
   adjust-sourcemap-loader@4.0.0:
     resolution: {integrity: sha512-OXwN5b9pCUXNQHJpwwD2qP40byEmSgzj8B4ydSN0uMNYWiFmJ6x6KwUllMmfk8Rwu/HJDFR7U8ubsWBoN0Xp0A==}
     engines: {node: '>=8.9'}
+
+  adm-zip@0.5.14:
+    resolution: {integrity: sha512-DnyqqifT4Jrcvb8USYjp6FHtBpEIz1mnXu6pTRHZ0RL69LbQYiO+0lDFg5+OKA7U29oWSs3a/i8fhn8ZcceIWg==}
+    engines: {node: '>=12.0'}
+
+  agent-base@4.3.0:
+    resolution: {integrity: sha512-salcGninV0nPrwpGNn4VTXBb1SOuXQBiqbrNXoeizJsHrsL6ERFM2Ne3JUSBWRE6aeNJI2ROP/WEEIDUiDe3cg==}
+    engines: {node: '>= 4.0.0'}
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -3574,6 +3661,9 @@ packages:
     resolution: {integrity: sha512-AGBHOG5hPYZ5Xl9KXzU5iKq9516yEmvCKDg3ecP5kX2aB6UqTeXZxk2ELnDgDm6BQSMlLt9rDB4LoSMx0rYwww==}
     engines: {node: '>= 10.0.0'}
 
+  bezier-easing@2.1.0:
+    resolution: {integrity: sha512-gbIqZ/eslnUFC1tjEvtz0sgx+xTK20wDnYMIA27VA04R7w6xxXQPZDbibjA9DTWZRA2CXtwHykkVzlCaAJAZig==}
+
   bfj@7.1.0:
     resolution: {integrity: sha512-I6MMLkn+anzNdCUp9hMRyui1HaNEUCco50lxbvNS4+EyXg8lN3nJ48PjPWtbH8UVS9CuMoaKE9U2V3l29DaRQw==}
     engines: {node: '>= 8.0.0'}
@@ -3955,6 +4045,9 @@ packages:
 
   core-js-pure@3.37.1:
     resolution: {integrity: sha512-J/r5JTHSmzTxbiYYrzXg9w1VpqrYt+gexenBE9pugeyhwPZTAEJddyiReJWsLO6uNQ8xJZFbod6XC7KKwatCiA==}
+
+  core-js@3.29.1:
+    resolution: {integrity: sha512-+jwgnhg6cQxKYIIjGtAHq2nwUOolo9eoFZ4sHfUH09BLXBgxnH4gA0zEd+t+BO2cNB8idaBtZFcFTRjQJRJmAw==}
 
   core-js@3.37.1:
     resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
@@ -4528,6 +4621,12 @@ packages:
     resolution: {integrity: sha512-QCOllgZJtaUo9miYBcLChTUaHNjJF3PYs1VidD7AwiEj1kYxKeQTctLAezAOH5ZKRH0g2IgPn6KwB4IT8iRpvA==}
     engines: {node: '>= 0.4'}
 
+  es6-promise@4.2.8:
+    resolution: {integrity: sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==}
+
+  es6-promisify@5.0.0:
+    resolution: {integrity: sha512-C+d6UdsYDk0lMebHNR4S2NybQMMngAOnOwYBQjTOiv0MkoJMP0Myw2mgpDLBcpfCmRLxyFqYhS/CfOENq4SJhQ==}
+
   esbuild-css-modules-plugin@3.1.2:
     resolution: {integrity: sha512-XRpRuRT3m1Pk456djTvrq1AOEj+OB8sa8PdGN/Yha6eL8Im0TIYPq0CELgQU6DDKkHlYET++3sXZVjiF/kcgQw==}
     engines: {node: '>= 16.20.0'}
@@ -5079,6 +5178,9 @@ packages:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
 
+  google-protobuf@3.21.2:
+    resolution: {integrity: sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==}
+
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
 
@@ -5271,6 +5373,10 @@ packages:
   http-proxy@1.18.1:
     resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
     engines: {node: '>=8.0.0'}
+
+  https-proxy-agent@2.2.4:
+    resolution: {integrity: sha512-OmvfoQ53WLjtA9HeYP9RNrWMJzzAz1JGaSFr1nijg0PVR1JaD/xbJq1mdEIIlxGpXp9eSe/O2LgU9DJmTPd0Eg==}
+    engines: {node: '>= 4.5.0'}
 
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
@@ -6547,6 +6653,15 @@ packages:
     resolution: {integrity: sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==}
     engines: {node: 4.x || >=6.0.0}
 
+  node-fetch@2.6.13:
+    resolution: {integrity: sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -7547,6 +7662,10 @@ packages:
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
 
+  progress@2.0.3:
+    resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
+    engines: {node: '>=0.4.0'}
+
   promise@7.3.1:
     resolution: {integrity: sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==}
 
@@ -7928,6 +8047,13 @@ packages:
       '@types/react':
         optional: true
 
+  react-preloader-icon@1.0.0:
+    resolution: {integrity: sha512-hyuO9lM7AtCoX/Sib7YEG0dwzkTSUOZ+yx1YJPOFenWTYAutk0JYp9bnT+EmQHIc+hchxUd9W1DvhjzEV/ZPng==}
+    peerDependencies:
+      '@types/react': ^16.9.23
+      react: ^16.13.0
+      react-dom: ^16.13.0
+
   react-refresh@0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
     engines: {node: '>=0.10.0'}
@@ -7974,6 +8100,13 @@ packages:
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
+
+  reactjs-popup@2.0.6:
+    resolution: {integrity: sha512-A+tt+x9wdgZiZjv0e2WzYLD3IfFwJALaRaqwrCSXGjo0iQdsry/EtBEbQXRSmQs7cHmOi5eytCiSlOm8k4C+dg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
 
   read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
@@ -8264,6 +8397,9 @@ packages:
 
   seedrandom@2.4.3:
     resolution: {integrity: sha512-2CkZ9Wn2dS4mMUWQaXLsOAfGD+irMlLEeSP3cMxpGbgyOOzJGFa+MWCOMTOCMyZinHRPxyOj/S/C57li/1to6Q==}
+
+  seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
 
   select-hose@2.0.0:
     resolution: {integrity: sha512-mEugaLK+YfkijB4fx0e6kImuJdCIt2LxCRcbEYPqRGCs4F2ogyfZU5IAZRdjCP8JPq2AtdNoC/Dux63d9Kiryg==}
@@ -12065,6 +12201,21 @@ snapshots:
       - encoding
       - supports-color
 
+  '@mapbox/node-pre-gyp@1.0.9':
+    dependencies:
+      detect-libc: 2.0.3
+      https-proxy-agent: 5.0.1
+      make-dir: 3.1.0
+      node-fetch: 2.7.0
+      nopt: 5.0.0
+      npmlog: 5.0.1
+      rimraf: 3.0.2
+      semver: 7.6.2
+      tar: 6.2.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
   '@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1':
     dependencies:
       eslint-scope: 5.1.1
@@ -12700,6 +12851,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@tensorflow/tfjs-backend-cpu@4.20.0(@tensorflow/tfjs-core@4.20.0)':
+    dependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+      '@types/seedrandom': 2.4.34
+      seedrandom: 3.0.5
+
+  '@tensorflow/tfjs-backend-webgl@4.20.0(@tensorflow/tfjs-core@4.20.0)':
+    dependencies:
+      '@tensorflow/tfjs-backend-cpu': 4.20.0(@tensorflow/tfjs-core@4.20.0)
+      '@tensorflow/tfjs-core': 4.20.0
+      '@types/offscreencanvas': 2019.3.0
+      '@types/seedrandom': 2.4.34
+      seedrandom: 3.0.5
+
+  '@tensorflow/tfjs-converter@4.20.0(@tensorflow/tfjs-core@4.20.0)':
+    dependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
   '@tensorflow/tfjs-core@1.7.0':
     dependencies:
       '@types/offscreencanvas': 2019.3.0
@@ -12708,6 +12877,79 @@ snapshots:
       '@types/webgl2': 0.0.4
       node-fetch: 2.1.2
       seedrandom: 2.4.3
+
+  '@tensorflow/tfjs-core@4.20.0':
+    dependencies:
+      '@types/long': 4.0.2
+      '@types/offscreencanvas': 2019.7.3
+      '@types/seedrandom': 2.4.34
+      '@webgpu/types': 0.1.38
+      long: 4.0.0
+      node-fetch: 2.6.13
+      seedrandom: 3.0.5
+    transitivePeerDependencies:
+      - encoding
+
+  '@tensorflow/tfjs-data@4.20.0(@tensorflow/tfjs-core@4.20.0)(seedrandom@3.0.5)':
+    dependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+      '@types/node-fetch': 2.6.11
+      node-fetch: 2.6.13
+      seedrandom: 3.0.5
+      string_decoder: 1.3.0
+    transitivePeerDependencies:
+      - encoding
+
+  '@tensorflow/tfjs-layers@4.20.0(@tensorflow/tfjs-core@4.20.0)':
+    dependencies:
+      '@tensorflow/tfjs-core': 4.20.0
+
+  '@tensorflow/tfjs-node-gpu@4.20.0(seedrandom@3.0.5)':
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.9
+      '@tensorflow/tfjs': 4.20.0(seedrandom@3.0.5)
+      adm-zip: 0.5.14
+      google-protobuf: 3.21.2
+      https-proxy-agent: 2.2.4
+      progress: 2.0.3
+      rimraf: 2.6.3
+      tar: 6.2.1
+    transitivePeerDependencies:
+      - encoding
+      - seedrandom
+      - supports-color
+
+  '@tensorflow/tfjs-node@4.20.0(seedrandom@3.0.5)':
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.9
+      '@tensorflow/tfjs': 4.20.0(seedrandom@3.0.5)
+      adm-zip: 0.5.14
+      google-protobuf: 3.21.2
+      https-proxy-agent: 2.2.4
+      progress: 2.0.3
+      rimraf: 2.6.3
+      tar: 6.2.1
+    transitivePeerDependencies:
+      - encoding
+      - seedrandom
+      - supports-color
+
+  '@tensorflow/tfjs@4.20.0(seedrandom@3.0.5)':
+    dependencies:
+      '@tensorflow/tfjs-backend-cpu': 4.20.0(@tensorflow/tfjs-core@4.20.0)
+      '@tensorflow/tfjs-backend-webgl': 4.20.0(@tensorflow/tfjs-core@4.20.0)
+      '@tensorflow/tfjs-converter': 4.20.0(@tensorflow/tfjs-core@4.20.0)
+      '@tensorflow/tfjs-core': 4.20.0
+      '@tensorflow/tfjs-data': 4.20.0(@tensorflow/tfjs-core@4.20.0)(seedrandom@3.0.5)
+      '@tensorflow/tfjs-layers': 4.20.0(@tensorflow/tfjs-core@4.20.0)
+      argparse: 1.0.10
+      chalk: 4.1.2
+      core-js: 3.29.1
+      regenerator-runtime: 0.13.11
+      yargs: 16.2.0
+    transitivePeerDependencies:
+      - encoding
+      - seedrandom
 
   '@testing-library/dom@10.2.0':
     dependencies:
@@ -12916,6 +13158,11 @@ snapshots:
     dependencies:
       '@types/express': 4.17.21
 
+  '@types/node-fetch@2.6.11':
+    dependencies:
+      '@types/node': 20.14.9
+      form-data: 4.0.0
+
   '@types/node-forge@1.3.11':
     dependencies:
       '@types/node': 20.14.9
@@ -12931,6 +13178,8 @@ snapshots:
       undici-types: 5.26.5
 
   '@types/offscreencanvas@2019.3.0': {}
+
+  '@types/offscreencanvas@2019.7.3': {}
 
   '@types/parse-json@4.0.2': {}
 
@@ -12966,6 +13215,8 @@ snapshots:
   '@types/retry@0.12.0': {}
 
   '@types/seedrandom@2.4.27': {}
+
+  '@types/seedrandom@2.4.34': {}
 
   '@types/semver@7.5.8': {}
 
@@ -13123,6 +13374,8 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
+  '@vladmandic/face-api@1.7.13': {}
+
   '@webassemblyjs/ast@1.12.1':
     dependencies:
       '@webassemblyjs/helper-numbers': 1.11.6
@@ -13198,6 +13451,8 @@ snapshots:
     dependencies:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
+
+  '@webgpu/types@0.1.38': {}
 
   '@whatwg-node/events@0.0.3': {}
 
@@ -13298,6 +13553,12 @@ snapshots:
     dependencies:
       loader-utils: 2.0.4
       regex-parser: 2.3.0
+
+  adm-zip@0.5.14: {}
+
+  agent-base@4.3.0:
+    dependencies:
+      es6-promisify: 5.0.0
 
   agent-base@6.0.2:
     dependencies:
@@ -13921,6 +14182,8 @@ snapshots:
       - encoding
       - supports-color
 
+  bezier-easing@2.1.0: {}
+
   bfj@7.1.0:
     dependencies:
       bluebird: 3.7.2
@@ -14352,6 +14615,8 @@ snapshots:
       browserslist: 4.23.1
 
   core-js-pure@3.37.1: {}
+
+  core-js@3.29.1: {}
 
   core-js@3.37.1: {}
 
@@ -14972,6 +15237,12 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.0.5
       is-symbol: 1.0.4
+
+  es6-promise@4.2.8: {}
+
+  es6-promisify@5.0.0:
+    dependencies:
+      es6-promise: 4.2.8
 
   esbuild-css-modules-plugin@3.1.2(esbuild@0.19.12):
     dependencies:
@@ -15722,6 +15993,8 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
+  google-protobuf@3.21.2: {}
+
   gopd@1.0.1:
     dependencies:
       get-intrinsic: 1.2.4
@@ -15938,6 +16211,13 @@ snapshots:
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
+
+  https-proxy-agent@2.2.4:
+    dependencies:
+      agent-base: 4.3.0
+      debug: 3.2.7
+    transitivePeerDependencies:
+      - supports-color
 
   https-proxy-agent@5.0.1:
     dependencies:
@@ -17701,6 +17981,10 @@ snapshots:
 
   node-fetch@2.6.0: {}
 
+  node-fetch@2.6.13:
+    dependencies:
+      whatwg-url: 5.0.0
+
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
@@ -18765,6 +19049,8 @@ snapshots:
 
   process-nextick-args@2.0.1: {}
 
+  progress@2.0.3: {}
+
   promise@7.3.1:
     dependencies:
       asap: 2.0.6
@@ -19295,6 +19581,14 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  react-preloader-icon@1.0.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@types/react': 18.3.3
+      bezier-easing: 2.1.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tslib: 1.14.1
+
   react-refresh@0.11.0: {}
 
   react-refresh@0.14.2: {}
@@ -19412,6 +19706,11 @@ snapshots:
   react@18.3.1:
     dependencies:
       loose-envify: 1.4.0
+
+  reactjs-popup@2.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   read-cache@1.0.0:
     dependencies:
@@ -19705,6 +20004,8 @@ snapshots:
   scuid@1.1.0: {}
 
   seedrandom@2.4.3: {}
+
+  seedrandom@3.0.5: {}
 
   select-hose@2.0.0: {}
 

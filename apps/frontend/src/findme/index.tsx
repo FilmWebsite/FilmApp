@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import './scss/FindMe.css';
 import axios from 'axios';
+import { Preloader, TailSpin } from 'react-preloader-icon';
+import { useNavigate } from 'react-router-dom';
+
+import Popup from 'reactjs-popup';
+// import 'reactjs-popup/dist/index.css';
 
 const FindMe: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [detectionResults, setDetectionResults] = useState<any[]>([]);
+  const [didResultsReturn, setDidResultsReturn] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -35,8 +42,11 @@ const FindMe: React.FC = () => {
           },
         }
       );
+      navigate('/detection/results', {
+        state: { results: response.data || [] },
+      });
 
-      setDetectionResults(response.data.results || []);
+      setDidResultsReturn(true);
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image.');
@@ -46,38 +56,59 @@ const FindMe: React.FC = () => {
   };
 
   return (
-    <div className='page'>
-      <div className='page-child'>
-        <h1 className='nameOfPage'>Find Me</h1>
-        <p className='desc'>
-          Easily download any pictures you're seen in on the website. Upload a
-          clear selfie, and let us do the rest.
-        </p>
+    <>
+      <div className='page'>
+        <div className='page-child'>
+          <div className='page-header'>
+            <h1 className='nameOfPage'>Find Me</h1>
 
-        <input
-          type='file'
-          accept='image/*'
-          onChange={handleFileChange}
-          className='find-me-input'
-        />
+            <p className='desc'>
+              Have you been featured on the website? <br />
+              Upload a selfie and we'll find all the photos of you
+            </p>
 
-        <button onClick={handleUpload} disabled={!selectedFile || isLoading}>
-          {isLoading ? 'Uploading...' : 'Upload and Detect'}
-        </button>
-
-        {detectionResults.length > 0 && (
-          <div className='detection-results'>
-            <h3>Detection Results</h3>
-            {detectionResults.map((result, index) => (
-              <div key={index}>
-                <p>Photo URL: {result.photoUrl}</p>
-                <p>Best Match: {result.bestMatch.toString()}</p>
-              </div>
-            ))}
+            <div className='guidelines'>
+              <p>
+                For best resutls please upload a clear selfie with only yourself
+                in the picture
+              </p>
+            </div>
           </div>
-        )}
+
+          {!isLoading && !didResultsReturn && (
+            <>
+              <input
+                type='file'
+                accept='image/*'
+                onChange={handleFileChange}
+                className='find-me-input'
+              />
+            </>
+          )}
+
+          {!isLoading && !didResultsReturn && (
+            <button
+              onClick={handleUpload}
+              disabled={!selectedFile || isLoading}
+              className='upload-bttn'
+            >
+              Find Me
+            </button>
+          )}
+
+          {isLoading && (
+            <Preloader
+              use={TailSpin}
+              size={60}
+              strokeWidth={6}
+              strokeColor='#fd5e53'
+              duration={900}
+              className='loader'
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
