@@ -145,6 +145,7 @@ initFaceApi()
     node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
     // Endpoint to handle image upload, face detection, and comparison
+    // NOTE: Keep this logic at top level due to tf and fapi models dependencies
     node.post(
       '/upload-image-for-processing',
       upload.single('image'),
@@ -153,19 +154,10 @@ initFaceApi()
           // @ts-ignore
           const imagePath = req.file.path; // Path to the uploaded image file
           const single = await getSingleFace(imagePath); // Detect faces in the uploaded image
-
           const faceToCheckAgaisnt = single?.descriptor;
-
           const urls = await PhotoUrlController();
-
-          // Remove from object
-          //  TODO: REMOVE SLICING
           const photoUrls = urls.map((url) => url.image_url);
-          // const photoUrls = [
-          //   'https://doron-photo-app.s3.amazonaws.com/quicktripsPics/nine.JPG',
-          // ];
-
-          // Example modification in your async function handling image comparison
+          // check pics and get results
           const results = await Promise.all(
             photoUrls.map(async (photoUrl) => {
               try {
@@ -183,7 +175,7 @@ initFaceApi()
                   .withFaceLandmarks()
                   .withFaceDescriptors();
 
-                // Compare each detected face in otherDetections with the mainDetection
+                // Compare each detected face
                 const matches = otherDetections.map((detection) => {
                   const distance = faceapi.euclideanDistance(
                     // @ts-ignore
@@ -194,6 +186,7 @@ initFaceApi()
                   return { detection, distance };
                 });
 
+                // FIXME: update weights redece fp, fn
                 const hasMatches = matches.some(
                   (match) => match.distance < 0.5
                 );

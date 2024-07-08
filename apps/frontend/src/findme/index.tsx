@@ -4,9 +4,6 @@ import axios from 'axios';
 import { Preloader, TailSpin } from 'react-preloader-icon';
 import { useNavigate } from 'react-router-dom';
 
-import Popup from 'reactjs-popup';
-// import 'reactjs-popup/dist/index.css';
-
 const FindMe: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);

@@ -66,8 +66,9 @@ const FindMeResults: React.FC<Props> = (props: Props) => {
                 <p>
                   <div>
                     <p className='no-image-message'>
-                      Please Note Some images may be incorrectly bypassed due to
-                      lighting and other factors
+                      Please Note: Some pictures may be incorrectly skipped (a
+                      false negative) due to lighting and other factors in your
+                      selfie
                     </p>
 
                     <p className='desc'>
@@ -78,7 +79,12 @@ const FindMeResults: React.FC<Props> = (props: Props) => {
                 </p>
               </div>
               <div>
-                <button className='upload-bttn'>
+                <button
+                  className='upload-bttn'
+                  onClick={() => {
+                    navigate('/detection');
+                  }}
+                >
                   Attempt to Find Me Again
                 </button>
               </div>
