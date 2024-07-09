@@ -9,16 +9,10 @@ import { IoCameraOutline } from 'react-icons/io5';
 
 import './css/ShuffleHero.css';
 import Collection, { usePhotos } from '@film/photos-web';
-
-type Photo = {
-  image_url: string;
-  id: string;
-  collection: 'NYC' | 'landmarks' | 'qt' | 'grenada';
-  home_display: boolean;
-};
+import { Photo } from '@film/photos-iso';
 
 const Gallery = () => {
-  const { nyc, collections, homePhotos } = usePhotos();
+  const { collections, homePhotos } = usePhotos();
 
   return (
     <div className='galleryBase'>

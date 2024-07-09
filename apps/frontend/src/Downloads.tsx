@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import "./css/Downloads.css";
-import { usePhotos } from "@film/photos-web";
+import React, { useState } from 'react';
+import './css/Downloads.css';
+import { usePhotos } from '@film/photos-web';
+import { CollectionType, Photo } from '@film/photos-iso';
 
 function Downloads() {
-  //   const { collections, homePhotos } = usePhotos();
-  //   console.log(collections);
-  const { collections, homePhotos } = usePhotos();
-  console.log(homePhotos);
+  const { collections, getPhotosbyCID } = usePhotos();
 
-  const [selectedAlbum, setSelectedAlbum] = useState("All");
+  // local type
+  type CollectionId = CollectionType | 'all';
+  const [collectionId, setCollectionId] = useState<CollectionId>('all');
+  const photos = getPhotosbyCID({ id: collectionId });
 
-  // Function to handle album selection
   const handleAlbumSelect = (albumName) => {
-    setSelectedAlbum(albumName);
+    setCollectionId(albumName);
   };
 
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
   // Function to handle when a photo is clicked
   const handlePhotoClick = (pic) => {
@@ -23,44 +23,47 @@ function Downloads() {
   };
 
   return (
-    <div className="downloadsPage">
-      <div className="leftSide">
-        <h1 className="downloadHeader">Downloads</h1>
-        <p className="downloadDesc">
+    <div className='downloadsPage'>
+      <div className='leftSide'>
+        <h1 className='downloadHeader'>Downloads</h1>
+        <p className='downloadDesc'>
           Easily download any pictures you've seen on the website. Simply browse
           through the gallery, select a picture, and download.
         </p>
-        <div className="box">
+
+        <div className='box'>
           {selectedPhoto && (
             <div
               style={{ backgroundImage: `url(${selectedPhoto.image_url})` }}
-              className="selectedImage"
+              className='selectedImage'
             ></div>
           )}
         </div>
       </div>
-      <div className="rightSide">
-        {homePhotos.map((pic) => (
+      <div className='rightSide'>
+        {photos.map((pic) => (
           <div
             key={pic.id}
-            className="picContainer"
+            className='picContainer'
             onClick={() => handlePhotoClick(pic)}
           >
             <div
               style={{ backgroundImage: `url(${pic.image_url})` }}
-              className="picImage"
+              className='picImage'
             ></div>
           </div>
         ))}
       </div>
-      <div className="dropdown">
+      <div className='dropdown'>
         <select
-          value={selectedAlbum}
-          onChange={(e) => handleAlbumSelect(e.target.value)}
+          value={collectionId}
+          onChange={(e) => {
+            handleAlbumSelect(e.target.value);
+          }}
         >
-          <option value="All">All Albums</option>
+          <option value='all'>All Albums</option>
           {collections.map((album) => (
-            <option key={album.id} value={album.name}>
+            <option key={album.id} value={album.ref}>
               {album.name}
             </option>
           ))}
