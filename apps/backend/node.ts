@@ -14,6 +14,8 @@ import _ from 'lodash';
 import bodyParser from 'body-parser';
 import pkg from 'pg';
 import cors from 'cors';
+import { getPhotoViaId } from './source/controllers/DownloadImage';
+import axios from 'axios';
 
 const PATH = '/graphql';
 export function mergeModulesSchemaWith(mergeIn: any) {
@@ -88,6 +90,34 @@ node.post('/collections/:collection', async (req, res) => {
     return res.status(200).send({ collection: data });
   } else {
     return {};
+  }
+});
+
+node.get('/download/:image_id/', async (req, res) => {
+  const { image_id } = req.params;
+  try {
+    const imageUrl = await getPhotoViaId(image_id);
+    if (!imageUrl) {
+      return res.status(404).send({ message: 'Image not found' });
+    }
+
+    const response = await axios({
+      url: imageUrl,
+      method: 'GET',
+      responseType: 'stream',
+    });
+
+    res.setHeader(
+      'Content-Disposition',
+      // TODO: output a photo name for users
+      'attachment; filename="downloaded-image.jpeg"'
+    );
+    res.setHeader('Content-Type', 'image/jpeg');
+
+    response.data.pipe(res);
+  } catch (error) {
+    console.error('Failed to download image:', error);
+    res.status(500).send({ message: 'Failed to download image' });
   }
 });
 

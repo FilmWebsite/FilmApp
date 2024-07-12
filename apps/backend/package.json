@@ -12,6 +12,7 @@
     "@geocoder-free/google": "0.2.9-alpha.0",
     "@graphql-tools/schema": "^10.0.0",
     "apollo-server-express": "^3.12.0",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -25,8 +26,8 @@
     "supertest": "^6.3.3"
   },
   "devDependencies": {
-    "@film/postgres-api": "workspace:*",
     "@film/photos-iso": "workspace:*",
+    "@film/postgres-api": "workspace:*",
     "@graphql-codegen/cli": "4.0.1",
     "@graphql-codegen/client-preset": "4.0.1",
     "@graphql-codegen/introspection": "4.0.0",

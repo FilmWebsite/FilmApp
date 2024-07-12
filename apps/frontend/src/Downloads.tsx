@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './css/Downloads.css';
 import { usePhotos } from '@film/photos-web';
 import { CollectionType, Photo } from '@film/photos-iso';
+import ImageDownloader from './comps/Donwloader.tsx';
 
 function Downloads() {
   const { collections, getPhotosbyCID } = usePhotos();
@@ -39,6 +40,7 @@ function Downloads() {
             ></div>
           )}
         </div>
+        <ImageDownloader selectedPhoto={selectedPhoto} />
       </div>
       <div className='rightSide'>
         {photos.map((pic) => (
