@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../css/Downloads.css';
 
 const ImageDownloader = ({ selectedPhoto }) => {
   const [loading, setLoading] = useState(false);
@@ -27,9 +28,13 @@ const ImageDownloader = ({ selectedPhoto }) => {
   };
 
   return (
-    <button onClick={() => downloadImage(selectedPhoto?.id)} disabled={loading}>
+    <button
+      onClick={() => downloadImage(selectedPhoto?.id)}
+      disabled={loading}
+      className={`download-button ${loading ? 'loading' : 'not-loading'}`}
+    >
       {loading ? 'Downloading...' : 'Download Image'}
-    </button>
+    </button> 
   );
 };
 
