@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./css/AlbumEdit.css";
 import { MdEdit, MdDelete, MdOutlineFindReplace } from "react-icons/md";
 import { usePhotos } from "@film/photos-web";
+import EditPopup from "./comps/EditPopup";
 
 function AlbumEdit() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -12,10 +13,19 @@ function AlbumEdit() {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [albumToDelete, setAlbumToDelete] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleEditClick = (card) => {
+    setSelectedCard(card);
+  };
+
+  const handleEditPopupClose = () => {
+    setSelectedCard(null);
+  };
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFiles((prevFiles) => [file]);
+    setSelectedFiles([file]);
     const filePreview = URL.createObjectURL(file);
     setThumbnailPreview(filePreview);
   };
@@ -23,7 +33,6 @@ function AlbumEdit() {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
-
     const filePreviews = files.map((file) => URL.createObjectURL(file));
     setPreviews((prevPreviews) => [...prevPreviews, ...filePreviews]);
   };
@@ -83,8 +92,12 @@ function AlbumEdit() {
               key={card.id}
               isFirst={index === 0}
               onDeleteClick={handleDeleteClick}
+              onEditClick={handleEditClick}
             />
           ))}
+          {selectedCard && (
+            <EditPopup card={selectedCard} onClose={handleEditPopupClose} />
+          )}
         </div>
       </div>
 
@@ -238,7 +251,7 @@ function AlbumEdit() {
 
 export default AlbumEdit;
 
-const Card = ({ card, isFirst, onDeleteClick }) => {
+const Card = ({ card, isFirst, onDeleteClick, onEditClick }) => {
   return (
     <div className="group" style={{ marginLeft: isFirst ? 0 : "10px" }}>
       <div
@@ -258,7 +271,7 @@ const Card = ({ card, isFirst, onDeleteClick }) => {
         </div>
       </div>
       <div className="iconContainer">
-        <MdEdit className="editIcon" />
+        <MdEdit className="editIcon" onClick={() => onEditClick(card)} />
         <MdDelete className="deleteIcon" onClick={() => onDeleteClick(card)} />
       </div>
     </div>
