@@ -213,10 +213,11 @@ function AlbumEdit() {
 
       {isPopupOpen && (
         <div className="popup">
+          <span className="close" onClick={handleClosePopup}>
+            &times;
+          </span>
           <div className="popup-content">
-            <span className="close" onClick={handleClosePopup}>
-              &times;
-            </span>
+            <h1 className="switchPictureHeader">Switch out this picture</h1>
             <img
               src={selectedPic.image_url}
               alt={`Selected ${selectedPic.id}`}
