@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const EditPopup = ({ card, onClose, onSave }) => {
+const EditPopup = ({ card, onClose }) => {
   const [title, setTitle] = useState(card.name);
   const [textColor, setTextColor] = useState(card.textColor || "");
   const [shadowColor, setShadowColor] = useState(card.shadowColor || "");
@@ -39,7 +39,7 @@ const EditPopup = ({ card, onClose, onSave }) => {
       cover: thumbnail,
       pictures,
     };
-    onSave(updatedCard);
+    // onSave(updatedCard);
     onClose();
   };
 
