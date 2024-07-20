@@ -253,7 +253,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -261,12 +261,18 @@
   }
   
   .popup-content {
-    background-color: #373737;
+    background-color: #1a1a1a;
     padding: 20px;
     border-radius: 5px;
     position: relative;
     text-align: center;
     
+  }
+
+  .switchPictureHeader{
+    color: #fd5e53;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 27px;
   }
   
   .popup-content img {
@@ -284,14 +290,14 @@
   .close {
     position: absolute;
     top: 1px;
-    right: 2px;
-    font-size: 24px;
+    right: 1%;
+    font-size: 34px;
     cursor: pointer;
   }
 
 
   .deletePopupContent {
-    background-color: white;
+    background-color: #1a1a1a;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -311,20 +317,22 @@
   .deletePopupContent p {
     margin-bottom: 15px;
     font-size: 16px;
-    color: #333;
+    color: white;
   }
   
   .deletePopupInput {
     width: calc(100% - 40px);
     padding: 10px;
     margin: 10px 20px;
+    background-color: #1a1a1a;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 16px;
+    color: white;
   }
   
   .deletePopupButton {
-    background-color: #d9534f;
+    background-color: #d2386c;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -332,8 +340,95 @@
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    transition: all 0.3s ease;
   }
   
   .deletePopupButton:hover {
-    background-color: #c9302c;
+    transform: scale(0.95);
+  }
+
+  .editAlbum-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .editAlbum-content {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    position: fixed;
+    /* margin-top: 1%; */
+    justify-content: center;
+    align-items: center;
+    max-height: 80vh; /* Adjust based on your layout */
+    overflow-y: auto;
+    width: 100%; /* Adjust based on your layout */
+    max-width: 900px; /* Adjust based on your layout */
+    
+  }
+
+  .editAlbum-content::-webkit-scrollbar {
+    display: none; /* Webkit browsers (Chrome, Safari) */
+  }
+  
+  .editAlbum-content {
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 1%;
+    cursor: pointer;
+    font-size: 34px;
+  }
+  
+  
+  
+
+
+  .editAlbum-header{
+    color: #d2386c;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 35px;
+  }
+  
+  .editAlbum-headers{
+    color: white;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 20px;
+    margin: 30px 0 0 0;
+  }
+
+  .editAlbum-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 4%;
+  }
+  
+  .editAlbumButton {
+    padding: 5px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: white;
+    border: none; 
+    border-radius: 25px; 
+    color: #d2386c; 
+    font-family: "Bebas Neue", sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .editAlbumButton:hover{
+    background-color: #d2386c;
+    color: white;
+    transform: scale(0.95);
   }
