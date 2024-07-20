@@ -151,7 +151,7 @@ importers:
         specifier: ^10.18.0
         version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       gsap:
-        specifier: ^3.12.4
+        specifier: ^3.12.5
         version: 3.12.5
       postcss:
         specifier: ^8.4.33
