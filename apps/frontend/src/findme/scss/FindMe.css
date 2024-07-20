@@ -126,18 +126,10 @@
   text-align: center;
   font-size: 12px;
 }
-
-.false-postive-message {
-  font-size: 12px;
-  font-weight: 600;
-  padding-bottom: 20px;
-}
-
 .rightSide-results {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Three columns */
   grid-gap: 10px; /* Space between items */
-  /* padding: 0 1%; */
   box-sizing: border-box; /* Ensure padding is included in width */
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* Hide scrollbar for Firefox */
@@ -146,8 +138,54 @@
   margin-top: 10px;
 }
 
-.no-image-message {
-  font-size: 12px;
-  font-weight: 600;
-  padding-bottom: 20px;
+.picContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.picImage {
+  width: 100%;
+  padding-top: 100%; /* Aspect ratio 1:1 */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: transform 0.3s; /* duration-300 */
+}
+
+.false-postive-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 99px;
+  padding-bottom: 10px;
+  color: #e4c31b;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.fp-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.no-bttn {
+  padding: 5px;
+  border-radius: 99px;
+  width: 40px;
+
+  font-weight: bolder;
+}
+
+.yes-bttn {
+  padding: 5px;
+  color: white;
+  border-radius: 99px;
+  width: 50px;
+
+  font-weight: bolder;
 }

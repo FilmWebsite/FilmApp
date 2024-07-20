@@ -43,6 +43,8 @@ const FindMe: React.FC = () => {
         state: { results: response.data || [] },
       });
 
+      console.log(response.data, 'return');
+
       setDidResultsReturn(true);
     } catch (error) {
       console.error('Error uploading image:', error);

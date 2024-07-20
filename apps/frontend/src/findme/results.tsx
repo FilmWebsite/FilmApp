@@ -23,7 +23,7 @@ const FindMeResults: React.FC<Props> = (props: Props) => {
     <div className='page'>
       <div className='page-child-results'>
         <div className='detection-results'>
-          {results.matchedUrls.length > 0 && (
+          {results.matchedResults.length > 0 && (
             <>
               <h3 className='pics-found-text'>Hey You've Been Spotted</h3>
               <div className='desc'>
@@ -43,23 +43,46 @@ const FindMeResults: React.FC<Props> = (props: Props) => {
                 </p>
               </div>
               <div className='rightSide-results'>
-                {/* @ts-ignore */}
-                {results.matchedUrls.map((pic, index) => (
-                  <div
-                    key={index} // Added a key prop for each mapped element
-                    className='picContainer'
-                  >
-                    <div
-                      style={{ backgroundImage: `url(${pic})` }}
-                      className='picImage'
-                    />
-                  </div>
+                {results.matchedResults.map((pic, index) => (
+                  <>
+                    <div className='message-container'>
+                      <div
+                        key={index} // Added a key prop for each mapped element
+                        className='picContainer'
+                        style={{
+                          borderRadius: '30px',
+                          border: '5px solid #e4c31b',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <div
+                          style={{ backgroundImage: `url(${pic.photoUrl})` }}
+                          className='picImage'
+                        ></div>
+                      </div>
+                      <div className='false-postive-container'>
+                        <p
+                          style={{
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          Are you in this pic?
+                        </p>
+                        <div className='fp-options'>
+                          <p className='yes-bttn'>Yes</p>
+                          <p className='no-bttn'>No</p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 ))}
               </div>
             </>
           )}
 
-          {results.matchedUrls.length === 0 && (
+          {results.matchedResults.length === 0 && (
             <>
               <h3 className='pics-found-text'>We cant seem to find you ....</h3>
               <div className='desc'>

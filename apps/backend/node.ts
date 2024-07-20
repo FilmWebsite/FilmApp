@@ -157,7 +157,8 @@ initFaceApi()
           const faceToCheckAgaisnt = single?.descriptor;
           const urls = await PhotoUrlController();
           const photoUrls = urls.map((url) => url.image_url);
-          // check pics and get results
+
+          // Check pics and get results
           const results = await Promise.all(
             photoUrls.map(async (photoUrl) => {
               try {
@@ -175,27 +176,35 @@ initFaceApi()
                   .withFaceLandmarks()
                   .withFaceDescriptors();
 
-                // Compare each detected face
-                const matches = otherDetections.map((detection) => {
-                  const distance = faceapi.euclideanDistance(
-                    // @ts-ignore
-                    faceToCheckAgaisnt,
-                    detection.descriptor
-                  );
+                console.log(otherDetections, 'detect');
 
-                  return { detection, distance };
-                });
+                if (otherDetections.length > 0) {
+                  // Compare each detected face
+                  const matches = otherDetections.map((detection) => {
+                    const distance = faceapi.euclideanDistance(
+                      // @ts-ignore
+                      faceToCheckAgaisnt,
+                      detection.descriptor
+                    );
 
-                // FIXME: update weights redece fp, fn
-                const hasMatches = matches.some(
-                  (match) => match.distance < 0.5
-                );
+                    return { photoUrl, distance };
+                  });
 
-                if (hasMatches) {
-                  return photoUrl; // Return the photoUrl if matches are found
-                } else {
-                  return null; // Return null if no matches are found
+                  if (matches.length > 0) {
+                    const bestMatch = matches.reduce(
+                      (prev, curr) =>
+                        // @ts-ignore
+                        prev.distance < curr.distance ? prev : curr,
+                      matches[0]
+                    );
+
+                    if (bestMatch && bestMatch.distance < 0.5) {
+                      return bestMatch; // Return the best match object
+                    }
+                  }
                 }
+
+                return null; // Return null if no matches are found
               } catch (error) {
                 console.error(`Error processing ${photoUrl}:`, error);
                 return null; // Return null for failed comparisons
@@ -203,8 +212,8 @@ initFaceApi()
             })
           );
 
-          const matchedUrls = results.filter((url) => url !== null);
-          res.status(200).json({ matchedUrls });
+          const matchedResults = results.filter((result) => result !== null);
+          res.status(200).json({ matchedResults });
         } catch (error) {
           console.error('Error processing image:', error);
           res.status(500).json({ message: 'Failed to process image.' });
