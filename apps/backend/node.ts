@@ -16,6 +16,7 @@ import pkg from 'pg';
 import cors from 'cors';
 import { getPhotoViaId } from './source/controllers/DownloadImage';
 import axios from 'axios';
+import { handleEditCollection } from './source/controllers/EditCollectionController';
 
 const PATH = '/graphql';
 export function mergeModulesSchemaWith(mergeIn: any) {
@@ -80,6 +81,19 @@ node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
 node.get('/', async (req, res) => {
   return res.redirect('/graphql');
+});
+
+node.post('/admin/edit/collection', async (req, res) => {
+  if (!req.body.id) {
+    return res.status(400).send({ error: 'No data provided' });
+  }
+
+  try {
+    await handleEditCollection(req.body.id, req.body.data);
+    return res.status(200).send({ message: 'Collection edited successfully' });
+  } catch (e) {
+    return res.status(400).send({ error: 'Error editing collection' });
+  }
 });
 
 node.post('/collections/:collection', async (req, res) => {

@@ -5,7 +5,7 @@ import Gallery from './Gallery.tsx';
 import About from './About';
 import RequestPhotos from './RequestPhotos';
 import AlbumEditLogin from './AlbumEditLogin.js';
-import AlbumEdit from './AlbumEdit.js';
+import AlbumEdit from './AlbumEdit.tsx';
 import { Collection } from './Collection.tsx';
 import Downloads from './Downloads.tsx';
 

@@ -45,7 +45,7 @@ const Collection: React.FC = () => {
             shadowColor={collectionData.colors?.shadowColor}
             textColor={collectionData.colors?.textColor}
           />
-          <p className='albumInfo'>{collectionData.desc}</p>
+          <p className='albumInfo'>{collectionData.description}</p>
         </div>
         <div className='Image-container'>
           {/* Pass fetched data instead of SliderData */}

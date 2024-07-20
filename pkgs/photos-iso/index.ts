@@ -20,6 +20,7 @@ export type Collection = {
   ref: CollectionType;
   display_name: string;
   colors: ColorType;
+  description: string;
 };
 
 export interface P {

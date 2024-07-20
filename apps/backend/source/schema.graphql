@@ -10,9 +10,18 @@ type Photo {
   home_display: Boolean!
 }
 
+type Colors {
+  textColor: String!
+  shadowColor: String!
+}
+
 type Collection {
   name: String!
   cover: String!
   path: String!
   ref: String!
+  id: String!
+  colors: Colors!
+  display_name: String
+  description: String!
 }

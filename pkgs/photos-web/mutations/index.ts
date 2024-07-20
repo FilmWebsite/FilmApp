@@ -18,6 +18,13 @@ export const GET_COLLECTIONS = gql`
       name
       path
       ref
+      id
+      colors {
+        shadowColor
+        textColor
+      }
+      description
+      display_name
     }
   }
 `;
