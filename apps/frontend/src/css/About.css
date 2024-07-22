@@ -409,9 +409,6 @@
     font-family: "Bebas Neue", sans-serif;
   }
 
-  /* #filmOne{
-    color: #ff7f50;
-  } */
   #filmTwo{
     color: #ff7f50;
   }
@@ -442,3 +439,65 @@
     font-weight: 700;
     font-family: "Bebas Neue", sans-serif;
 }
+
+.techLogoContainer{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.techContainer {
+    position: absolute;
+    text-align: center;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease-in-out;
+  }
+
+  .techContainer.fadeIn {
+    opacity: 1; /* Fade in */
+  }
+
+  .techContainer.fadeOut {
+    opacity: 0; /* Fade out */
+  }
+  
+  .techLogos {
+    width: 175px;
+    height: 175px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform 0.3s;
+  }
+
+  .techLogos:hover {
+    transform: scale(1.15); /* Optional: Slightly enlarge the image on hover */
+  }
+  
+  .techCaption {
+    margin-top: 15%;
+    font-size: 20px;
+    font-family: "Bebas Neue", sans-serif;
+    display: none;
+  }
+
+  .techContainer:hover .techCaption {
+    display: block; /* Show the caption on hover */
+  }
+
+
+  #front-end{
+    color: #ff7f50;
+  }
+
+  #back-end{
+    color: #d2386c;
+  }
+  
+  /* .techLogos:nth-child(1) { top: 10%; left: 10%; }
+  .techLogos:nth-child(2) { top: 10%; left: 35%; }
+  .techLogos:nth-child(3) { top: 10%; left: 58%; }
+  .techLogos:nth-child(4) { top: 10%; left: 80%; }
+  .techLogos:nth-child(5) { top: 55%; left: 20%; }
+  .techLogos:nth-child(6) { top: 55%; left: 47%; }
+  .techLogos:nth-child(7) { top: 55%; left: 70%; } */
