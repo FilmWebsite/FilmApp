@@ -9,7 +9,7 @@ function Footer() {
       <div className="usefulLinks">
         <h1 className="footerHeaders">Useful Links</h1>
         <div className="links">
-        <a href="/" className="footerLink">
+          <a href="/" className="footerLink">
             Home
           </a>
           <a href="/about" className="footerLink">
@@ -18,8 +18,8 @@ function Footer() {
           <a href="/downloads" className="footerLink">
             Downloads
           </a>
-          <a href="/albums-login" className="footerLink">
-            Owner
+          <a href="/dedication" className="footerLink">
+            Dedication
           </a>
         </div>
       </div>
@@ -52,7 +52,9 @@ function Footer() {
         </div>
       </div>
 
-      <text className="copyright">Copyright © 2024 DDot Studio</text>
+      <a href="/albums-login" className="copyright">
+        Copyright © 2024 DDot Studio
+      </a>
     </div>
   );
 }
