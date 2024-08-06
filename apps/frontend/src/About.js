@@ -4,11 +4,17 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import huFourteen from "./howardPics/huFourteen.JPG";
 import DD from "./howardPics/DD.JPG";
 import Dee from "./howardPics/Dee.JPG";
-import one from "./howardPics/one.JPG";
 import two from "./howardPics/two.JPG";
 import three from "./howardPics/three.JPG";
 import four from "./howardPics/four.JPG";
 import five from "./howardPics/five.JPG";
+import css from "./pics/css.png";
+import express from "./pics/express.png";
+import graphql from "./pics/graphql.png";
+import js from "./pics/js.png";
+import node from "./pics/node.png";
+import react from "./pics/react.png";
+import ts from "./pics/ts.png";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -87,6 +93,43 @@ function About() {
       if (containersRef.current) {
         containersRef.current.forEach((container) => {
           observer.unobserve(container);
+        });
+      }
+    };
+  }, []);
+
+  const techContainersRef = useRef([]);
+
+  useEffect(() => {
+    const options = {
+      threshold: 0.1, // Trigger when 10% of the container is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const randomDelay = Math.random() * 1100; // Random delay up to 1 second
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fadeIn');
+            entry.target.classList.remove('fadeOut');
+          }, randomDelay);
+        } else {
+          setTimeout(() => {
+            entry.target.classList.add('fadeOut');
+            entry.target.classList.remove('fadeIn');
+          }, randomDelay);
+        }
+      });
+    }, options);
+
+    techContainersRef.current.forEach((container) => {
+      if (container) observer.observe(container);
+    });
+
+    return () => {
+      if (observer) {
+        techContainersRef.current.forEach((container) => {
+          if (container) observer.unobserve(container);
         });
       }
     };
@@ -278,12 +321,105 @@ function About() {
       <div className="techInfo">
         <h1>Website Technologies</h1>
         <p className="aboutDescriptions">
-          Highlighting the modern web development tools and frameworks utilized in
-          building this site. It covers key technologies such as React, CSS3,
+          Highlighting the modern web development tools and frameworks utilized
+          in building this site. It covers key technologies such as React, CSS3,
           JavaScript, and backend solutions like Node.js and MongoDB, detailing
           their roles in creating a responsive, dynamic, and efficient user
           experience.
         </p>
+        <div className="techLogoContainer">
+          <div
+            className="techContainer"
+            style={{ top: "10%", left: "10%" }}
+            ref={(el) => (techContainersRef.current[0] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${css})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="front-end">
+              CSS
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "10%", left: "35%" }}
+            ref={(el) => (techContainersRef.current[1] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${express})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="back-end">
+              Express
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "10%", left: "58%" }}
+            ref={(el) => (techContainersRef.current[2] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${graphql})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="back-end">
+              GraphQL
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "10%", left: "80%" }}
+            ref={(el) => (techContainersRef.current[3] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${js})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="front-end">
+              JavaScript
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "55%", left: "70%" }}
+            ref={(el) => (techContainersRef.current[4] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${node})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="back-end">
+              Node.js
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "55%", left: "47%" }}
+            ref={(el) => (techContainersRef.current[5] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${react})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="front-end">
+              React
+            </div>
+          </div>
+          <div
+            className="techContainer"
+            style={{ top: "55%", left: "20%" }}
+            ref={(el) => (techContainersRef.current[6] = el)}
+          >
+            <div
+              style={{ backgroundImage: `url(${ts})` }}
+              className="techLogos"
+            />
+            <div className="techCaption" id="front-end">
+              TypeScript
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -292,13 +428,19 @@ function About() {
 export default About;
 
 {
+  /* <div
+            style={{ backgroundImage: `url(${css})` }}
+            className="techLogos"
+          ></div> */
+}
+{
   /* <div className="imageContainer">
             <div
               className="aboutFilm"
-              style={{ backgroundImage: `url(${one})` }}
+              style={{ backgroundImage: `url(${css})` }}
             />
-            <p className="caption" id="filmOne">
-              Kodak Film Disposable
+            <p className="caption" id="filmTwo">
+              FrontEnd
             </p>
           </div> */
 }
