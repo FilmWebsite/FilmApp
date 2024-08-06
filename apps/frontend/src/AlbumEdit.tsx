@@ -17,7 +17,7 @@ function AlbumEdit() {
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const { editCollection } = useAdminActions();
+  const { editCollection, sendAddRequest } = useAdminActions();
 
   const handleEditClick = (card) => {
     setSelectedCard(card);
@@ -90,7 +90,35 @@ function AlbumEdit() {
     }
   };
 
-  const { collections, homePhotos } = usePhotos();
+  const { collections, homePhotos, allPhotos } = usePhotos();
+
+  console.log(allPhotos);
+
+  const [titleAdd, setTitleAdd] = useState<string | null>(null);
+  // TODO: add to one object
+  const [shadowColorAdd, setShadowColorAdd] = useState<string | null>(null);
+  const [textColorAdd, setTextColorAdd] = useState<string | null>(null);
+
+  const [descriptionAdd, setDescriptionAdd] = useState<string | null>(null);
+  const [displayNameAdd, setNewDisplayNameAdd] = useState<string | null>(null);
+  const [collectionRef, setCollectionRef] = useState<string | null>(null);
+  const [path, setPath] = useState<string | null>(null);
+
+  const hanldeAddCollection = () => {
+    // e.preventDefault();
+
+    const newCollection = {
+      name: titleAdd,
+      textColor: textColorAdd,
+      shadowColor: shadowColorAdd,
+      description: descriptionAdd,
+      display_name: displayNameAdd || titleAdd,
+      ref: collectionRef,
+      path: '/' + collectionRef,
+    };
+
+    sendAddRequest(newCollection);
+  };
 
   return (
     <div className='albumEditPage'>
@@ -133,7 +161,12 @@ function AlbumEdit() {
       <form className='addAlbums'>
         <h1 className='addAlbumHeader'>Add Albums</h1>
         <h2 className='addAlbumHeaders'>Title:</h2>
-        <input className='inputField' type='text' placeholder='Album Title' />
+        <input
+          className='inputField'
+          type='text'
+          placeholder='Album Title'
+          onChange={(e) => setTitleAdd(e.target.value)}
+        />
 
         <div className='inputContainer'>
           <div className='inputPair'>
@@ -142,6 +175,7 @@ function AlbumEdit() {
               className='inputField'
               type='text'
               placeholder='Hex Code #RRGGBB'
+              onChange={(e) => setTextColorAdd(e.target.value)}
             />
           </div>
           <div className='inputPair'>
@@ -150,6 +184,7 @@ function AlbumEdit() {
               className='inputField'
               type='text'
               placeholder='Hex Code #RRGGBB'
+              onChange={(e) => setShadowColorAdd(e.target.value)}
             />
           </div>
         </div>
@@ -158,6 +193,7 @@ function AlbumEdit() {
         <textarea
           className='inputField descriptionBox'
           placeholder='Album Description'
+          onChange={(e) => setDescriptionAdd(e.target.value)}
         ></textarea>
         <h2 className='addAlbumHeaders'>Select Album Thumbnail:</h2>
         {thumbnailPreview && (
@@ -212,9 +248,29 @@ function AlbumEdit() {
         />
 
         <h2 className='addAlbumHeaders'>Display Name:</h2>
-        <input className='inputField' type='text' placeholder='Null' />
+        <input
+          className='inputField'
+          type='text'
+          placeholder='Null'
+          onChange={(e) => setNewDisplayNameAdd(e.target.value)}
+        />
+
+        <h2 className='addAlbumHeaders'>Collection Ref</h2>
+        <input
+          className='inputField'
+          type='text'
+          placeholder='Null'
+          onChange={(e) => setCollectionRef(e.target.value)}
+        />
         <div className='buttonContainer'>
-          <button className='addAlbumButton' type='submit'>
+          <button
+            className='addAlbumButton'
+            type='submit'
+            onClick={() => {
+              hanldeAddCollection();
+              // @ts-ignore
+            }}
+          >
             Add New Album
           </button>
         </div>

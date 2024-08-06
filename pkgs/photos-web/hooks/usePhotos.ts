@@ -27,6 +27,14 @@ export function usePhotos() {
     }
   }, [data]);
 
+  const filterAllURLS = useCallback(() => {
+    if (data && data.getPhotos) {
+      return data.getPhotos.map((photo: Photo) => photo.image_url);
+    } else {
+      return [];
+    }
+  }, [data]);
+
   const getPhotosByCollectionId = useCallback(
     ({ id }: { id: CollectionType | 'all' }) => {
       if (data?.getPhotos) {
@@ -45,5 +53,6 @@ export function usePhotos() {
     getPhotosbyCID: getPhotosByCollectionId,
     collections: returnCollections(),
     homePhotos: filterHomeDisplay(),
+    allPhotos: filterAllURLS(),
   };
 }

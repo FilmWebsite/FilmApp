@@ -5,6 +5,7 @@ import {
   PostgresPhotoStore,
   PhotoLoader,
   CollectionController,
+  handleAddCollection,
 } from './source';
 import { mergeSchemas } from '@graphql-tools/schema';
 import express, { Application } from 'express';
@@ -91,6 +92,19 @@ node.post('/admin/edit/collection', async (req, res) => {
   try {
     await handleEditCollection(req.body.id, req.body.data);
     return res.status(200).send({ message: 'Collection edited successfully' });
+  } catch (e) {
+    return res.status(400).send({ error: 'Error editing collection' });
+  }
+});
+
+node.post('/admin/add/collection', async (req, res) => {
+  if (req.body == null) {
+    return res.status(400).send({ error: 'No data provided' });
+  }
+
+  try {
+    await handleAddCollection(req.body);
+    return res.status(200).send({ message: 'Collection added successfully' });
   } catch (e) {
     return res.status(400).send({ error: 'Error editing collection' });
   }
