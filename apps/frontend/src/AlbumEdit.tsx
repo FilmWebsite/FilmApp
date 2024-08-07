@@ -27,14 +27,25 @@ function AlbumEdit() {
     setSelectedCard(null);
   };
 
+  
+  //CHANGING ADD ALBUM PHOTO w/ FILES
+  // const handleThumbnailChange = (e) => {
+  //   const file = e.target.files[0];
+  //   // @ts-ignore
+  //   setSelectedFiles([file]);
+  //   const filePreview = URL.createObjectURL(file);
+  //   // @ts-ignore
+  //   setThumbnailPreview(filePreview);
+  // };
+
+  //CHANGING ADD ALBUM PHOTO w/ DROPDOWN
   const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
-    // @ts-ignore
-    setSelectedFiles([file]);
-    const filePreview = URL.createObjectURL(file);
-    // @ts-ignore
-    setThumbnailPreview(filePreview);
+    const selectedPhoto = e.target.value;
+    if (selectedPhoto) {
+      setThumbnailPreview(selectedPhoto);
+    }
   };
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -212,12 +223,20 @@ function AlbumEdit() {
             </button>
           </div>
         )}
-        <input
+        <select onChange={handleThumbnailChange}>
+        <option value=''>Select a photo</option>
+        {allPhotos.map((photo, index) => (
+          <option key={index} value={photo}>
+            {photo}
+          </option>
+        ))}
+      </select>
+        {/* <input
           className='inputField'
           type='file'
           accept='image/*'
           onChange={handleThumbnailChange}
-        />
+        /> */}
 
         <h2 className='addAlbumHeaders'>Select Pictures for Album:</h2>
         <div className='imagePreviewsSlider'>
