@@ -17,7 +17,8 @@ function AlbumEdit() {
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const { editCollection, sendAddRequest } = useAdminActions();
+  const { editCollection, sendAddRequest, sendDeleteRequest } =
+    useAdminActions();
 
   const handleEditClick = (card) => {
     setSelectedCard(card);
@@ -27,7 +28,6 @@ function AlbumEdit() {
     setSelectedCard(null);
   };
 
-  
   //CHANGING ADD ALBUM PHOTO w/ FILES
   // const handleThumbnailChange = (e) => {
   //   const file = e.target.files[0];
@@ -43,9 +43,9 @@ function AlbumEdit() {
     const selectedPhoto = e.target.value;
     if (selectedPhoto) {
       setThumbnailPreview(selectedPhoto);
+      setCoverURLAdd(selectedPhoto);
     }
   };
-
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -92,18 +92,19 @@ function AlbumEdit() {
 
   const handleConfirmDelete = () => {
     // @ts-ignore
-    if (deleteConfirmation === albumToDelete.title) {
+    if (deleteConfirmation === albumToDelete.name) {
       setIsDeletePopupOpen(false);
       setAlbumToDelete(null);
       setDeleteConfirmation('');
+      // @ts-ignore
+      sendDeleteRequest(albumToDelete.id);
+      window.location.reload();
     } else {
       alert('Album name does not match.');
     }
   };
 
   const { collections, homePhotos, allPhotos } = usePhotos();
-
-  console.log(allPhotos);
 
   const [titleAdd, setTitleAdd] = useState<string | null>(null);
   // TODO: add to one object
@@ -114,6 +115,7 @@ function AlbumEdit() {
   const [displayNameAdd, setNewDisplayNameAdd] = useState<string | null>(null);
   const [collectionRef, setCollectionRef] = useState<string | null>(null);
   const [path, setPath] = useState<string | null>(null);
+  const [coverURLAdd, setCoverURLAdd] = useState<string | null>('');
 
   const hanldeAddCollection = () => {
     // e.preventDefault();
@@ -126,6 +128,7 @@ function AlbumEdit() {
       display_name: displayNameAdd || titleAdd,
       ref: collectionRef,
       path: '/' + collectionRef,
+      cover: coverURLAdd,
     };
 
     sendAddRequest(newCollection);
@@ -224,13 +227,13 @@ function AlbumEdit() {
           </div>
         )}
         <select onChange={handleThumbnailChange}>
-        <option value=''>Select a photo</option>
-        {allPhotos.map((photo, index) => (
-          <option key={index} value={photo}>
-            {photo}
-          </option>
-        ))}
-      </select>
+          <option value=''>Select a photo</option>
+          {allPhotos.map((photo, index) => (
+            <option key={index} value={photo}>
+              {photo}
+            </option>
+          ))}
+        </select>
         {/* <input
           className='inputField'
           type='file'
@@ -238,7 +241,7 @@ function AlbumEdit() {
           onChange={handleThumbnailChange}
         /> */}
 
-        <h2 className='addAlbumHeaders'>Select Pictures for Album:</h2>
+        {/* <h2 className='addAlbumHeaders'>Select Pictures for Album:</h2>
         <div className='imagePreviewsSlider'>
           <div className='imagePreviews'>
             {previews.map((src, index) => (
@@ -258,13 +261,13 @@ function AlbumEdit() {
               </div>
             ))}
           </div>
-        </div>
-        <input
+        </div> */}
+        {/* <input
           className='inputField'
           type='file'
           multiple
           onChange={handleFileChange}
-        />
+        /> */}
 
         <h2 className='addAlbumHeaders'>Display Name:</h2>
         <input

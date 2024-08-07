@@ -18,6 +18,7 @@ import cors from 'cors';
 import { getPhotoViaId } from './source/controllers/DownloadImage';
 import axios from 'axios';
 import { handleEditCollection } from './source/controllers/EditCollectionController';
+import { handleDeleteCollection } from './source/controllers/deleteCollection';
 
 const PATH = '/graphql';
 export function mergeModulesSchemaWith(mergeIn: any) {
@@ -82,6 +83,19 @@ node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
 node.get('/', async (req, res) => {
   return res.redirect('/graphql');
+});
+
+node.post('/admin/delete/collection/:id', async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).send({ error: 'No id provided' });
+  }
+
+  try {
+    await handleDeleteCollection(req.params.id, res);
+    return res.status(200).send({ message: 'Collection deleted successfully' });
+  } catch (e) {
+    return res.status(400).send({ error: 'Error deleting collection' });
+  }
 });
 
 node.post('/admin/edit/collection', async (req, res) => {

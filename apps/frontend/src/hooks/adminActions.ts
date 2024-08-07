@@ -43,6 +43,25 @@ const sendAddRequest = async (data) => {
   }
 };
 
+const sendDeleteRequest = async (id) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/admin/delete/collection/${id}`, // use template literal to include the id
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (!response.ok) {
+      alert('Error adding collection.');
+    }
+  } catch (error) {
+    throw new error();
+  }
+};
+
 export function useAdminActions() {
   const editCollection = async (props: EditAction) => {
     const { id, data } = props;
@@ -57,21 +76,9 @@ export function useAdminActions() {
     }
   };
 
-  const addCollection = async (props: EditAction) => {
-    const { data } = props;
-
-    try {
-      await sendAddRequest({
-        // @ts-ignore
-        data,
-      });
-    } catch (e) {
-      console.log('error from admin actions');
-    }
-  };
-
   return {
     editCollection,
     sendAddRequest,
+    sendDeleteRequest,
   };
 }
