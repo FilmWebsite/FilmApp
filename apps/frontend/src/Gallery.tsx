@@ -61,13 +61,6 @@ const Gallery = () => {
   );
 };
 
-// type Collection = {
-//   name: string;
-//   cover: string;
-//   path: string;
-//   ref: 'NYC' | 'landmarks' | 'qt' | 'grenada';
-// };
-
 type ScrollProps = {
   collections: any[];
 };
@@ -134,18 +127,17 @@ const CollectionCard = ({ card }: { card: Collection }) => {
   return (
     // FIXME: Refer to frontend bug as some pics render
     <a href={`/collections${card.path}`} className='group'>
-      <div
-        // key={card.id}
-        className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'
-      >
-        <div
-          style={{
-            backgroundImage: `url(${card.cover_image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+      <div className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'>
+        {/* Use img tag for better debugging */}
+        <img
+          src={card.cover_image}
+          alt={card.card_name}
+          className='absolute inset-0 z-0 object-cover w-full h-full transition-transform duration-300 group-hover:scale-110'
+          onError={(e) => {
+            // Handle image load error (fallback)
+            e.currentTarget.src = '/path/to/fallback-image.jpg';
           }}
-          className='absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110'
-        ></div>
+        />
         <div className='absolute inset-0 z-10 grid place-content-center'>
           <p className='cardtitle'>{card.card_name}</p>
         </div>
