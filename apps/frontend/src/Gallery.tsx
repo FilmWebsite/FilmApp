@@ -62,13 +62,6 @@ const Gallery = () => {
   );
 };
 
-// type Collection = {
-//   name: string;
-//   cover: string;
-//   path: string;
-//   ref: 'NYC' | 'landmarks' | 'qt' | 'grenada';
-// };
-
 type ScrollProps = {
   collections: any[];
 };
@@ -139,6 +132,7 @@ const CollectionCard = ({ card }: { card: Collection }) => {
         className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'
       >
         <ImageC url={card.cover_image} />
+
         <div className='absolute inset-0 z-10 grid place-content-center'>
           <p className='cardtitle'>{card.card_name}</p>
         </div>
