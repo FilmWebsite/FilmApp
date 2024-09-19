@@ -30,7 +30,6 @@ type ColorType = {
 export type Collection = {
   id: CollectionType | string;
   ref: string;
-  path: string;
   display_name?: string;
   colors: ColorType;
   card_name: string;

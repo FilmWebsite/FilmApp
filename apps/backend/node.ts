@@ -10,6 +10,7 @@ import {
   getFilesandMeta,
   sortPhotosByCollectionId,
 } from './helpers';
+import { updatePicMetadata } from './helpers/getFilesandMeta';
 
 // 09/18 Update requires an firestore key. Break if not found
 checkFileExists().catch((error) => {
@@ -50,6 +51,36 @@ export async function createFilmServer() {
       console.error('Error fetching photos:', error);
       res.status(500).send('Error fetching photos');
     }
+  });
+
+  node.post('/collections/update', async (req, res) => {
+    if (!req.body.url) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+    if (!req.body.collection) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+
+    if (!req.body.oldMeta) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+
+    if (!req.body.current) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+
+    // if (!req.body.removeFromCurrent) {
+    //   return res.status(400).send({ error: 'No data provided' });
+    // }
+
+    return updatePicMetadata(
+      res,
+      req.body.url,
+      req.body.collection,
+      req.body.oldMeta,
+      req.body.current,
+      req.body.removeFromCurrent
+    );
   });
 
   node.get('/collections/:collection', async (req, res) => {

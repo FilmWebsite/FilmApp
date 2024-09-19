@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { CollectionType } from '@film/photos-iso';
 
 export function useCollection(collectionId: CollectionType) {
+  console.log(collectionId, 'id');
   const [collection, setCollection] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

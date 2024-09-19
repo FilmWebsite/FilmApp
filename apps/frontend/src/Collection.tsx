@@ -12,10 +12,9 @@ const Collection: React.FC = () => {
   const { collection } = useParams<{ collection: CollectionType }>();
 
   const { collection: data, loading, error } = useCollection(collection!);
+
   const [collectionData, setCollectionData] = useState<any>({});
   const [photos, setPhotos] = useState<any[]>([]);
-
-  console.log(photos);
 
   useEffect(() => {
     if (data && Object.keys(data).length !== 0) {
@@ -26,6 +25,8 @@ const Collection: React.FC = () => {
       setPhotos(data.photos);
     }
   }, [data]);
+
+  console.log(data, 'h');
 
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
@@ -49,7 +50,12 @@ const Collection: React.FC = () => {
           <p className='albumInfo'>{collectionData.desc || 'Coming soon...'}</p>
         </div>
         <div className='Image-container'>
-          <ImageRow slides={photos} handleImageClick={handleImageClick} />
+          <ImageRow
+            // @ts-ignore
+            current={data.collection.id}
+            slides={photos}
+            handleImageClick={handleImageClick}
+          />
         </div>
       </div>
     )
