@@ -5,7 +5,6 @@ import { db } from '../db';
 
 async function getCollectionByID(
   CollectionID: string
-  // @ts-ignore
 ): Promise<Collection | null> {
   try {
     const docRef = doc(db, 'collection', CollectionID); // Create a reference to the specific document
