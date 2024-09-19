@@ -126,7 +126,7 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
 const CollectionCard = ({ card }: { card: Collection }) => {
   return (
     // FIXME: Refer to frontend bug as some pics render
-    <a href={`/collections${card.ref}`} className='group'>
+    <a href={`/collections/${card.ref}`} className='group'>
       <div className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'>
         {/* Use img tag for better debugging */}
         <img
