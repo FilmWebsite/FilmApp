@@ -56,7 +56,6 @@ export async function createFilmServer() {
     const { collection } = req.params;
 
     try {
-      // Try to get cached data from Redis
       const cachedPhotos = await redisClient.get(cacheKey);
 
       if (cachedPhotos) {
