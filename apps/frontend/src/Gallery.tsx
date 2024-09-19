@@ -8,11 +8,15 @@ import { IoIosArrowRoundBack, IoIosArrowDown } from 'react-icons/io';
 import { IoCameraOutline } from 'react-icons/io5';
 
 import './css/ShuffleHero.css';
-import Collection, { usePhotos } from '@film/photos-web';
-import { Photo } from '@film/photos-iso';
+import { usePhotos } from '@film/photos-web';
+import { Collection, CollectionType, Photo } from '@film/photos-iso';
 
 const Gallery = () => {
-  const { collections, homePhotos } = usePhotos();
+  const { collections, homePhotos, photosLoading } = usePhotos();
+
+  if (photosLoading) return;
+
+  if (!collections) return;
 
   return (
     <div className='galleryBase'>
@@ -50,21 +54,22 @@ const Gallery = () => {
         </div>
       </div>
       <div className='containerHSC '>
+        {/* @ts-ignore */}
         <HorizontalScrollCarousel collections={collections} />
       </div>
     </div>
   );
 };
 
-type Collection = {
-  name: string;
-  cover: string;
-  path: string;
-  ref: 'NYC' | 'landmarks' | 'qt' | 'grenada';
-};
+// type Collection = {
+//   name: string;
+//   cover: string;
+//   path: string;
+//   ref: 'NYC' | 'landmarks' | 'qt' | 'grenada';
+// };
 
 type ScrollProps = {
-  collections: Collection[];
+  collections: any[];
 };
 
 const HorizontalScrollCarousel = (props: ScrollProps) => {
@@ -74,14 +79,13 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
   });
 
   const x = useTransform(scrollYProgress, [0, 1], ['1%', '-40%']);
-
   return (
     <div>
       <section ref={targetRef} className='relative h-[250vh] '>
         <div className='sticky top-0 flex h-screen items-center overflow-hidden'>
           <motion.div style={{ x }} className='flex gap-4 mt-[-80px]'>
             {props.collections.map((card) => {
-              return <Card card={card} />;
+              return <CollectionCard card={card} />;
             })}
           </motion.div>
         </div>
@@ -90,8 +94,9 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
   );
 };
 
-const Card = ({ card }: { card: Collection }) => {
+const CollectionCard = ({ card }: { card: Collection }) => {
   return (
+    // FIXME: Refer to frontend bug as some pics render
     <a href={`/collections${card.path}`} className='group'>
       <div
         // key={card.id}
@@ -99,14 +104,14 @@ const Card = ({ card }: { card: Collection }) => {
       >
         <div
           style={{
-            backgroundImage: `url(${card.cover})`,
+            backgroundImage: `url(${card.cover_image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
           className='absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110'
         ></div>
         <div className='absolute inset-0 z-10 grid place-content-center'>
-          <p className='cardtitle'>{card.name}</p>
+          <p className='cardtitle'>{card.card_name}</p>
         </div>
       </div>
     </a>
@@ -133,7 +138,7 @@ const shuffle = (array) => {
 };
 
 const generateSquares = (data) => {
-  console.log(data, 'from cop');
+  // console.log(data, 'from cop');
   return shuffle(data).map((sq) => (
     <motion.div
       key={sq.id}
@@ -141,7 +146,7 @@ const generateSquares = (data) => {
       transition={{ duration: 1.5, type: 'spring' }}
       className='a-full h-full'
       style={{
-        backgroundImage: `url(${sq.image_url})`,
+        backgroundImage: `url(${sq.url})`,
         backgroundSize: 'cover',
       }}
     ></motion.div>

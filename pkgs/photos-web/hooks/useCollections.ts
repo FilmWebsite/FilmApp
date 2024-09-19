@@ -1,10 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { CollectionType } from '@film/photos-iso';
 
-const validCollections = ['NYC', 'landmarks', 'qt', 'grenada'];
-
-export function useCollection(collection: CollectionType) {
-  const [data, setData] = useState({});
+export function useCollection(collectionId: CollectionType) {
+  const [collection, setCollection] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,12 +12,10 @@ export function useCollection(collection: CollectionType) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/collections/${collection}`,
+        `http://localhost:8080/collections/${collectionId}`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: { 'Content-Type': 'application/json' },
-          // Assuming you might need to send some data with the POST request:
-          // body: JSON.stringify({ /* your data object here */ }),
         }
       );
 
@@ -28,17 +24,17 @@ export function useCollection(collection: CollectionType) {
       }
 
       const result = await response.json();
-      setData(result);
+      setCollection(result);
     } catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  }, [collection]);
+  }, [collectionId]); // Dependency on collectionId only
 
   useEffect(() => {
     fetchCollectionDetails();
   }, [fetchCollectionDetails]);
 
-  return { data, loading, error };
+  return { collection, loading, error };
 }

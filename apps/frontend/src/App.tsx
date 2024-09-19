@@ -3,7 +3,7 @@ import AppRoutes from './AppRoutes';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
+  uri: 'http://localhost:8080/filmexpress',
   cache: new InMemoryCache(),
 });
 

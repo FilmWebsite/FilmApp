@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/albumSet.css';
-import ImageRow from './comps/ImageRow';
+import ImageRow from './comps/ImageRow.tsx';
 import { Header } from './comps/Header';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
@@ -9,18 +9,21 @@ import { CollectionType } from '@film/photos-iso';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const { collection } = useParams<{ collection: string }>();
+  const { collection } = useParams<{ collection: CollectionType }>();
 
-  // @ts-ignore
-  const { data, loading, error } = useCollection(collection);
+  const { collection: data, loading, error } = useCollection(collection!);
   const [collectionData, setCollectionData] = useState<any>({});
   const [photos, setPhotos] = useState<any[]>([]);
+
+  console.log(photos);
+
   useEffect(() => {
     if (data && Object.keys(data).length !== 0) {
       // @ts-ignore
-      setCollectionData(data.collection.collection);
+      setCollectionData(data.collection);
       // @ts-ignore
-      setPhotos(data.collection.photos);
+
+      setPhotos(data.photos);
     }
   }, [data]);
 
@@ -31,8 +34,6 @@ const Collection: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading collection.</p>;
 
-  console.log(collectionData);
-
   return (
     collectionData && (
       <div className='nyc-container'>
@@ -41,14 +42,13 @@ const Collection: React.FC = () => {
         </a>
         <div className='info-container'>
           <Header
-            album={collectionData.display_name || collectionData.name}
+            album={collectionData.display_name || collectionData.card_name}
             shadowColor={collectionData.colors?.shadowColor}
             textColor={collectionData.colors?.textColor}
           />
-          <p className='albumInfo'>{collectionData.desc}</p>
+          <p className='albumInfo'>{collectionData.desc || 'Coming soon...'}</p>
         </div>
         <div className='Image-container'>
-          {/* Pass fetched data instead of SliderData */}
           <ImageRow slides={photos} handleImageClick={handleImageClick} />
         </div>
       </div>
