@@ -10,6 +10,7 @@ import { IoCameraOutline } from 'react-icons/io5';
 import './css/ShuffleHero.css';
 import { usePhotos } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
+import { ImageC } from './ImageC.tsx';
 
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
@@ -65,7 +66,6 @@ type ScrollProps = {
   collections: any[];
 };
 
-
 const HorizontalScrollCarousel = (props: ScrollProps) => {
   const targetRef = useRef(null);
   const scrollContainerRef = useRef<HTMLElement>(null);
@@ -108,6 +108,7 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
       <section ref={targetRef} className='relative h-[250vh]'>
         <div className='sticky top-0 flex h-screen items-center overflow-hidden'>
           <motion.div
+            // @ts-ignore
             ref={scrollContainerRef}
             style={{ x }}
             className='flex gap-4 mt-[-80px]'
@@ -122,22 +123,16 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
   );
 };
 
-
 const CollectionCard = ({ card }: { card: Collection }) => {
   return (
     // FIXME: Refer to frontend bug as some pics render
-    <a href={`/collections${card.path}`} className='group'>
-      <div className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'>
-        {/* Use img tag for better debugging */}
-        <img
-          src={card.cover_image}
-          alt={card.card_name}
-          className='absolute inset-0 z-0 object-cover w-full h-full transition-transform duration-300 group-hover:scale-110'
-          onError={(e) => {
-            // Handle image load error (fallback)
-            e.currentTarget.src = '/path/to/fallback-image.jpg';
-          }}
-        />
+    <a href={`/collections/${card.ref}`} className='group'>
+      <div
+        // key={card.id}
+        className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'
+      >
+        <ImageC url={card.cover_image} />
+
         <div className='absolute inset-0 z-10 grid place-content-center'>
           <p className='cardtitle'>{card.card_name}</p>
         </div>
