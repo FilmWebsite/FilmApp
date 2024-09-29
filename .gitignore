@@ -48,3 +48,5 @@ yarn-error.*
 **/dockerdb
 
 **/.vol
+
+**/service-key.json

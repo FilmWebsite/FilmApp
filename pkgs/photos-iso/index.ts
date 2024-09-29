@@ -1,10 +1,25 @@
-export type CollectionType = 'nyc' | 'landmarks' | 'qt' | 'grenada' | 'howard';
+export type CollectionType =
+  | 'nyc'
+  | 'landmarks'
+  | 'qt'
+  | 'grenada'
+  | 'hu'
+  | 'nightout'
+  | 'jamaica'
+  | 'grad'
+  | 'crib'
+  | 'bbq'
+  | 'amy';
+
+export interface FirebasePhotoMetadata {
+  collection: string | string[];
+  firebaseStorageDownloadTokens: any;
+  home_display: boolean;
+}
 
 export type Photo = {
-  image_url: string;
-  id: string;
-  collection: CollectionType;
-  home_display: boolean;
+  url: string;
+  metadata: FirebasePhotoMetadata;
 };
 
 type ColorType = {
@@ -13,19 +28,13 @@ type ColorType = {
 };
 
 export type Collection = {
-  id: string;
-  name: string;
-  cover: string;
-  path: string;
-  ref: CollectionType;
-  display_name: string;
+  id: CollectionType | string;
+  ref: string;
+  display_name?: string;
   colors: ColorType;
+  card_name: string;
+  desc?: string;
+  cover_image: string;
 };
 
-export interface P {
-  getPhotos: Photo[];
-}
-
-export interface C {
-  getCollections: Collection[];
-}
+export type P = Photo[];
