@@ -2,8 +2,7 @@
   "private": true,
   "name": "@film/monorepo",
   "scripts": {
-    "dev": "pnpm migrate && turbo dev",
-    "migrate": "cd ./apps/migrations && pnpm migrate",
+    "dev": "turbo dev",
     "permission": "sudo chmod -R 755 ./engine"
   },
   "pnpm": {
