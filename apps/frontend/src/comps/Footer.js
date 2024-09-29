@@ -24,7 +24,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="socialLinks">
+      {/* <div className="socialLinks">
         <h1 className="footerHeaders">Socials</h1>
 
         <div className="socials">
@@ -50,7 +50,7 @@ function Footer() {
             <FaGithub size={25} className="social" id="GitHub" />
           </a>
         </div>
-      </div>
+      </div> */}
 
       <a href="/albums-login" className="copyright">
         Copyright © 2024 DDot Studio
