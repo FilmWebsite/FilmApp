@@ -100,7 +100,7 @@ export async function updatePicMetadata(
     });
 
     console.log('Metadata updated successfully:', updatedMetadata);
-    return updatedMetadata;
+    return { metadata: updatedMetadata };
   } catch (error) {
     console.error('Error updating metadata:', error);
   }

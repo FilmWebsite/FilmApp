@@ -38,11 +38,11 @@ export async function createFilmServer() {
   node.get('/photos', async (req, res) => {
     try {
       // Try to get cached data from Redis
-      const cachedPhotos = await redisClient.get(cacheKey);
+      // const cachedPhotos = await redisClient.get(cacheKey);
 
-      if (cachedPhotos) {
-        return res.json(JSON.parse(cachedPhotos));
-      }
+      // if (cachedPhotos) {
+      //   return res.json(JSON.parse(cachedPhotos));
+      // }
 
       const photos = await getFilesandMeta();
       redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
@@ -69,9 +69,9 @@ export async function createFilmServer() {
       return res.status(400).send({ error: 'No data provided' });
     }
 
-    // if (!req.body.removeFromCurrent) {
-    //   return res.status(400).send({ error: 'No data provided' });
-    // }
+    if (!req.body.removeFromCurrent) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
 
     return updatePicMetadata(
       res,

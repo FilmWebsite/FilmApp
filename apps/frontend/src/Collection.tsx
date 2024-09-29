@@ -6,6 +6,11 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';
 import { CollectionType } from '@film/photos-iso';
+import Loading from './comps/Loading.tsx';
+import {
+  useFooterDispatch,
+  toggleFooter,
+} from './providers/FooterProvider.tsx';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -15,6 +20,7 @@ const Collection: React.FC = () => {
 
   const [collectionData, setCollectionData] = useState<any>({});
   const [photos, setPhotos] = useState<any[]>([]);
+  const loadingDis = useFooterDispatch();
 
   useEffect(() => {
     if (data && Object.keys(data).length !== 0) {
@@ -26,13 +32,25 @@ const Collection: React.FC = () => {
     }
   }, [data]);
 
-  console.log(data, 'h');
-
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
 
-  if (loading) return <p>Loading...</p>;
+  useEffect(() => {
+    if (loading) {
+      toggleFooter(loadingDis);
+    }
+
+    return () => {
+      toggleFooter(loadingDis); // Hide footer
+    };
+  }, [loading, loadingDis]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  // TODO: make fallback for error
   if (error) return <p>Error loading collection.</p>;
 
   return (

@@ -11,11 +11,31 @@ import './css/ShuffleHero.css';
 import { usePhotos } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
 import { ImageC } from './ImageC.tsx';
+import Loading from './comps/Loading.tsx';
+import {
+  toggleFooter,
+  useFooterDispatch,
+  useFooterState,
+} from './providers/FooterProvider.tsx';
 
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
+  const loadingDis = useFooterDispatch();
+  const { showFooter } = useFooterState();
 
-  if (photosLoading) return;
+  useEffect(() => {
+    if (photosLoading) {
+      toggleFooter(loadingDis);
+    }
+
+    return () => {
+      toggleFooter(loadingDis); // Hide footer
+    };
+  }, [photosLoading, loadingDis]);
+
+  if (photosLoading) {
+    return <Loading />;
+  }
 
   if (!collections) return;
 
@@ -125,7 +145,6 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
 
 const CollectionCard = ({ card }: { card: Collection }) => {
   return (
-    // FIXME: Refer to frontend bug as some pics render
     <a href={`/collections/${card.ref}`} className='group'>
       <div className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'>
         {/* Use img tag for better debugging */}
@@ -166,19 +185,32 @@ const shuffle = (array) => {
 };
 
 const generateSquares = (data) => {
+  // useEffect(() => {
+  //   // Preload images
+  //   data.forEach((pic) => {
+  //     const img = new Image();
+  //     img.src = pic.url; // This will preload the image
+  //   });
+  // }, [pictures]);
+
   // console.log(data, 'from cop');
-  return shuffle(data).map((sq) => (
-    <motion.div
-      key={sq.id}
-      layout
-      transition={{ duration: 1.5, type: 'spring' }}
-      className='a-full h-full'
-      style={{
-        backgroundImage: `url(${sq.url})`,
-        backgroundSize: 'cover',
-      }}
-    ></motion.div>
-  ));
+  return shuffle(data).map((sq) => {
+    const img = new Image();
+    img.src = sq.url;
+
+    return (
+      <motion.div
+        key={sq.id}
+        layout
+        transition={{ duration: 1.5, type: 'spring' }}
+        className='a-full h-full'
+        style={{
+          backgroundImage: `url(${img.src})`,
+          backgroundSize: 'cover',
+        }}
+      ></motion.div>
+    );
+  });
 };
 
 type SuffleProps = {
