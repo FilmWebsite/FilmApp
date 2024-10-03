@@ -7,10 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';
 import { CollectionType } from '@film/photos-iso';
 import Loading from './comps/Loading.tsx';
-import {
-  useFooterDispatch,
-  toggleFooter,
-} from './providers/FooterProvider.tsx';
+import { useFooterDispatch } from './providers/FooterProvider.tsx';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -22,29 +19,29 @@ const Collection: React.FC = () => {
   const [photos, setPhotos] = useState<any[]>([]);
   const loadingDis = useFooterDispatch();
 
-  useEffect(() => {
-    if (data && Object.keys(data).length !== 0) {
-      // @ts-ignore
-      setCollectionData(data.collection);
-      // @ts-ignore
+  // useEffect(() => {
+  //   if (data && Object.keys(data).length !== 0) {
+  //     // @ts-ignore
+  //     setCollectionData(data.collection);
+  //     // @ts-ignore
 
-      setPhotos(data.photos);
-    }
-  }, [data]);
+  //     setPhotos(data.photos);
+  //   }
+  // }, [data]);
 
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image);
-  };
+  // const handleImageClick = (image: string) => {
+  //   setSelectedImage(image);
+  // };
 
-  useEffect(() => {
-    if (loading) {
-      toggleFooter(loadingDis);
-    }
+  // useEffect(() => {
+  //   if (loading) {
+  //     toggleFooter(loadingDis);
+  //   }
 
-    return () => {
-      toggleFooter(loadingDis); // Hide footer
-    };
-  }, [loading, loadingDis]);
+  //   return () => {
+  //     toggleFooter(loadingDis); // Hide footer
+  //   };
+  // }, [loading, loadingDis]);
 
   if (loading) {
     return <Loading />;

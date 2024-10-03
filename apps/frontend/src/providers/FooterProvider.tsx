@@ -17,7 +17,6 @@ const initialState: FooterState = {
 
 // Create the context for FooterState and FooterDispatch
 const FooterStateContext = createContext<FooterState>(initialState);
-
 const FooterDispatchContext = createContext<React.Dispatch<Action> | undefined>(
   undefined
 );
@@ -35,11 +34,13 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Reducer function to toggle showFooter
+// Reducer function to handle separate 'on_footer' and 'off_footer' actions
 function reducer(state: FooterState, action: Action): FooterState {
   switch (action.type) {
-    case 'toggle_footer':
-      return { ...state, showFooter: !state.showFooter };
+    case 'on_footer':
+      return { ...state, showFooter: true };
+    case 'off_footer':
+      return { ...state, showFooter: false };
     default:
       return state;
   }
@@ -63,13 +64,28 @@ function useFooterDispatch(): React.Dispatch<Action> {
   return context;
 }
 
-// Action to toggle the footer visibility
-async function toggleFooter(dispatch: React.Dispatch<Action>) {
+// Action to turn the footer on
+async function onFooter(dispatch: React.Dispatch<Action>) {
   try {
-    dispatch({ type: 'toggle_footer' });
+    dispatch({ type: 'on_footer' });
   } catch (error) {
-    throw new Error('Failed to toggle footer visibility');
+    throw new Error('Failed to turn on footer');
   }
 }
 
-export { FooterProvider, useFooterState, useFooterDispatch, toggleFooter };
+// Action to turn the footer off
+async function offFooter(dispatch: React.Dispatch<Action>) {
+  try {
+    dispatch({ type: 'off_footer' });
+  } catch (error) {
+    throw new Error('Failed to turn off footer');
+  }
+}
+
+export {
+  FooterProvider,
+  useFooterState,
+  useFooterDispatch,
+  onFooter,
+  offFooter,
+};

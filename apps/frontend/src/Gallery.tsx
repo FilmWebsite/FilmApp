@@ -13,31 +13,33 @@ import { Collection, CollectionType, Photo } from '@film/photos-iso';
 import { ImageC } from './ImageC.tsx';
 import Loading from './comps/Loading.tsx';
 import {
-  toggleFooter,
+  onFooter,
+  offFooter,
   useFooterDispatch,
   useFooterState,
 } from './providers/FooterProvider.tsx';
 
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
-  const loadingDis = useFooterDispatch();
+  const footerDispatch = useFooterDispatch();
   const { showFooter } = useFooterState();
 
   useEffect(() => {
-    if (photosLoading) {
-      toggleFooter(loadingDis);
+    if (photosLoading || !collections) {
+      offFooter(footerDispatch); // Hide the footer if loading or no collections
+    } else {
+      onFooter(footerDispatch); // Show the footer after data has loaded
     }
 
+    // Clean up on unmount: ensure footer visibility is reset
     return () => {
-      toggleFooter(loadingDis); // Hide footer
+      onFooter(footerDispatch);
     };
-  }, [photosLoading, loadingDis]);
+  }, [photosLoading, collections, footerDispatch]);
 
-  if (photosLoading) {
+  if (photosLoading || !collections) {
     return <Loading />;
   }
-
-  if (!collections) return;
 
   return (
     <div className='galleryBase'>
@@ -218,22 +220,41 @@ type SuffleProps = {
 };
 
 const ShuffleGrid = (props: SuffleProps) => {
-  const timeoutRef = useRef(0);
-  const [squares, setSquares] = useState([]);
+  const timeoutRef = useRef<number | null>(null);
+  const [squares, setSquares] = useState(props.squares);
 
   useEffect(() => {
     shuffleSquares();
-    return () => clearTimeout(timeoutRef.current);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [props.squares]);
 
   const shuffleSquares = () => {
-    setSquares(generateSquares(props.squares));
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
+    const shuffledSquares = [...props.squares];
+    shuffle(shuffledSquares);
+    setSquares(shuffledSquares);
+
+    timeoutRef.current = window.setTimeout(shuffleSquares, 3000);
   };
 
   return (
     <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
-      {squares}
+      {squares.map((square) => (
+        <motion.div
+          key={square.metadata.firebaseStorageDownloadTokens} // must always be unique for shuffle operations
+          layout
+          transition={{ duration: 1.5, type: 'spring' }}
+          className='w-full h-full'
+          style={{
+            backgroundImage: `url(${square.url})`,
+            backgroundSize: 'cover',
+          }}
+        />
+      ))}
     </div>
   );
 };

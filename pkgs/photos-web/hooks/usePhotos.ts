@@ -57,8 +57,6 @@ export function usePhotos() {
     c();
   }, []);
 
-  console.log(c, 'from p');
-
   const filterHomeDisplay = useCallback(() => {
     if (photos && !photosLoading) {
       return photos
