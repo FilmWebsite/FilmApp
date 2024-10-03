@@ -22,7 +22,6 @@ import {
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
   const footerDispatch = useFooterDispatch();
-  const { showFooter } = useFooterState();
 
   useEffect(() => {
     if (photosLoading || !collections) {

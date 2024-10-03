@@ -7,48 +7,53 @@ import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';
 import { CollectionType } from '@film/photos-iso';
 import Loading from './comps/Loading.tsx';
-import { useFooterDispatch } from './providers/FooterProvider.tsx';
+import {
+  onFooter,
+  offFooter,
+  useFooterDispatch,
+  useFooterState,
+} from './providers/FooterProvider.tsx';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { collection } = useParams<{ collection: CollectionType }>();
+  const footerDispatch = useFooterDispatch();
 
   const { collection: data, loading, error } = useCollection(collection!);
 
   const [collectionData, setCollectionData] = useState<any>({});
   const [photos, setPhotos] = useState<any[]>([]);
-  const loadingDis = useFooterDispatch();
 
-  // useEffect(() => {
-  //   if (data && Object.keys(data).length !== 0) {
-  //     // @ts-ignore
-  //     setCollectionData(data.collection);
-  //     // @ts-ignore
+  useEffect(() => {
+    if (data && Object.keys(data).length !== 0) {
+      // @ts-ignore
+      setCollectionData(data.collection);
+      // @ts-ignore
 
-  //     setPhotos(data.photos);
-  //   }
-  // }, [data]);
+      setPhotos(data.photos);
+    }
+  }, [data]);
 
-  // const handleImageClick = (image: string) => {
-  //   setSelectedImage(image);
-  // };
+  useEffect(() => {
+    if (loading) {
+      offFooter(footerDispatch); // Hide the footer if loading or no collections
+    } else {
+      onFooter(footerDispatch); // Show the footer after data has loaded
+    }
 
-  // useEffect(() => {
-  //   if (loading) {
-  //     toggleFooter(loadingDis);
-  //   }
+    // Clean up on unmount: ensure footer visibility is reset
+    return () => {
+      onFooter(footerDispatch);
+    };
+  }, [loading, footerDispatch]);
 
-  //   return () => {
-  //     toggleFooter(loadingDis); // Hide footer
-  //   };
-  // }, [loading, loadingDis]);
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+  };
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  // TODO: make fallback for error
-  if (error) return <p>Error loading collection.</p>;
+  if (loading) return <Loading />;
+  // Create fallback
+  if (error) return <p>Error</p>;
 
   return (
     collectionData && (
