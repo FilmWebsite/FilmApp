@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Footer from './comps/Footer';
+import Footer from './comps/Footer.js';
 import Gallery from './Gallery.tsx';
 import About from './About';
 import RequestPhotos from './RequestPhotos';

@@ -12,7 +12,7 @@ interface Action {
 
 // Initial state
 const initialState: FooterState = {
-  showFooter: true,
+  showFooter: false,
 };
 
 // Create the context for FooterState and FooterDispatch
