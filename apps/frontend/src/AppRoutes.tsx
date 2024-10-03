@@ -2,22 +2,18 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Footer from './comps/Footer.js';
 import Gallery from './Gallery.tsx';
-import About from './About';
-import RequestPhotos from './RequestPhotos';
+import About from './About.js';
+import RequestPhotos from './RequestPhotos.js';
 import AlbumEditLogin from './AlbumEditLogin.js';
 import AlbumEdit from './AlbumEdit.js';
 import { Collection } from './Collection.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.js';
-import {
-  useFooterState,
-  toggleFooter,
-  offFooter,
-} from './providers/FooterProvider.tsx';
+import { offFooter, useFooterDispatch } from './providers/FooterProvider.tsx';
 
 function AppRoutes() {
   const location = useLocation();
-  const { showFooter } = useFooterState(); // Manage footer visibility globally
+  const footerDispach = useFooterDispatch(); // Manage footer visibility globally
 
   useEffect(() => {
     // Always hide the footer on specific pages where you don't want it to appear
@@ -26,7 +22,7 @@ function AppRoutes() {
         location.pathname
       )
     ) {
-      offFooter(false); // Hides the footer on these routes
+      offFooter(footerDispach); // Hides the footer on these routes
     }
   }, [location.pathname]);
 
@@ -42,8 +38,7 @@ function AppRoutes() {
         <Route path='/downloads' element={<Downloads />} />
         <Route path='/dedication' element={<Dedication />} />
       </Routes>
-      {/* Footer visibility based on global footer state */}
-      {showFooter && <Footer />}
+      <Footer />
     </>
   );
 }
