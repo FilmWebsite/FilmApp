@@ -1,6 +1,5 @@
 import React from 'react';
-import AppRoutes from './AppRoutes';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import AppRoutes from './AppRoutes.tsx';
 import { FooterProvider } from './providers/FooterProvider.tsx';
 
 function App() {
