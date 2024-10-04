@@ -6,10 +6,18 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';
 import { CollectionType } from '@film/photos-iso';
+import Loading from './comps/Loading.tsx';
+import {
+  onFooter,
+  offFooter,
+  useFooterDispatch,
+  useFooterState,
+} from './providers/FooterProvider.tsx';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { collection } = useParams<{ collection: CollectionType }>();
+  const footerDispatch = useFooterDispatch();
 
   const { collection: data, loading, error } = useCollection(collection!);
 
@@ -26,14 +34,26 @@ const Collection: React.FC = () => {
     }
   }, [data]);
 
-  console.log(data, 'h');
+  useEffect(() => {
+    if (loading) {
+      offFooter(footerDispatch); // Hide the footer if loading or no collections
+    } else {
+      onFooter(footerDispatch); // Show the footer after data has loaded
+    }
+
+    // Clean up on unmount: ensure footer visibility is reset
+    return () => {
+      onFooter(footerDispatch);
+    };
+  }, [loading, footerDispatch]);
 
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading collection.</p>;
+  if (loading) return <Loading />;
+  // Create fallback
+  if (error) return <p>Error</p>;
 
   return (
     collectionData && (

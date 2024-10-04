@@ -1,24 +1,27 @@
-import React from "react";
-import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
-import { IoCameraOutline } from "react-icons/io5";
-import "../css/Footer.css";
+import React from 'react';
+import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { IoCameraOutline } from 'react-icons/io5';
+import '../css/Footer.css';
+import { useFooterState } from '../providers/FooterProvider.tsx';
 
 function Footer() {
+  const { showFooter } = useFooterState(); // Manage footer visibility globally
+
   return (
-    <div className="footer">
-      <div className="usefulLinks">
-        <h1 className="footerHeaders">Useful Links</h1>
-        <div className="links">
-          <a href="/" className="footerLink">
+    <div className={showFooter ? 'footer' : 'footer-none'}>
+      <div className='usefulLinks'>
+        <h1 className='footerHeaders'>Useful Links</h1>
+        <div className='links'>
+          <a href='/' className='footerLink'>
             Home
           </a>
-          <a href="/about" className="footerLink">
+          <a href='/about' className='footerLink'>
             About
           </a>
-          <a href="/downloads" className="footerLink">
+          <a href='/downloads' className='footerLink'>
             Downloads
           </a>
-          <a href="/dedication" className="footerLink">
+          <a href='/dedication' className='footerLink'>
             Dedication
           </a>
         </div>
@@ -52,7 +55,7 @@ function Footer() {
         </div>
       </div> */}
 
-      <a href="/albums-login" className="copyright">
+      <a href='/albums-login' className='copyright'>
         Copyright © 2024 DDot Studio
       </a>
     </div>
