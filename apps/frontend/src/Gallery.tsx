@@ -11,13 +11,34 @@ import './css/ShuffleHero.css';
 import { usePhotos } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
 import { ImageC } from './ImageC.tsx';
+import Loading from './comps/Loading.tsx';
+import {
+  onFooter,
+  offFooter,
+  useFooterDispatch,
+  useFooterState,
+} from './providers/FooterProvider.tsx';
 
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
+  const footerDispatch = useFooterDispatch();
 
-  if (photosLoading) return;
+  useEffect(() => {
+    if (photosLoading || !collections) {
+      offFooter(footerDispatch); // Hide the footer if loading or no collections
+    } else {
+      onFooter(footerDispatch); // Show the footer after data has loaded
+    }
 
-  if (!collections) return;
+    // Clean up on unmount: ensure footer visibility is reset
+    return () => {
+      onFooter(footerDispatch);
+    };
+  }, [photosLoading, collections, footerDispatch]);
+
+  if (photosLoading || !collections) {
+    return <Loading />;
+  }
 
   return (
     <div className='galleryBase'>
@@ -125,7 +146,6 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
 
 const CollectionCard = ({ card }: { card: Collection }) => {
   return (
-    // FIXME: Refer to frontend bug as some pics render
     <a href={`/collections/${card.ref}`} className='group'>
       <div className='group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200'>
         {/* Use img tag for better debugging */}
@@ -166,19 +186,32 @@ const shuffle = (array) => {
 };
 
 const generateSquares = (data) => {
+  // useEffect(() => {
+  //   // Preload images
+  //   data.forEach((pic) => {
+  //     const img = new Image();
+  //     img.src = pic.url; // This will preload the image
+  //   });
+  // }, [pictures]);
+
   // console.log(data, 'from cop');
-  return shuffle(data).map((sq) => (
-    <motion.div
-      key={sq.id}
-      layout
-      transition={{ duration: 1.5, type: 'spring' }}
-      className='a-full h-full'
-      style={{
-        backgroundImage: `url(${sq.url})`,
-        backgroundSize: 'cover',
-      }}
-    ></motion.div>
-  ));
+  return shuffle(data).map((sq) => {
+    const img = new Image();
+    img.src = sq.url;
+
+    return (
+      <motion.div
+        key={sq.id}
+        layout
+        transition={{ duration: 1.5, type: 'spring' }}
+        className='a-full h-full'
+        style={{
+          backgroundImage: `url(${img.src})`,
+          backgroundSize: 'cover',
+        }}
+      ></motion.div>
+    );
+  });
 };
 
 type SuffleProps = {
@@ -186,22 +219,41 @@ type SuffleProps = {
 };
 
 const ShuffleGrid = (props: SuffleProps) => {
-  const timeoutRef = useRef(0);
-  const [squares, setSquares] = useState([]);
+  const timeoutRef = useRef<number | null>(null);
+  const [squares, setSquares] = useState(props.squares);
 
   useEffect(() => {
     shuffleSquares();
-    return () => clearTimeout(timeoutRef.current);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [props.squares]);
 
   const shuffleSquares = () => {
-    setSquares(generateSquares(props.squares));
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
+    const shuffledSquares = [...props.squares];
+    shuffle(shuffledSquares);
+    setSquares(shuffledSquares);
+
+    timeoutRef.current = window.setTimeout(shuffleSquares, 3000);
   };
 
   return (
     <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
-      {squares}
+      {squares.map((square) => (
+        <motion.div
+          key={square.metadata.firebaseStorageDownloadTokens} // must always be unique for shuffle operations
+          layout
+          transition={{ duration: 1.5, type: 'spring' }}
+          className='w-full h-full'
+          style={{
+            backgroundImage: `url(${square.url})`,
+            backgroundSize: 'cover',
+          }}
+        />
+      ))}
     </div>
   );
 };

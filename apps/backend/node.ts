@@ -69,9 +69,9 @@ export async function createFilmServer() {
       return res.status(400).send({ error: 'No data provided' });
     }
 
-    // if (!req.body.removeFromCurrent) {
-    //   return res.status(400).send({ error: 'No data provided' });
-    // }
+    if (!req.body.removeFromCurrent) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
 
     return updatePicMetadata(
       res,
