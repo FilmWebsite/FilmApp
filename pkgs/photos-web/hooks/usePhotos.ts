@@ -91,5 +91,6 @@ export function usePhotos() {
     getPhotosbyCID: getPhotosByCollectionId,
     collections: c,
     homePhotos: filterHomeDisplay(),
+    allPhotos: photos,
   };
 }

@@ -9,7 +9,8 @@ export type CollectionType =
   | 'grad'
   | 'crib'
   | 'bbq'
-  | 'amy';
+  | 'amy'
+  | 'all';
 
 export interface FirebasePhotoMetadata {
   collection: string | string[];
