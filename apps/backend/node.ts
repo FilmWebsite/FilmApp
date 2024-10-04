@@ -106,13 +106,10 @@ export async function createFilmServer() {
     }
   });
 
-  node.post('/download/', async (req, res) => {
-    if (!req.body.url) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
-
+  node.get('/download/:image_id/', async (req, res) => {
+    const { image_id } = req.params;
     try {
-      const imageUrl = req.body.url;
+      const imageUrl = await getPhotoViaId(image_id);
       if (!imageUrl) {
         return res.status(404).send({ message: 'Image not found' });
       }

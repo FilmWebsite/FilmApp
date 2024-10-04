@@ -5,9 +5,11 @@ import { CollectionType, Photo } from '@film/photos-iso';
 import ImageDownloader from './comps/Donwloader.tsx';
 
 function Downloads() {
-  const { collections, getPhotosbyCID, allPhotos } = usePhotos();
+  const { collections, getPhotosbyCID } = usePhotos();
 
-  const [collectionId, setCollectionId] = useState<CollectionType>('all');
+  // local type
+  type CollectionId = CollectionType | 'all';
+  const [collectionId, setCollectionId] = useState<CollectionId>('all');
   const photos = getPhotosbyCID({ id: collectionId });
 
   const handleAlbumSelect = (albumName) => {
@@ -21,8 +23,6 @@ function Downloads() {
     setSelectedPhoto(pic);
   };
 
-  if (!collections) return;
-
   return (
     <div className='downloadsPage'>
       <div className='leftSide'>
@@ -35,7 +35,7 @@ function Downloads() {
         <div className='box'>
           {selectedPhoto && (
             <div
-              style={{ backgroundImage: `url(${selectedPhoto.url})` }}
+              style={{ backgroundImage: `url(${selectedPhoto.image_url})` }}
               className='selectedImage'
             ></div>
           )}
@@ -43,33 +43,18 @@ function Downloads() {
         <ImageDownloader selectedPhoto={selectedPhoto} />
       </div>
       <div className='rightSide'>
-        {collectionId != 'all' &&
-          photos.map((pic) => (
+        {photos.map((pic) => (
+          <div
+            key={pic.id}
+            className='picContainer'
+            onClick={() => handlePhotoClick(pic)}
+          >
             <div
-              // key={pic.id}
-              className='picContainer'
-              onClick={() => handlePhotoClick(pic)}
-            >
-              <div
-                style={{ backgroundImage: `url(${pic.url})` }}
-                className='picImage'
-              ></div>
-            </div>
-          ))}
-
-        {collectionId == 'all' &&
-          allPhotos.map((pic) => (
-            <div
-              // key={pic.id}
-              className='picContainer'
-              onClick={() => handlePhotoClick(pic)}
-            >
-              <div
-                style={{ backgroundImage: `url(${pic.url})` }}
-                className='picImage'
-              ></div>
-            </div>
-          ))}
+              style={{ backgroundImage: `url(${pic.image_url})` }}
+              className='picImage'
+            ></div>
+          </div>
+        ))}
       </div>
       <div className='dropdown'>
         <select
@@ -81,7 +66,7 @@ function Downloads() {
           <option value='all'>All Albums</option>
           {collections.map((album) => (
             <option key={album.id} value={album.ref}>
-              {album.display_name || album.card_name}
+              {album.name}
             </option>
           ))}
         </select>

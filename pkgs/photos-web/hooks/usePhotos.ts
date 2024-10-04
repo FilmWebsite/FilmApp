@@ -73,9 +73,6 @@ export function usePhotos() {
 
       if (photos && !photosLoading) {
         {
-          if (id === 'all') {
-            return photos;
-          }
           // @ts-ignore
           return photos.filter(
             (photo: Photo) =>
@@ -94,6 +91,5 @@ export function usePhotos() {
     getPhotosbyCID: getPhotosByCollectionId,
     collections: c,
     homePhotos: filterHomeDisplay(),
-    allPhotos: photos,
   };
 }

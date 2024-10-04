@@ -4,18 +4,10 @@ import '../css/Downloads.css';
 const ImageDownloader = ({ selectedPhoto }) => {
   const [loading, setLoading] = useState(false);
 
-  const downloadImage = async (url: string) => {
+  const downloadImage = async (imageId: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/download/`, {
-        method: 'POST', // Changed to POST
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          url: url,
-        }), // Sending body data as JSON
-      });
+      const response = await fetch(`http://localhost:8080/download/${imageId}`);
       const blob = await response.blob();
       const blobURL = URL.createObjectURL(blob);
 
@@ -37,12 +29,12 @@ const ImageDownloader = ({ selectedPhoto }) => {
 
   return (
     <button
-      onClick={() => downloadImage(selectedPhoto.url)}
+      onClick={() => downloadImage(selectedPhoto?.id)}
       disabled={loading}
       className={`download-button ${loading ? 'loading' : 'not-loading'}`}
     >
       {loading ? 'Downloading...' : 'Download Image'}
-    </button>
+    </button> 
   );
 };
 

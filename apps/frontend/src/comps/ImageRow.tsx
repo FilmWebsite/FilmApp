@@ -94,7 +94,6 @@ function ImageRow({ slides, current }: { slides: Photo[]; current: string }) {
     <div className='image-row'>
       {slides.map((slide, index) => (
         <img
-          loading='eager'
           key={index}
           src={slide.url}
           className={`thumbnail ${index === 0 ? 'first-thumbnail' : ''} ${
