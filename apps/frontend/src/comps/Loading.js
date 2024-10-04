@@ -1,7 +1,6 @@
 import React from 'react';
 import '../css/Loading.css';
 import { ThreeDots, InfinitySpin } from 'react-loader-spinner';
-//
 
 function Loading() {
   return (
