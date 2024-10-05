@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRoutes from './AppRoutes.tsx';
+import FilmRoutes from './Routes.tsx';
 import { FooterProvider } from './providers/FooterProvider.tsx';
 
 // Import your publishable key
@@ -20,7 +20,7 @@ console.log(PUBLISHABLE_KEY);
 function App() {
   return (
     <FooterProvider>
-      <AppRoutes />
+      <FilmRoutes />
     </FooterProvider>
   );
 }

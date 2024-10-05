@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/ImageRow.css';
 import { FirebasePhotoMetadata, Photo } from '@film/photos-iso';
+import { Skeleton } from '../shadui/Skeleton.tsx';
 
 const callBackendRoute = async (
   collectionName: string,
@@ -90,25 +91,49 @@ function ImageRow({ slides, current }: { slides: Photo[]; current: string }) {
     setIsModalOpen(false);
   };
 
+  const totalImages = slides.length;
+
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
+
+  // Handle the load event for each image
+  const handleImageLoad = () => {
+    setLoadedImagesCount((prevCount) => prevCount + 1);
+  };
+
+  useEffect(() => {
+    // Check if all images have finished loading
+    if (totalImages != 0 && loadedImagesCount === totalImages) {
+      setAllImagesLoaded(true);
+    }
+  }, [loadedImagesCount, totalImages]);
+
+  console.log(allImagesLoaded, 'didload');
+
   return (
     <div className='image-row'>
-      {slides.map((slide, index) => (
-        <img
-          key={index}
-          src={slide.url}
-          className={`thumbnail ${index === 0 ? 'first-thumbnail' : ''} ${
-            index === slides.length - 1 ? 'last-thumbnail' : ''
-          }`}
-          onClick={() => openModal(index, slide.url)}
-        />
-      ))}
-
+      {slides.map((slide, index) => {
+        return (
+          <>
+            {!allImagesLoaded && <Skeleton className='h-[300px] w-[300px]' />}
+            <img
+              key={index}
+              src={slide.url}
+              className={`thumbnail ${index === 0 ? 'first-thumbnail' : ''} ${
+                index === slides.length - 1 ? 'last-thumbnail' : ''
+              }`}
+              onClick={() => openModal(index, slide.url)}
+              onLoad={handleImageLoad}
+            />
+          </>
+        );
+      })}
+      {/* Modal for changing collection */}
       {isModalOpen && (
         <div className='modal'>
           <span className='close' onClick={closeModal}>
             &times;
           </span>
-
           <div className='popUpPic'>
             {pickedPic && (
               <>
@@ -118,7 +143,7 @@ function ImageRow({ slides, current }: { slides: Photo[]; current: string }) {
                     aspectRatio === 'landscape' ? 'landscape' : 'portrait'
                   }`}
                 />
-                <div className=''>
+                <div>
                   <div className='text-white'>Change Collection</div>
                   <form className='flex-col' onSubmit={handleSubmit}>
                     <input
@@ -126,7 +151,6 @@ function ImageRow({ slides, current }: { slides: Photo[]; current: string }) {
                       placeholder='Enter text here'
                       className='border rounded p-2 mb-4'
                     />
-
                     <div className='flex items-center'>
                       <input
                         type='checkbox'
@@ -137,7 +161,6 @@ function ImageRow({ slides, current }: { slides: Photo[]; current: string }) {
                         Check to keep in this collection
                       </p>
                     </div>
-
                     <button
                       className='bg-white rounded-lg text-center mt-4 p-2'
                       type='submit'

@@ -1,38 +1,46 @@
 .image-row {
-    display: flex;
-    flex-direction: row;
-    gap: 10px; /* Adjust the gap between thumbnails */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    white-space: nowrap; /* Prevent line breaks */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-  }
-  
-  .image-row::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-  }
-  
-  .thumbnail {
-    height: 275px; 
-    width: auto;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
+  display: flex;
+  flex-wrap: nowrap; /* Ensures images wrap properly */
 
-  .thumbnail:hover{
-    transform: scale(0.93);
-  }
-  
-  .first-thumbnail {
-    margin-left: 20px; /* Adjust the left margin for the first image */
-  }
-  
-  .last-thumbnail {
-    margin-right: 20px; /* Adjust the right margin for the last image */
-  }
-  
+  flex-direction: row;
+  gap: 10px; /* Adjust the gap between thumbnails */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
 
-  /* Modal */
+.image-row-loading {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Adjust the gap between thumbnails */
+
+  white-space: nowrap; /* Prevent line breaks */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+
+.image-row::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.thumbnail {
+  height: 275px;
+  width: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.thumbnail:hover {
+  transform: scale(0.93);
+}
+
+.first-thumbnail {
+  margin-left: 20px; /* Adjust the left margin for the first image */
+}
+
+.last-thumbnail {
+  margin-right: 20px; /* Adjust the right margin for the last image */
+}
+
+/* Modal */
 .modal {
   display: flex;
   align-items: center;
@@ -74,8 +82,6 @@
   padding: 20px; /* Add padding around the image */
 }
 
-
-
 .selectedPicture {
   max-width: 100%;
   max-height: 100%;
@@ -91,7 +97,7 @@
   max-height: 89vh;
 }
 
-.popUpPic{
+.popUpPic {
   display: flex;
   width: 60%;
   height: 90%;

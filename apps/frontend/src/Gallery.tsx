@@ -18,10 +18,12 @@ import {
   useFooterDispatch,
   useFooterState,
 } from './providers/FooterProvider.tsx';
+import { Skeleton } from './shadui/Skeleton.tsx';
 
 const Gallery = () => {
   const { collections, homePhotos, photosLoading } = usePhotos();
   const footerDispatch = useFooterDispatch();
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false); // Track if all images are loaded
 
   useEffect(() => {
     if (photosLoading || !collections) {
@@ -60,6 +62,10 @@ const Gallery = () => {
               <IoCameraOutline className='rotatedIcon' />
               <p className='title'>ddot studio</p>
             </div>
+            {/* <p className='text-left md:text-lg text-slate-300 my-4 md:my-6'>
+              hello
+            </p> */}
+
             <p className='text-left md:text-lg text-slate-300 my-4 md:my-6'>
               Experience the beauty of moments frozen in time, from special
               occasions to everyday adventures. This website is a nostalgic
@@ -67,7 +73,11 @@ const Gallery = () => {
               emotions, and unique perspectives captured in each frame!
             </p>
           </div>
-          <ShuffleGrid squares={homePhotos} />
+
+          <ShuffleGrid
+            squares={homePhotos}
+            setAllImagesLoaded={setAllImagesLoaded}
+          />
         </section>
 
         <div className='arrowContainer'>
@@ -168,22 +178,22 @@ const CollectionCard = ({ card }: { card: Collection }) => {
 
 export default Gallery;
 
-const shuffle = (array) => {
-  let currentIndex = array.length,
-    randomIndex;
+// const shuffle = (array) => {
+//   let currentIndex = array.length,
+//     randomIndex;
 
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+//   while (currentIndex != 0) {
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex--;
 
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
+//     [array[currentIndex], array[randomIndex]] = [
+//       array[randomIndex],
+//       array[currentIndex],
+//     ];
+//   }
 
-  return array;
-};
+//   return array;
+// };
 
 const generateSquares = (data) => {
   // useEffect(() => {
@@ -216,11 +226,30 @@ const generateSquares = (data) => {
 
 type SuffleProps = {
   squares: Photo[];
+  setAllImagesLoaded: (loaded: boolean) => void; // Add prop to notify when images are loaded
+};
+
+const shuffle = (array) => {
+  let currentIndex = array.length,
+    randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
 };
 
 const ShuffleGrid = (props: SuffleProps) => {
   const timeoutRef = useRef<number | null>(null);
   const [squares, setSquares] = useState(props.squares);
+  const [loadedImages, setLoadedImages] = useState(0); // Count loaded images
 
   useEffect(() => {
     shuffleSquares();
@@ -240,19 +269,36 @@ const ShuffleGrid = (props: SuffleProps) => {
     timeoutRef.current = window.setTimeout(shuffleSquares, 3000);
   };
 
+  const handleImageLoad = () => {
+    setLoadedImages((prev) => prev + 1); // Increment the loaded images count
+  };
+
+  // Check if all images are loaded
+  const allImagesLoaded = loadedImages === squares.length;
+
   return (
     <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
-      {squares.map((square) => (
+      {squares.map((square, index) => (
         <motion.div
-          key={square.metadata.firebaseStorageDownloadTokens} // must always be unique for shuffle operations
+          key={square.metadata.firebaseStorageDownloadTokens || index} // Ensure unique key
           layout
           transition={{ duration: 1.5, type: 'spring' }}
           className='w-full h-full'
           style={{
-            backgroundImage: `url(${square.url})`,
+            backgroundImage: allImagesLoaded ? `url(${square.url})` : 'none', // Show background image if loaded
             backgroundSize: 'cover',
           }}
-        />
+        >
+          {!allImagesLoaded && (
+            <Skeleton className='w-full h-full rounded-sm' /> // Render skeleton while loading
+          )}
+          <img
+            src={square.url}
+            alt='grid item'
+            onLoad={handleImageLoad} // Track when image loads
+            style={{ visibility: 'hidden', position: 'absolute' }} // Hide img tag
+          />
+        </motion.div>
       ))}
     </div>
   );
