@@ -37,7 +37,7 @@ export async function createFilmServer() {
 
   node.get('/photos', async (req, res) => {
     try {
-      // Try to get cached data from Redis
+      // // Try to get cached data from Redis
       const cachedPhotos = await redisClient.get(cacheKey);
 
       if (cachedPhotos) {
@@ -45,6 +45,7 @@ export async function createFilmServer() {
       }
 
       const photos = await getFilesandMeta();
+
       redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
       return res.json(photos);
     } catch (error) {

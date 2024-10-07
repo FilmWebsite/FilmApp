@@ -16,6 +16,7 @@ export interface FirebasePhotoMetadata {
   collection: string | string[];
   firebaseStorageDownloadTokens: any;
   home_display: boolean;
+  name: string;
 }
 
 export type Photo = {

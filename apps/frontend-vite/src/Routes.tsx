@@ -3,6 +3,9 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Footer from './Footer.tsx';
 import { offFooter, useFooterDispatch } from './providers/FooterProvider.tsx';
 import { Landing } from './Landing.tsx';
+import { Collection } from './Collection.tsx';
+
+import { About } from './About.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -23,7 +26,9 @@ function FilmRoutes() {
     <>
       <Routes>
         <Route path='/' element={<Landing />} />
-        {/* <Route path='/collections/:collection' element={<Collection />} />
+        <Route path='/collections/:collection' element={<Collection />} />
+        <Route path='/about' element={<About />} />
+        {/* 
         <Route path='/about' element={<About />} />
         <Route path='/request-photos' element={<RequestPhotos />} />
         <Route path='/albums-login' element={<AlbumEditLogin />} />

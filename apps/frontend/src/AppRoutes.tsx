@@ -26,6 +26,8 @@ function AppRoutes() {
     }
   }, [location.pathname]);
 
+  // possibly call pics here and pass in
+
   return (
     <>
       <Routes>

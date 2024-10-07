@@ -43,6 +43,8 @@ const HorizontalScrollCarousel = (props: ScrollProps) => {
   // Adjust scroll end point using scrollLimit
   const x = useTransform(scrollYProgress, [0, 1], ['1%', scrollLimit]);
 
+  if (!props.collections) return;
+
   return (
     <div>
       <section ref={targetRef} className='relative h-[250vh]'>

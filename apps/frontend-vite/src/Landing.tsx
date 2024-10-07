@@ -17,7 +17,13 @@ import 'animate.css';
 import './styles/Gallery.css';
 
 const Landing = () => {
-  const { collections, homePhotos, photosLoading } = usePhotos();
+  const {
+    collections,
+    homePhotos,
+    photosLoading,
+    aboutMedia,
+    // aboutMediaLoading,
+  } = usePhotos();
 
   const footerDispatch = useFooterDispatch();
   const [allImagesLoaded, setAllImagesLoaded] = useState(false); // Track if all images are loaded
@@ -38,6 +44,8 @@ const Landing = () => {
   if (photosLoading || !collections) {
     return <Loading />;
   }
+
+  console.log(homePhotos, 'h');
 
   return (
     <div className='galleryBase'>
