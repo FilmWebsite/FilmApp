@@ -1,3 +1,5 @@
+export { ImageDownloader } from './Donwloader';
+
 export { Header } from './Header';
 export { ImageRow } from './ImageRow';
 export { CollectionCard } from './CollectionCard';
