@@ -7,6 +7,7 @@ import { Collection } from './Collection.tsx';
 
 import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
+import Dedication from './Dedication.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -30,11 +31,7 @@ function FilmRoutes() {
         <Route path='/collections/:collection' element={<Collection />} />
         <Route path='/about' element={<About />} />
         <Route path='/downloads' element={<Downloads />} />
-        {/* 
-      
-       
-      
-        <Route path='/dedication' element={<Dedication />} /> */}
+        <Route path='/dedication' element={<Dedication />} />
       </Routes>
       <Footer />
     </>
