@@ -1,19 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 
 import './styles/about.css';
 import { usePhotos } from '@film/photos-web';
-import { Loading } from './components';
-import { Photo } from '@film/photos-iso';
 
 function About() {
-  const { photosLoading, aboutMedia } = usePhotos();
+  const { aboutMedia } = usePhotos();
 
-  // TODO: add fallback support
+  const getAboutMediaViaPrefix = (name: string) => {
+    // Filter the media array to find a photo where metadata.name includes the passed in name
+    const foundMedia = aboutMedia.find((media) =>
+      media.metadata.name.includes(name)
+    );
 
-  // console.log(aboutMedia);
+    // Return the found media, or null if no match is found
+    return foundMedia || null;
+  };
 
   useEffect(() => {
     const pictures = document.querySelectorAll('.picture');
@@ -58,10 +62,11 @@ function About() {
     };
   }, []);
 
-  //What Film was used? Functions
-  const containersRef = useRef([]);
+  const containersRef = useRef<(HTMLDivElement | null)[]>([]);
+  const techContainersRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    // Observer for the first set of containers
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry, index) => {
@@ -69,7 +74,7 @@ function About() {
             setTimeout(() => {
               entry.target.classList.add('fade-in');
               entry.target.classList.remove('fade-out');
-            }, index * 500); // Adjust the delay as needed
+            }, index * 500); // Delay for each container's fade-in
           } else {
             entry.target.classList.remove('fade-in');
             entry.target.classList.add('fade-out');
@@ -77,77 +82,59 @@ function About() {
         });
       },
       {
-        threshold: 0.1, // Adjust based on when you want the fade-in to trigger
+        threshold: 0.1, // Trigger fade-in when 10% of the container is visible
       }
     );
 
+    // Observe each container in containersRef
     containersRef.current.forEach((container) => {
       if (container) observer.observe(container);
     });
 
+    // Cleanup: unobserve all containers on component unmount
     return () => {
-      if (containersRef.current) {
-        containersRef.current.forEach((container) => {
-          observer.unobserve(container);
-        });
-      }
+      containersRef.current.forEach((container) => {
+        if (container) observer.unobserve(container);
+      });
     };
   }, []);
 
-  const techContainersRef = useRef([]);
-
   useEffect(() => {
-    const pictures = document.querySelectorAll<HTMLDivElement>('.picture');
-    const headerImage = document.querySelector<HTMLDivElement>('.headerImage');
-    const loader = document.querySelector<HTMLDivElement>('.loader');
-
-    // Observer for pictures
+    // Observer for the techContainersRef with random delay on entry
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const randomDelay = Math.random() * 1100; // Random delay up to 1.1 seconds
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            setTimeout(() => {
+              entry.target.classList.add('fadeIn');
+              entry.target.classList.remove('fadeOut');
+            }, randomDelay);
           } else {
-            entry.target.classList.remove('visible');
+            setTimeout(() => {
+              entry.target.classList.add('fadeOut');
+              entry.target.classList.remove('fadeIn');
+            }, randomDelay);
           }
         });
       },
       {
-        threshold: 0.85,
+        threshold: 0.1, // Trigger fade-in when 10% of the container is visible
       }
     );
 
-    pictures.forEach((picture) => {
-      observer.observe(picture);
+    // Observe each container in techContainersRef
+    techContainersRef.current.forEach((container) => {
+      if (container) observer.observe(container);
     });
 
-    headerImage?.classList.add('light');
-
-    const hideLoader = setTimeout(() => {
-      loader?.classList.add('hide');
-      headerImage?.classList.remove('light');
-      headerImage?.classList.add('dark');
-    }, 4500);
-
+    // Cleanup: unobserve all containers on component unmount
     return () => {
-      pictures.forEach((picture) => {
-        observer.unobserve(picture);
+      techContainersRef.current.forEach((container) => {
+        if (container) observer.unobserve(container);
       });
-      clearTimeout(hideLoader);
     };
   }, []);
-
-  const getAboutMediaViaPrefix = (name: string) => {
-    // Filter the media array to find a photo where metadata.name includes the passed in name
-    const foundMedia = aboutMedia.find((media) =>
-      media.metadata.name.includes(name)
-    );
-
-    // Return the found media, or null if no match is found
-    return foundMedia || null;
-  };
-
-  if (photosLoading || !aboutMedia) return <Loading />;
 
   return (
     <div className='about-container'>
@@ -362,7 +349,7 @@ function About() {
         </div>
       </div>
 
-      {/* <div className='techInfo'>
+      <div className='techInfo'>
         <h1>Website Technologies</h1>
         <p className='aboutDescriptions'>
           Highlighting the modern web development tools and frameworks utilized
@@ -379,7 +366,7 @@ function About() {
           >
             <div
               style={{
-                backgroundImage: `url(/assets/pics/css.png)`,
+                backgroundImage: `url(${getAboutMediaViaPrefix('css')?.url})`,
               }}
               className='techLogos'
             />
@@ -393,7 +380,11 @@ function About() {
             ref={(el) => (techContainersRef.current[1] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/express.png)` }}
+              style={{
+                backgroundImage: `url(${
+                  getAboutMediaViaPrefix('express')?.url
+                })`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='back-end'>
@@ -406,7 +397,11 @@ function About() {
             ref={(el) => (techContainersRef.current[2] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/graphql.png)` }}
+              style={{
+                backgroundImage: `url(${
+                  getAboutMediaViaPrefix('graphql')?.url
+                })`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='back-end'>
@@ -419,7 +414,9 @@ function About() {
             ref={(el) => (techContainersRef.current[3] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/js.png)` }}
+              style={{
+                backgroundImage: `url(${getAboutMediaViaPrefix('js')?.url})`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='front-end'>
@@ -432,7 +429,9 @@ function About() {
             ref={(el) => (techContainersRef.current[4] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/node.png)` }}
+              style={{
+                backgroundImage: `url(${getAboutMediaViaPrefix('node')?.url})`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='back-end'>
@@ -445,7 +444,9 @@ function About() {
             ref={(el) => (techContainersRef.current[5] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/react.png)` }}
+              style={{
+                backgroundImage: `url(${getAboutMediaViaPrefix('react')?.url})`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='front-end'>
@@ -458,7 +459,9 @@ function About() {
             ref={(el) => (techContainersRef.current[6] = el)}
           >
             <div
-              style={{ backgroundImage: `url(/assets/pics/ts.png)` }}
+              style={{
+                backgroundImage: `url(${getAboutMediaViaPrefix('ts')?.url})`,
+              }}
               className='techLogos'
             />
             <div className='techCaption' id='front-end'>
@@ -466,27 +469,8 @@ function About() {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
-
 export { About };
-
-{
-  /* <div
-            style={{ backgroundImage: `url(${css})` }}
-            className="techLogos"
-          ></div> */
-}
-{
-  /* <div className="imageContainer">
-            <div
-              className="aboutFilm"
-              style={{ backgroundImage: `url(${css})` }}
-            />
-            <p className="caption" id="filmTwo">
-              FrontEnd
-            </p>
-          </div> */
-}

@@ -1,17 +1,23 @@
-import { ThreeDots, InfinitySpin } from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 
 import './styles/Loading.scss';
+import { useEffect, useState } from 'react';
 
 function Loading() {
+  const [text, setText] = useState('Just One Sec');
+
+  useEffect(() => {
+    // Set a timer to change the text after 5 seconds
+    const timer = setTimeout(() => {
+      setText('You may need to refresh');
+    }, 5000);
+
+    // Cleanup the timer if the component is unmounted before the timer finishes
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className='loading-screen'>
-      {/* <InfinitySpin
-        visible={true}
-        width="200"
-        color="#f94e63"
-        ariaLabel="infinity-spin-loading"
-      /> */}
-
       <ThreeDots
         visible={true}
         height='80'
@@ -22,7 +28,7 @@ function Loading() {
         wrapperStyle={{}}
         wrapperClass=''
       />
-      <p className='loaderText'>Just One Sec</p>
+      <p className='loaderText'>{text}</p>
     </div>
   );
 }
