@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageRow, Header, Loading } from './components';
+import { ImageRow, Header, Loading } from './components/index.ts';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';

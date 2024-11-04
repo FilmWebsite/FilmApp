@@ -4,7 +4,11 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { IoCameraOutline } from 'react-icons/io5';
 import { usePhotos } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
-import { HorizontalScrollCarousel, Loading, Skeleton } from './components';
+import {
+  HorizontalScrollCarousel,
+  Loading,
+  Skeleton,
+} from './components/index.ts';
 
 import {
   onFooter,
