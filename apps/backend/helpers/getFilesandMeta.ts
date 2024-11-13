@@ -15,6 +15,7 @@ export async function getFilesandMeta() {
 
     const processedMetadata = {
       ...metadata.metadata,
+      name: file.name, // Adding the file name to the metadata
       home_display: metadata.metadata?.home_display === 'true',
       // @ts-ignore
       collection: metadata.metadata?.collection?.includes(',')

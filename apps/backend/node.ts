@@ -37,7 +37,7 @@ export async function createFilmServer() {
 
   node.get('/photos', async (req, res) => {
     try {
-      // Try to get cached data from Redis
+      // // Try to get cached data from Redis
       const cachedPhotos = await redisClient.get(cacheKey);
 
       if (cachedPhotos) {
@@ -45,6 +45,7 @@ export async function createFilmServer() {
       }
 
       const photos = await getFilesandMeta();
+
       redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
       return res.json(photos);
     } catch (error) {
@@ -106,10 +107,14 @@ export async function createFilmServer() {
     }
   });
 
-  node.get('/download/:image_id/', async (req, res) => {
-    const { image_id } = req.params;
+  node.post('/download/', async (req, res) => {
+    if (!req.body.url) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+
     try {
-      const imageUrl = await getPhotoViaId(image_id);
+      const imageUrl = req.body.url;
+
       if (!imageUrl) {
         return res.status(404).send({ message: 'Image not found' });
       }

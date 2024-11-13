@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pushDown {
+  align-content: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.sunset {
+  background: linear-gradient(to right, #ff7f50, #fd5e53, #f94e63, #d2386c);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 600; /* font-semibold */
+}
+
+@media (min-width: 768px) {
+  .sunset {
+    font-size: 3rem; /* md:text-6xl */
+  }
+}
+
+.btn {
+  background: linear-gradient(
+    to right,
+    rgb(255, 127, 80),
+    rgb(253, 94, 83),
+    rgb(249, 78, 99),
+    rgb(210, 56, 108)
+  ); /* Sunset gradient */
+  color: #ffffff; /* text-white */
+  font-weight: 500; /* font-medium */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.375rem; /* rounded */
+  transition: all 0.3s ease; /* transition-all */
+}
+
+.btn:hover {
+  background: linear-gradient(
+    to right,
+    #ff7f50,
+    #fd5e53,
+    #f94e63,
+    #d2386c
+  ); /* Sunset gradient on hover */
+  transform: scale(0.95); /* active:scale-95 */
+}

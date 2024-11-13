@@ -24,6 +24,16 @@ export function usePhotos() {
     }
   };
 
+  const filterAboutMedia = useCallback(() => {
+    if (Array.isArray(photos) && !photosLoading) {
+      return photos.filter(
+        (photo: Photo) => photo?.url?.includes('about/') // Check if URL contains 'about/'
+      );
+    } else {
+      return [];
+    }
+  }, [photos, photosLoading]);
+
   const returnCollections = async (): Promise<Collection[]> => {
     try {
       const collectionsRef = collection(db, 'collection');
@@ -91,5 +101,7 @@ export function usePhotos() {
     getPhotosbyCID: getPhotosByCollectionId,
     collections: c,
     homePhotos: filterHomeDisplay(),
+    allPhotos: photos,
+    aboutMedia: filterAboutMedia(),
   };
 }

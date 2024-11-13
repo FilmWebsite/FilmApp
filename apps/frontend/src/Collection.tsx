@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './css/albumSet.css';
-import ImageRow from './comps/ImageRow.tsx';
-import { Header } from './comps/Header';
+import { ImageRow, Header, Loading } from './components/index.ts';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { useCollection } from '@film/photos-web';
 import { CollectionType } from '@film/photos-iso';
-import Loading from './comps/Loading.tsx';
 import {
   onFooter,
   offFooter,
   useFooterDispatch,
-  useFooterState,
 } from './providers/FooterProvider.tsx';
+
+import './styles/album-set.scss';
 
 const Collection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
