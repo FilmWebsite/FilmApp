@@ -49,8 +49,6 @@ const Landing = () => {
     return <Loading />;
   }
 
-  console.log(homePhotos, 'h');
-
   return (
     <div className='galleryBase'>
       <div className='topScreen'>

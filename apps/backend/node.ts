@@ -35,6 +35,8 @@ export async function createFilmServer() {
   node.use(bodyParser.json({ limit: '30mb' }));
   node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
+  node.get('/online', (req, res) => res.status(200).send('OK'));
+
   node.get('/photos', async (req, res) => {
     try {
       // // Try to get cached data from Redis

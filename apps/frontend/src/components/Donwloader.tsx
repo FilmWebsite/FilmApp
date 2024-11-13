@@ -2,19 +2,26 @@ import { useState } from 'react';
 import '../styles/Downloads.scss';
 import { Photo } from '@film/photos-iso';
 
-const ImageDownloader = ({ selectedPhoto }) => {
+const ImageDownloader = ({
+  content,
+  type,
+}: {
+  content?: string[] | Photo;
+  type: 'single' | 'multiple';
+}) => {
   const [loading, setLoading] = useState(false);
 
-  const downloadImage = async (url: string) => {
+  // FIX FUCNTION TO SUPORT MUTIPLE PHOTOS
+  const downloadImage = async () => {
     setLoading(true);
     try {
       const response = await fetch(`http://localhost:8080/download/`, {
-        method: 'POST', // Changed to POST
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          url: url,
+          // url: url,
         }), // Sending body data as JSON
       });
       const blob = await response.blob();
@@ -36,13 +43,22 @@ const ImageDownloader = ({ selectedPhoto }) => {
     }
   };
 
+  if (!content) return;
+
+  console.log(content, 'hi');
+
   return (
     <button
-      onClick={() => downloadImage(selectedPhoto.url)}
+      onClick={() => downloadImage()}
       disabled={loading}
       className={`download-button ${loading ? 'loading' : 'not-loading'}`}
     >
-      {loading ? 'Downloading...' : 'Download Image'}
+      {loading
+        ? 'Downloading...'
+        : // @ts-ignore
+        type === 'multiple' && content.length > 1
+        ? 'Download Images'
+        : 'Download Image'}
     </button>
   );
 };

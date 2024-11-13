@@ -8,6 +8,7 @@ import { Collection } from './Collection.tsx';
 import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.tsx';
+import Fallback from './Fallback.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -16,9 +17,13 @@ function FilmRoutes() {
   useEffect(() => {
     // Always hide the footer on specific pages where you don't want it to appear
     if (
-      ['/about', '/albums-login', '/albums-edit', '/downloads'].includes(
-        location.pathname
-      )
+      [
+        '/about',
+        '/albums-login',
+        '/albums-edit',
+        '/downloads',
+        '/fallback',
+      ].includes(location.pathname)
     ) {
       offFooter(footerDispach); // Hides the footer on these routes
     }
@@ -32,6 +37,7 @@ function FilmRoutes() {
         <Route path='/about' element={<About />} />
         <Route path='/downloads' element={<Downloads />} />
         <Route path='/dedication' element={<Dedication />} />
+        <Route path='/fallback' element={<Fallback />} />
       </Routes>
       <Footer />
     </>

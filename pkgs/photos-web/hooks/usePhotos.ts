@@ -78,8 +78,10 @@ export function usePhotos() {
   }, [photos, photosLoading]);
 
   const getPhotosByCollectionId = useCallback(
-    ({ id }: { id: CollectionType }) => {
+    ({ id }: { id: CollectionType | 'none' }) => {
       // @ts-ignore
+
+      if (id == 'none') return [];
 
       if (photos && !photosLoading) {
         {

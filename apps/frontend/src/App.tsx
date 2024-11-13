@@ -1,23 +1,23 @@
-import React from 'react';
+import { useEffect } from 'react';
 import FilmRoutes from './Routes.tsx';
 import { FooterProvider } from './providers/FooterProvider.tsx';
-
-// Import your publishable key
-// Import your publishable key
-// @ts-ignore
-const PUBLISHABLE_KEY = import.meta.env;
-
-console.log(PUBLISHABLE_KEY);
-
-// if (!PUBLISHABLE_KEY) {
-//   throw new Error('Missing Publishable Key');
-// }
-
-// if (!PUBLISHABLE_KEY) {
-//   throw new Error("Missing Publishable Key")
-// }
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/online`);
+        if (!response.ok) throw new Error('Backend unavailable check node');
+      } catch (error) {
+        navigate('/fallback');
+      }
+    };
+    checkBackend();
+  }, [navigate]);
+
   return (
     <FooterProvider>
       <FilmRoutes />
