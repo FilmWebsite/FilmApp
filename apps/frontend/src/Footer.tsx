@@ -11,6 +11,7 @@ function Footer() {
     <div className={showFooter ? 'footer' : 'footer-none'}>
       <div className='usefulLinks'>
         <h1 className='footerHeaders'>Useful Links</h1>
+
         <div className='links'>
           <a href='/' className='footerLink'>
             Home
@@ -24,6 +25,16 @@ function Footer() {
           <a href='/dedication' className='footerLink'>
             Dedication
           </a>
+
+          <a
+            href="https://www.instagram.com/d.dot._?igsh=MzRlODBiNWFlZA=="
+            className='footerLink'
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
+
         </div>
       </div>
 
@@ -55,7 +66,7 @@ function Footer() {
         </div>
       </div> */}
 
-      <a href='/albums-login' className='copyright'>
+      <a href='/admin-login' className='copyright'>
         Copyright © 2024 DDot Studio
       </a>
     </div>

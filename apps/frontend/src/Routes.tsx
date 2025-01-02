@@ -4,7 +4,8 @@ import Footer from './Footer.tsx';
 import { offFooter, useFooterDispatch } from './providers/FooterProvider.tsx';
 import { Landing } from './Landing.tsx';
 import { Collection } from './Collection.tsx';
-
+import AdminLogin from './AdminLogin.tsx';
+import AdminPage from './AdminPage.tsx';
 import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.tsx';
@@ -32,6 +33,9 @@ function FilmRoutes() {
         <Route path='/about' element={<About />} />
         <Route path='/downloads' element={<Downloads />} />
         <Route path='/dedication' element={<Dedication />} />
+        <Route path='/admin-login' element={<AdminLogin />} />
+        {/* make sure no one can just have access to this page without logging in first */}
+        <Route path='/admin-page' element={<AdminPage />} />
       </Routes>
       <Footer />
     </>

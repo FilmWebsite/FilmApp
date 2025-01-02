@@ -1,7 +1,6 @@
 .image-row {
   display: flex;
   flex-wrap: nowrap; /* Ensures images wrap properly */
-
   flex-direction: row;
   gap: 10px; /* Adjust the gap between thumbnails */
   scrollbar-width: none; /* Hide scrollbar for Firefox */

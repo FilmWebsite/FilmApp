@@ -10,13 +10,14 @@ import {
   Skeleton,
 } from './components/index.ts';
 
+import { CollectionSection } from './components/CollectionSection.tsx';
+
 import {
   onFooter,
   offFooter,
   useFooterDispatch,
 } from './providers/FooterProvider.tsx';
 
-import './styles/ShuffleHero.css';
 import 'animate.css';
 import './styles/Gallery.css';
 
@@ -54,20 +55,20 @@ const Landing = () => {
   return (
     <div className='galleryBase'>
       <div className='topScreen'>
-        <section className='w-full px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto bg-grey-900'>
+        <section className='gallery-section'>
           <div>
-            {/* <span className="text-slate-300">DORON REID</span> */}
             <div className='titleBox'>
               <IoCameraOutline className='rotatedIcon' />
               <p className='title'>ddot studio</p>
             </div>
 
-            <p className='text-left md:text-lg text-slate-300 my-4 md:my-6'>
+            <p className="paragraph-box">
               Experience the beauty of moments frozen in time, from special
               occasions to everyday adventures. This website is a nostalgic
               journey through the personal lens of Doron, sharing the stories,
               emotions, and unique perspectives captured in each frame!
             </p>
+
           </div>
 
           <ShuffleGrid
@@ -75,14 +76,17 @@ const Landing = () => {
             setAllImagesLoaded={setAllImagesLoaded}
           />
         </section>
+        
         <div className='arrowContainer'>
           <p className='arrowDownText'>Scroll to Pick an Album</p>
           <IoIosArrowDown className='arrowDown' />
         </div>
       </div>
-      <div className='containerHSC '>
-        <HorizontalScrollCarousel collections={collections} />
+
+      <div className="collectionsSection">
+        <CollectionSection collections={collections} />
       </div>
+
     </div>
   );
 };

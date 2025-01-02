@@ -55,7 +55,7 @@ const Collection: React.FC = () => {
 
   return (
     collectionData && (
-      <div className='nyc-container'>
+      <div className='albumContainer'>
         <a href='/'>
           <IoChevronBackOutline className='icon' />
         </a>
@@ -67,6 +67,7 @@ const Collection: React.FC = () => {
           />
           <p className='albumInfo'>{collectionData.desc || 'Coming soon...'}</p>
         </div>
+        
         <div className='Image-container'>
           <ImageRow
             // @ts-ignore

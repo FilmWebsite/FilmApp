@@ -1,7 +1,9 @@
-.nyc-container {
+.albumContainer {
   display: flex;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
+  height: 100%; /* Ensure the container fills the entire viewport height */
+  width: 100%;
 }
 
 .icon {
@@ -29,6 +31,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Make it fill the entire viewport height */
-  margin-top: -10%;
+  overflow-x: auto; /* Allow horizontal scrolling */
+  height: auto; /* Allow flexible height based on content */
+  margin: 7% 0; /* Adjust margin for better positioning */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }
+
+.Image-container::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
