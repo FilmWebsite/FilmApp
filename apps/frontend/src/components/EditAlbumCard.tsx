@@ -5,17 +5,16 @@ import { Collection } from '@film/photos-iso';
 import { EditCard } from './EditCard';
 
 type ScrollProps = {
-  collections: any[];
+  collections: Collection[];
 };
 
 const EditAlbumCard = (props: ScrollProps) => {
-
   return (
     <div>
-      <div className="grid grid-cols-3 gap-8 px-10 justify-center mt-10 mb-10">
-            {props.collections.map((card) => {
-              return <EditCard key={card.id} card={card} />;
-            })}
+      <div className='grid grid-cols-3 gap-8 px-10 justify-center mt-10 mb-10'>
+        {props.collections?.map((card) => {
+          return <EditCard key={card.id} card={card} />;
+        })}
       </div>
     </div>
   );

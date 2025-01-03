@@ -1,0 +1,1 @@
+export { PhotosAdminModal } from './Photos';
