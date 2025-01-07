@@ -1,20 +1,23 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion, useTransform, useScroll } from 'framer-motion';
-import { CollectionCard } from '.';
 import { Collection } from '@film/photos-iso';
 import { EditCard } from './EditCard';
+import '../styles/Admin.scss';
+import { IoMdAdd } from 'react-icons/io';
 
-type ScrollProps = {
+type EditAlbumCardProps = {
   collections: Collection[];
+  onSelectCard: (card: Collection) => void;
 };
 
-const EditAlbumCard = (props: ScrollProps) => {
+const EditAlbumCard = ({ collections, onSelectCard }: EditAlbumCardProps) => {
   return (
     <div>
-      <div className='grid grid-cols-3 gap-8 px-10 justify-center mt-10 mb-10'>
-        {props.collections?.map((card) => {
-          return <EditCard key={card.id} card={card} />;
-        })}
+      <div className='grid grid-cols-4 gap-8 justify-center'>
+        {collections?.map((card) => (
+          <EditCard key={card.id} card={card} onSelect={() => onSelectCard(card)} />
+        ))}
+        <div className="relative h-[300px] w-full max-w-[300px] overflow-hidden glass-effect flex items-center justify-center">
+          <IoMdAdd className='addAlbumIcon' />
+        </div>
       </div>
     </div>
   );
