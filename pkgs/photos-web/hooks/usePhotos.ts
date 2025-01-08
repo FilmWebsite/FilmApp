@@ -78,7 +78,7 @@ export function usePhotos() {
   }, [photos, photosLoading]);
 
   const getPhotosByCollectionId = useCallback(
-    ({ id }: { id: CollectionType }) => {
+    ({ id }: { id: CollectionType | string }) => {
       // @ts-ignore
 
       if (photos && !photosLoading) {

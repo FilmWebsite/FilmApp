@@ -4,7 +4,7 @@ import { usePhotos } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
 import { EditAlbumCard } from '../components/EditAlbumCard';
 import '../styles/Admin.scss';
-import { LuSwitchCamera } from "react-icons/lu";
+import { LuSwitchCamera } from 'react-icons/lu';
 import { EditCollection } from '../components/EditCollection';
 // import { CollectionSection } from './components/CollectionSection.tsx';
 
@@ -15,18 +15,21 @@ function AdminPage() {
 
   return (
     <div className='adminBackground'>
-
       <div>
         <h1 className='adminHeaders' style={{ color: '#f94e63' }}>
           Shuffle Pictures
         </h1>
-        <div className="homePhotos">
-            {homePhotos.map((square, index) => (
-                <div key={index} className="photoContainer">
-                    <img src={square.url} alt={`Photo ${index}`} className="homePhoto" />
-                    <LuSwitchCamera className="photoIcon" />
-                </div>
-            ))}
+        <div className='homePhotos'>
+          {homePhotos.map((square, index) => (
+            <div key={index} className='photoContainer'>
+              <img
+                src={square.url}
+                alt={`Photo ${index}`}
+                className='homePhoto'
+              />
+              <LuSwitchCamera className='photoIcon' />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -35,11 +38,14 @@ function AdminPage() {
           Edit Albums
         </h1>
         {selectedCard ? (
-          <EditCollection selectedCard={selectedCard} setSelectedCard={setSelectedCard}/>
+          <EditCollection
+            selectedCard={selectedCard}
+            setSelectedCard={setSelectedCard}
+          />
         ) : (
-          <EditAlbumCard 
-            collections={collections} 
-            onSelectCard={setSelectedCard} 
+          <EditAlbumCard
+            collections={collections}
+            onSelectCard={setSelectedCard}
           />
         )}
       </div>
@@ -47,10 +53,9 @@ function AdminPage() {
       <div className='logOutSection'>
         <p className='logOutQuestion'>Are You done?</p>
         <a href='/' className='logoutBtn'>
-            Logout
+          Logout
         </a>
       </div>
-      
     </div>
   );
 }
