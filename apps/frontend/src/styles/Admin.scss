@@ -149,10 +149,6 @@
     transition: color 0.3s ease;
     cursor: pointer;
   }
-
-//   .photoIcon:hover {
-//     color: #f94e63; 
-//   }
   
 //Adjust later!
 .photoContainer:hover .homePhoto + .photoIcon {
@@ -240,47 +236,190 @@
     justify-content: space-between;
   }
 
+  .selectedAlbumImg{
+    display: flex;
+    flex-direction: column; /* Stack image and icon vertically */
+    align-items: center; /* Center the icon horizontally */
+    gap: 8px; /* Add space between the image and icon */
+  }
+
+  .photoImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    transition: transform 0.3s ease; /* Smooth zoom effect on hover */
+  }
+
+  .selectedAlbumIcon {
+    font-size: 24px; /* Adjust size of the icon */
+    color: #555; /* Default icon color */
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .selectedAlbumIcon:hover{
+    color: #ff7f50;
+  }
+
+
   .selectedTopInfo{
     display: flex;
     flex-direction: column;
     display: flex;
-    // background-color: rgb(45, 44, 44);
     width: 70%;
     height: auto;
   }
 
-  .selectedTitle{
-    font-size: 25px;
-    color: white;
-    margin-bottom: 20px;
+  .inputHeader{
+    font-size: 16px;
+    color: #ff7f50;
+    font-weight: bold;
+    margin-bottom: 4px;
   }
 
   .selectedHeaders{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    color: white;
-    margin-bottom: 20px;
+    display: flex; /* Set flexbox layout */
+    flex-direction: row; /* Align children in a row */
+    align-items: center; /* Align items vertically in the center */
+    gap: 16px; /* Add space between the items */
+    margin-bottom: 16px; /* Add spacing below the row */
   }
 
-  .selectedColorsInput{
+
+
+  .editBox {
+    all: unset;
+    border-bottom: 2px solid #555;
+    padding: 5px 0;
+    font-size: 16px;
+    width: 300px;
+    transition: border-color 0.3s ease;
+    color: white;
+  }
+  
+  .editBox:focus {
+    border-bottom: 2px solid #ff7f50; /* Highlight color on focus */
+  }
+  
+  .editBox::placeholder {
+    color: white;
+    font-style: italic;
+  }
+  
+  .editDesc {
+    all: unset; /* Reset inherited styles */
+    background-color: rgba(255, 255, 255, 0.1); /* Light translucent background */
+    border: 1px solid #555; /* Add a border to create the box effect */
+    padding: 10px; /* Inner spacing for comfort */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 16px; /* Text size */
+    color: white; /* Text color */
+    width: 100%; /* Full width */
+    height: 120px; /* Adjust height as needed */
+    resize: vertical; /* Prevent resizing if desired */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  }
+  
+  .editDesc:focus {
+    border-color: #ff7f50;
+    outline: none; /* Remove default outline */
+  }
+
+  .photoSection {
     display: flex;
     flex-direction: column;
+    text-align: center; /* Center the icon below the image */
   }
 
-  .inputHeader{
+  .photoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 16px; /* Space between items */
+    justify-items: center; /* Center items horizontally */
+    margin-top: 5%;
+    // background-color: red;
+  }
+  
+  .collectionPhotos {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Show the entire image while maintaining aspect ratio */
+  }
+
+  .photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 16px; /* Space between items */
+  justify-items: center; /* Center items horizontally */
+}
+
+.collectionPhotos {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Show the entire image while maintaining aspect ratio */
+  background-color: #f0f0f0; /* Optional: add a neutral background for padding areas */
+  transition: transform 0.3s ease; /* Smooth scaling effect */
+  
+}
+
+.photoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Space between items */
+    justify-items: center; /* Center grid items horizontally */
+    align-items: start;
+  }
+  
+  .collectionPhotos {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the space while maintaining aspect ratio */
+  }
+
+  .photoOptions{
+    display: flex;
+    flex-direction: row;
+    color: #555;
+    font-size: 20px;
+    margin-top: 3%;
+    gap: 7px;
+    align-items: center;
+  }
+
+  .photoSwitch + .photoDelete{
+    transition: color 0.3s ease;
+  }
+
+  .photoSwitch:hover{
     color: #ff7f50;
-    font-weight: 600;
   }
 
-//   .selectedDisplayName{
-//     margin-bottom: 20px;
-//     color: white;
-//   }
+  .photoDelete:hover{
+  color: #fd5e53;
+  }
 
-  .selectedDesc{
+  .addPhoto{
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    width: 300px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .add{
+    font-size: 60px;
     color: white;
-    margin-bottom: 20px;
+    transition: color 0.3s ease;
+    // background-color: red;
+    // margin: auto;
+  }
+
+  .addPhoto:hover .add {
+    color: #f94e63; /* Change to desired hover color */
+    
   }
 
 
