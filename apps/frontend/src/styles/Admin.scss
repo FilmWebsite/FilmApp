@@ -161,6 +161,62 @@
     
   }
 
+
+//Shuffle Photo Modal
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    z-index: 1000;
+  }
+  
+  /* Modal content box */
+  .box {
+    position: relative;
+    // padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    // justify-content: center;
+    // align-items: center;
+    overflow: hidden; /* Prevent scrollbars for large images */
+    // box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+  }
+  
+  /* Close button */
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .closeButton:hover {
+    color: #f94e63; /* Accent color on hover */
+  }
+  
+  /* Modal image */
+  .popupPhoto {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional rounded corners */
+  }
+
 //EDIT PHOTO ALBUMS
 
 
@@ -261,6 +317,11 @@
     color: #ff7f50;
   }
 
+  .albumForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
   .selectedTopInfo{
     display: flex;
@@ -268,6 +329,29 @@
     display: flex;
     width: 70%;
     height: auto;
+  }
+
+  .selectedAlbumName{
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .submitButton {
+    background-color: #555;
+    color: white;
+    font-weight: 700;
+    padding: 10px ;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end; 
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #ff7f50;
   }
 
   .inputHeader{
@@ -282,7 +366,7 @@
     flex-direction: row; /* Align children in a row */
     align-items: center; /* Align items vertically in the center */
     gap: 16px; /* Add space between the items */
-    margin-bottom: 16px; /* Add spacing below the row */
+    margin-bottom: 20px; /* Add spacing below the row */
   }
 
 
@@ -301,10 +385,7 @@
     border-bottom: 2px solid #ff7f50; /* Highlight color on focus */
   }
   
-  .editBox::placeholder {
-    color: white;
-    font-style: italic;
-  }
+  
   
   .editDesc {
     all: unset; /* Reset inherited styles */
