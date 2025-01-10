@@ -9,7 +9,7 @@
     justify-content: center; /* Centers content inside the box */
 }
 
-.backBtn{
+.homeBtn{
     position: absolute; /* Position it relative to the nearest positioned ancestor (background) */
     top: 20px; /* Distance from the top of the container */
     left: 20px; /* Distance from the left of the container */
@@ -166,56 +166,102 @@
 
 .modal {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.9); /* Optional dark overlay */
     z-index: 1000;
+    overflow: hidden; /* Prevents scrolling on the whole page */
   }
   
-  /* Modal content box */
-  .box {
-    position: relative;
-    // padding: 20px;
-    border-radius: 10px;
-    max-width: 90%;
-    max-height: 90%;
+  .leftSide {
+    flex: 1;
+    height: 100vh;
     display: flex;
-    // justify-content: center;
-    // align-items: center;
-    overflow: hidden; /* Prevent scrollbars for large images */
-    // box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  
-  /* Close button */
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
+
+  .closeIcon{
+    color: white;
+    font-size: 20px;
+    padding: 1%;
     transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .closeIcon:hover{
+    color: #f94e63;
   }
   
-  .closeButton:hover {
-    color: #f94e63; /* Accent color on hover */
+  .box {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
-  /* Modal image */
-  .popupPhoto {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Maintain aspect ratio */
-    border-radius: 8px; /* Optional rounded corners */
+  .selectedImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Keeps aspect ratio while filling the box */
   }
+
+  .confirmButton {
+    margin: 0; /* Ensure no extra margins */
+    padding: 5px 15px;
+    font-size: 20px;
+    height: 100%; /* Match the height of the input */
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.confirmButton:hover {
+    background-color: #f94e63; /* Darker shade on hover */
+}
+  
+  .rightSide {
+    flex: 1;
+    overflow-y: auto; /* Makes the right side scrollable */
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .picContainer {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+  }
+  
+  .picImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+  }
+  
+  .picImage:hover {
+    transform: scale(1.05);
+  }
+
 
 //EDIT PHOTO ALBUMS
 

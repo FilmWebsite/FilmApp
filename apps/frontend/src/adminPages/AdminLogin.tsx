@@ -9,7 +9,7 @@ function AdminLogin() {
     <div className="background">
 
         <a href='/'>
-            <p className='backBtn'>Home</p>
+            <p className='homeBtn'>Home</p>
         </a>
 
       <div className='loginBox'> 

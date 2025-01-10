@@ -6,12 +6,21 @@ import { EditAlbumCard } from '../components/EditAlbumCard';
 import '../styles/Admin.scss';
 import { LuSwitchCamera } from 'react-icons/lu';
 import { EditCollection } from '../components/EditCollection';
+import { IoCloseCircleSharp } from "react-icons/io5";
+
 // import { CollectionSection } from './components/CollectionSection.tsx';
 
 function AdminPage() {
-  const { homePhotos, collections } = usePhotos();
+  const { homePhotos, collections, getPhotosbyCID, allPhotos } = usePhotos();
+  const [collectionId, setCollectionId] = useState<CollectionType>('all');
+    const photos = getPhotosbyCID({ id: collectionId });
+  
+    const handleAlbumSelect = (albumName: any) => {
+      setCollectionId(albumName);
+    };
 
   const [selectedCard, setSelectedCard] = useState<Collection | null>(null);
+
 
   //For the shuffle pictures
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
@@ -53,17 +62,40 @@ function AdminPage() {
         </div>
 
         {isPopupVisible && selectedPhoto && (
-        <div className='modal' onClick={closePopup}>
-        <div className='box' onClick={(e) => e.stopPropagation()}>
-          <button className='closeButton' onClick={closePopup}>&times;</button>
-          <img
-            src={selectedPhoto.url}
-            alt='Selected Photo'
-            className='popupPhoto'
-          />
-        </div>
-      </div>
-      )}
+          <div className='modal' >
+            <a onClick={closePopup} className='closeIcon'><IoCloseCircleSharp /></a>
+            <div className='leftSide'  onClick={(e) => e.stopPropagation()}>
+              <div className='box'>
+                <img
+                  src={selectedPhoto.url}
+                  alt='Selected Photo'
+                  className='selectedImage'
+                />
+              </div>
+              <a>
+                <button className="confirmButton">Confirm</button>
+              </a>
+            </div>
+
+            <div className='rightSide'  onClick={(e) => e.stopPropagation()}>
+              {collectionId === 'all' &&
+                allPhotos.map((pic) => (
+                  <div
+                    // key={pic.id} 
+                    className='picContainer'
+                    onClick={() => handlePhotoClick(pic)}
+                  >
+                    <div
+                      style={{ backgroundImage: `url(${pic.url})` }}
+                      className='picImage'
+                    ></div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+
 
       </div>
       
