@@ -50,3 +50,5 @@ yarn-error.*
 **/.vol
 
 **/service-key.json
+
+**/uploads

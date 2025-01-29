@@ -62,13 +62,12 @@ const Landing = () => {
               <p className='title'>ddot studio</p>
             </div>
 
-            <p className="paragraph-box">
+            <p className='paragraph-box'>
               Experience the beauty of moments frozen in time, from special
               occasions to everyday adventures. This website is a nostalgic
               journey through the personal lens of Doron, sharing the stories,
               emotions, and unique perspectives captured in each frame!
             </p>
-
           </div>
 
           <ShuffleGrid
@@ -76,17 +75,16 @@ const Landing = () => {
             setAllImagesLoaded={setAllImagesLoaded}
           />
         </section>
-        
+
         <div className='arrowContainer'>
           <p className='arrowDownText'>Scroll to Pick an Album</p>
           <IoIosArrowDown className='arrowDown' />
         </div>
       </div>
 
-      <div className="collectionsSection">
+      <div className='collectionsSection'>
         <CollectionSection collections={collections} />
       </div>
-
     </div>
   );
 };

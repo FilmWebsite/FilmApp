@@ -10,8 +10,23 @@ import {
   getFilesandMeta,
   sortPhotosByCollectionId,
 } from './helpers';
-import { updatePicMetadata } from './helpers/getFilesandMeta';
-
+import {
+  getFileFromUrl,
+  updatePicMetadata,
+  updateCollectionCoverUrl,
+  updateCollectionFields,
+} from './helpers/getFilesandMeta';
+import {
+  changeCollectionCoverBackend,
+  swapHomeDisplayNode,
+} from './helpers/adminAction';
+import { adminStorage } from './firebaseAdmin';
+import { fileURLToPath } from 'url';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { db } from './db';
+import { CollectionFormData, CollectionType } from '@film/photos-iso';
 // 09/18 Update requires an firestore key. Break if not found
 checkFileExists().catch((error) => {
   throw new Error(
@@ -28,6 +43,22 @@ redisClient.on('error', (err) => {
 
 redisClient.on('ready', () => console.log('Redis connected'));
 const cacheKey = 'photos';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Specify the folder where the uploaded files will be stored
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    // Rename the file to include the original name and a timestamp
+    const uniqueSuffix = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function createFilmServer() {
   const node = express();
@@ -82,6 +113,80 @@ export async function createFilmServer() {
       req.body.current,
       req.body.removeFromCurrent
     );
+  });
+
+  node.post('/admin/update/collection/form-data', async (req, res) => {
+    try {
+      const changedFields: Partial<CollectionFormData> = req.body.editedData;
+      const ref: CollectionType = req.body.ref;
+
+      if (!changedFields || Object.keys(changedFields).length === 0 || !ref) {
+        return res.status(400).json({ error: 'No fields to update' });
+      }
+
+      updateCollectionFields(ref, changedFields);
+    } catch (error) {
+      console.error('Error updataing collection form:', error);
+      res.status(500).json({ error: 'Failed to upload file' });
+    }
+  });
+
+  node.post(
+    '/admin/update/collection/cover',
+    upload.single('imageFile'),
+    async (req, res) => {
+      try {
+        const ref: CollectionType = req.body.ref;
+        const file = req.file;
+
+        if (!file || !ref) {
+          return res.status(400).json({ error: 'No file or ref uploaded' });
+        }
+
+        // Upload the file to Firebase Storage
+        const filePath = path.join(__dirname, file.path);
+        const firebaseFileName = `uploads/${file.filename}`;
+
+        await adminStorage.upload(filePath, {
+          destination: firebaseFileName, // File path in Firebase Storage
+          metadata: {
+            contentType: file.mimetype, // Ensure the file's content type is set correctly
+          },
+        });
+
+        // Delete the file from the local server after upload
+        fs.unlinkSync(filePath);
+
+        // Generate a signed URL for the uploaded file
+        const [signedUrl] = await adminStorage
+          .file(firebaseFileName)
+          .getSignedUrl({
+            action: 'read', // Action can be 'read', 'write', or 'delete'
+            expires: Date.now() + 60 * 60 * 1000, // URL will expire in 1 hour
+          });
+
+        updateCollectionCoverUrl(ref, signedUrl);
+
+        // Response with signed URL
+        res.status(200).json({
+          message: 'Image Url updated successfully',
+          // fileUrl: signedUrl, // Temporary signed URL to access the file
+        });
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).json({ error: 'Failed to upload file' });
+      }
+    }
+  );
+
+  node.post('/admin/update/display', async (req, res) => {
+    if (!req.body.urls) {
+      return res.status(400).send({ error: 'No data provided' });
+    }
+    const newFile = getFileFromUrl(req.body.urls.newUrl);
+    const oldFile = getFileFromUrl(req.body.urls.oldUrl);
+
+    swapHomeDisplayNode(oldFile, newFile, res);
   });
 
   node.get('/collections/:collection', async (req, res) => {

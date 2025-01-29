@@ -1,66 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { Collection } from '@film/photos-iso';
-import { usePhotos } from '@film/photos-web';
-import '../styles/Admin.scss';
+import {
+  usePhotos,
+  useAdminTools,
+  useAdminCollectionForm,
+} from '@film/photos-web';
 import { LuSwitchCamera } from 'react-icons/lu';
-import { MdDelete } from "react-icons/md";
-import { FaPhotoFilm } from "react-icons/fa6";
+import { MdDelete } from 'react-icons/md';
+import { FaPhotoFilm } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
+
+import '../styles/Admin.scss';
 
 type EditCollectionProps = {
   selectedCard: Collection;
   setSelectedCard: React.Dispatch<React.SetStateAction<Collection | null>>;
 };
 
-const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) => {
+const EditCollection = ({
+  selectedCard,
+  setSelectedCard,
+}: EditCollectionProps) => {
   const { getPhotosbyCID } = usePhotos();
+  const { collectionCoverChange } = useAdminTools();
+
   const photos = getPhotosbyCID({ id: selectedCard.id });
+  const { handleFormChange, submitCollectionEdit, isEdited } =
+    useAdminCollectionForm(selectedCard);
 
-  const [isEdited, setIsEdited] = useState(false);
-  const [formData, setFormData] = useState({
-    card_name: selectedCard.card_name,
-    textColor: selectedCard.colors.textColor,
-    shadowColor: selectedCard.colors.shadowColor,
-    display_name: selectedCard.display_name || '',
-    ref: selectedCard.ref || '',
-    desc: selectedCard.desc || '',
-  });
-
-  useEffect(() => {
-    // Compare form data with original values to check for changes
-    const hasChanges = 
-      formData.card_name !== selectedCard.card_name ||
-      formData.textColor !== selectedCard.colors.textColor ||
-      formData.shadowColor !== selectedCard.colors.shadowColor ||
-      formData.display_name !== selectedCard.display_name ||
-      formData.ref !== selectedCard.ref ||
-      formData.desc !== selectedCard.desc;
-    
-    setIsEdited(hasChanges);
-  }, [formData, selectedCard]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleCoverImageClick = (event: any) => {
+    const file: File = event.target.files[0];
+    if (file) {
+      collectionCoverChange(file, selectedCard.ref);
+    }
   };
 
+  const handleIconClick = () => {
+    // @ts-ignore
+    document.getElementById('fileInput').click();
+  };
   return (
     <div>
       <a onClick={() => setSelectedCard(null)}>Back</a>
       <form className='albumInfoForm'>
         <div className='selectedTop'>
-          <div className="selectedAlbumImg">
-            <div className="relative h-[350px] w-full max-w-[350px] overflow-hidden cursor-pointer">
+          <div className='selectedAlbumImg'>
+            <div className='relative h-[350px] w-full max-w-[350px] overflow-hidden cursor-pointer'>
               <img
                 src={selectedCard.cover_image}
                 alt={selectedCard.card_name}
-                className="photoImage"
+                className='photoImage'
                 onError={(e) => {
                   e.currentTarget.src = '/path/to/fallback-image.jpg';
                 }}
               />
             </div>
-            <LuSwitchCamera className="selectedAlbumIcon" />
+            <div>
+              <LuSwitchCamera
+                className='selectedAlbumIcon'
+                onClick={handleIconClick} // Triggers the file input click
+              />
+              <input
+                id='fileInput'
+                type='file'
+                accept='image/*'
+                style={{ display: 'none' }} // Hidden input
+                onChange={handleCoverImageClick} // Handles file selection
+              />
+            </div>
           </div>
           <div className='selectedTopInfo'>
             <div className='selectedAlbumName'>
@@ -70,18 +77,26 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
                   type='text'
                   name='card_name'
                   className='editBox'
-                  value={formData.card_name}
-                  onChange={handleInputChange}
-                  placeholder='Enter card name'
+                  onChange={(e) =>
+                    handleFormChange('card_name', e.target.value)
+                  }
+                  placeholder={selectedCard.card_name}
                 />
               </span>
-              <button
-                type="submit"
-                className={`submitButton ${isEdited ? 'hoverEnabled' : ''}`}
-                disabled={!isEdited}
-              >
-                Save Changes
-              </button>
+
+              {isEdited && (
+                <button
+                  type='submit'
+                  className={`submitButton ${isEdited ? 'hoverEnabled' : ''}`}
+                  disabled={!isEdited}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    submitCollectionEdit();
+                  }}
+                >
+                  Save Changes
+                </button>
+              )}
             </div>
             <div className='selectedHeaders'>
               <span>
@@ -90,9 +105,10 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
                   type='text'
                   name='textColor'
                   className='editBox'
-                  value={formData.textColor}
-                  onChange={handleInputChange}
-                  placeholder='Enter text color'
+                  onChange={(e) =>
+                    handleFormChange('text_color', e.target.value)
+                  }
+                  placeholder={selectedCard.colors.textColor}
                 />
               </span>
               <span>
@@ -101,9 +117,10 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
                   type='text'
                   name='shadowColor'
                   className='editBox'
-                  value={formData.shadowColor}
-                  onChange={handleInputChange}
-                  placeholder='Enter shadow color'
+                  placeholder={selectedCard.colors.shadowColor}
+                  onChange={(e) =>
+                    handleFormChange('shadow_color', e.target.value)
+                  }
                 />
               </span>
             </div>
@@ -114,9 +131,14 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
                   type='text'
                   name='display_name'
                   className='editBox'
-                  value={formData.display_name}
-                  onChange={handleInputChange}
-                  placeholder='Enter display name'
+                  placeholder={
+                    selectedCard.display_name
+                      ? selectedCard.display_name
+                      : 'null'
+                  }
+                  onChange={(e) =>
+                    handleFormChange('display_name', e.target.value)
+                  }
                 />
               </span>
               <span>
@@ -125,9 +147,8 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
                   type='text'
                   name='ref'
                   className='editBox'
-                  value={formData.ref}
-                  onChange={handleInputChange}
-                  placeholder='Enter reference'
+                  placeholder='Contact Backend Team for ref change'
+                  disabled={true}
                 />
               </span>
             </div>
@@ -135,19 +156,25 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
             <textarea
               name='desc'
               className='editDesc'
-              value={formData.desc}
-              onChange={handleInputChange}
+              onChange={(e) => handleFormChange('desc', e.target.value)}
               placeholder='Enter description'
             />
           </div>
         </div>
       </form>
 
-      <div className="photoGrid">
+      <div className='photoGrid'>
         {photos.map((pics, index) => (
-          <div key={index} className="photoSection">
-            <div key={index} className="relative h-[300px] w-full max-w-[300px] overflow-hidden">
-              <img src={pics.url} alt="grid item" className="collectionPhotos" />
+          <div key={index} className='photoSection'>
+            <div
+              key={index}
+              className='relative h-[300px] w-full max-w-[300px] overflow-hidden'
+            >
+              <img
+                src={pics.url}
+                alt='grid item'
+                className='collectionPhotos'
+              />
             </div>
             <div className='photoOptions'>
               <FaPhotoFilm className='photoSwitch' />
@@ -155,7 +182,7 @@ const EditCollection = ({ selectedCard, setSelectedCard }: EditCollectionProps) 
             </div>
           </div>
         ))}
-        <div className="addPhoto">
+        <div className='addPhoto'>
           <IoMdAdd className='add' />
         </div>
       </div>
