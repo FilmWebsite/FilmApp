@@ -125,6 +125,10 @@ export async function createFilmServer() {
       }
 
       updateCollectionFields(ref, changedFields);
+      // Response with signed URL
+      res.status(200).json({
+        message: 'Collection Fields updated',
+      });
     } catch (error) {
       console.error('Error updataing collection form:', error);
       res.status(500).json({ error: 'Failed to upload file' });

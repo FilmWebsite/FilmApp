@@ -23,7 +23,6 @@ const EditCollection = ({
 }: EditCollectionProps) => {
   const { getPhotosbyCID } = usePhotos();
   const { collectionCoverChange } = useAdminTools();
-
   const photos = getPhotosbyCID({ id: selectedCard.id });
   const { handleFormChange, submitCollectionEdit, isEdited } =
     useAdminCollectionForm(selectedCard);
@@ -92,6 +91,7 @@ const EditCollection = ({
                   onClick={(e) => {
                     e.preventDefault();
                     submitCollectionEdit();
+                    setSelectedCard(null);
                   }}
                 >
                   Save Changes
