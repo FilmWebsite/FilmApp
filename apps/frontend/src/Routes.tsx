@@ -9,6 +9,7 @@ import AdminPage from './adminPages/AdminPage.tsx';
 import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.tsx';
+import { ProtectedRoute } from './ProtectedRoute.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -33,9 +34,15 @@ function FilmRoutes() {
         <Route path='/about' element={<About />} />
         <Route path='/downloads' element={<Downloads />} />
         <Route path='/dedication' element={<Dedication />} />
-        <Route path='/admin-login' element={<AdminLogin />} />
-        {/* make sure no one can just have access to this page without logging in first */}
-        <Route path='/admin-page' element={<AdminPage />} />
+
+        <Route
+          path='/admin-page'
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>

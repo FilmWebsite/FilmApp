@@ -9,6 +9,7 @@ import { LuSwitchCamera } from 'react-icons/lu';
 import { MdDelete } from 'react-icons/md';
 import { FaPhotoFilm } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
+import { useAuth } from '@clerk/clerk-react';
 
 import '../styles/Admin.scss';
 
@@ -21,6 +22,8 @@ const EditCollection = ({
   selectedCard,
   setSelectedCard,
 }: EditCollectionProps) => {
+  const { getToken } = useAuth();
+
   const { getPhotosbyCID } = usePhotos();
   const { collectionCoverChange } = useAdminTools();
   const photos = getPhotosbyCID({ id: selectedCard.id });
@@ -88,10 +91,14 @@ const EditCollection = ({
                   type='submit'
                   className={`submitButton ${isEdited ? 'hoverEnabled' : ''}`}
                   disabled={!isEdited}
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.preventDefault();
-                    submitCollectionEdit();
-                    setSelectedCard(null);
+                    const token = await getToken();
+
+                    if (token) {
+                      submitCollectionEdit(token);
+                      setSelectedCard(null);
+                    }
                   }}
                 >
                   Save Changes

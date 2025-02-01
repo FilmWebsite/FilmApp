@@ -1,8 +1,6 @@
-import { CollectionController } from './source';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { getPhotoViaId } from './source/controllers/DownloadImage';
 import axios from 'axios';
 import Redis from 'ioredis'; // Import ioredis
 import {
@@ -16,17 +14,21 @@ import {
   updateCollectionCoverUrl,
   updateCollectionFields,
 } from './helpers/getFilesandMeta';
-import {
-  changeCollectionCoverBackend,
-  swapHomeDisplayNode,
-} from './helpers/adminAction';
+import { swapHomeDisplayNode } from './helpers/adminAction';
 import { adminStorage } from './firebaseAdmin';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import { db } from './db';
 import { CollectionFormData, CollectionType } from '@film/photos-iso';
+import {
+  ClerkExpressRequireAuth,
+  ClerkExpressWithAuth,
+} from '@clerk/clerk-sdk-node';
+
+import 'dotenv/config';
+import { memoize } from './helpers/memo';
+
 // 09/18 Update requires an firestore key. Break if not found
 checkFileExists().catch((error) => {
   throw new Error(
@@ -59,6 +61,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const getFilesandMetaMemoized = memoize(getFilesandMeta, 3600000); // 1 hour TTL
 
 export async function createFilmServer() {
   const node = express();
@@ -66,18 +69,22 @@ export async function createFilmServer() {
   node.use(bodyParser.json({ limit: '30mb' }));
   node.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
+  // ---------------------------
+  // GET /photos - expensive route
+  // ---------------------------
   node.get('/photos', async (req, res) => {
     try {
-      // // Try to get cached data from Redis
+      // Check for cached photos from Redis
       const cachedPhotos = await redisClient.get(cacheKey);
-
       if (cachedPhotos) {
+        console.log('from cached photos');
         return res.json(JSON.parse(cachedPhotos));
       }
 
-      const photos = await getFilesandMeta();
-
-      redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
+      // Use memoized Firestore fetch if Redis cache is empty
+      const photos = await getFilesandMetaMemoized();
+      // Cache the photos in Redis for 1 hour (3600 seconds)
+      await redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
       return res.json(photos);
     } catch (error) {
       console.error('Error fetching photos:', error);
@@ -85,58 +92,38 @@ export async function createFilmServer() {
     }
   });
 
-  node.post('/collections/update', async (req, res) => {
-    if (!req.body.url) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
-    if (!req.body.collection) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
+  // ---------------------------
+  // POST /admin/update/collection/form-data - update collection form data
+  // ---------------------------
+  node.post(
+    '/admin/update/collection/form-data',
+    ClerkExpressRequireAuth(),
+    async (req, res) => {
+      try {
+        const changedFields: Partial<CollectionFormData> = req.body.editedData;
+        const ref: CollectionType = req.body.ref;
 
-    if (!req.body.oldMeta) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
+        if (!changedFields || Object.keys(changedFields).length === 0 || !ref) {
+          return res.status(400).json({ error: 'No fields to update' });
+        }
 
-    if (!req.body.current) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
+        await updateCollectionFields(ref, changedFields);
 
-    if (!req.body.removeFromCurrent) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
+        // await redisClient.del(`collection:${ref.id}`);
 
-    return updatePicMetadata(
-      res,
-      req.body.url,
-      req.body.collection,
-      req.body.oldMeta,
-      req.body.current,
-      req.body.removeFromCurrent
-    );
-  });
-
-  node.post('/admin/update/collection/form-data', async (req, res) => {
-    try {
-      const changedFields: Partial<CollectionFormData> = req.body.editedData;
-      const ref: CollectionType = req.body.ref;
-
-      if (!changedFields || Object.keys(changedFields).length === 0 || !ref) {
-        return res.status(400).json({ error: 'No fields to update' });
+        res.status(200).json({
+          message: 'Collection Fields updated',
+        });
+      } catch (error) {
+        console.error('Error updating collection form:', error);
+        res.status(500).json({ error: 'Failed to update collection' });
       }
-
-      updateCollectionFields(ref, changedFields);
-      // Response with signed URL
-      res.status(200).json({
-        message: 'Collection Fields updated',
-      });
-    } catch (error) {
-      console.error('Error updataing collection form:', error);
-      res.status(500).json({ error: 'Failed to upload file' });
     }
-  });
+  );
 
   node.post(
     '/admin/update/collection/cover',
+    ClerkExpressRequireAuth(),
     upload.single('imageFile'),
     async (req, res) => {
       try {
@@ -183,39 +170,52 @@ export async function createFilmServer() {
     }
   );
 
-  node.post('/admin/update/display', async (req, res) => {
-    if (!req.body.urls) {
-      return res.status(400).send({ error: 'No data provided' });
-    }
-    const newFile = getFileFromUrl(req.body.urls.newUrl);
-    const oldFile = getFileFromUrl(req.body.urls.oldUrl);
+  node.post(
+    '/admin/update/display',
+    ClerkExpressRequireAuth(),
+    async (req, res) => {
+      if (!req.body.urls) {
+        return res.status(400).send({ error: 'No data provided' });
+      }
+      const newFile = getFileFromUrl(req.body.urls.newUrl);
+      const oldFile = getFileFromUrl(req.body.urls.oldUrl);
 
-    swapHomeDisplayNode(oldFile, newFile, res);
-  });
+      swapHomeDisplayNode(oldFile, newFile, res);
+    }
+  );
 
   node.get('/collections/:collection', async (req, res) => {
     const { collection } = req.params;
+    const collectionCacheKey = `collection:${collection}`;
 
     try {
-      const cachedPhotos = await redisClient.get(cacheKey);
-
-      if (cachedPhotos) {
-        return await sortPhotosByCollectionId(
-          JSON.parse(cachedPhotos),
-          res,
-          collection
-        );
+      // Try to get cached data for this collection
+      const cachedCollection = await redisClient.get(collectionCacheKey);
+      if (cachedCollection) {
+        return res.json(JSON.parse(cachedCollection));
       }
 
-      const photos = await getFilesandMeta();
-      redisClient.setex(cacheKey, 3600, JSON.stringify(photos));
-      return await sortPhotosByCollectionId(photos, res, collection);
+      // If not in cache, get full photos data using memoization
+      const photos = await getFilesandMetaMemoized();
+      // Sort photos by collection id
+      const collectionPhotos = await sortPhotosByCollectionId(
+        photos,
+        res,
+        collection
+      );
+
+      // Cache the result for this collection (TTL = 1 hour)
+      await redisClient.setex(
+        collectionCacheKey,
+        3600,
+        JSON.stringify(collectionPhotos)
+      );
+      return res.json(collectionPhotos);
     } catch (error) {
-      console.error('Error fetching photos:', error);
-      res.status(500).send('Error fetching photos');
+      console.error('Error fetching collection data:', error);
+      res.status(500).send('Error fetching collection data');
     }
   });
-
   node.post('/download/', async (req, res) => {
     if (!req.body.url) {
       return res.status(400).send({ error: 'No data provided' });

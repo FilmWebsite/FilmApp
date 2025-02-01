@@ -50,34 +50,38 @@ export function useAdminCollectionForm(collection: Collection) {
     setIsEdited(Object.keys(changedFields).length > 0);
   }, [formData, collection]);
 
-  const submit = useCallback(async () => {
-    const changedFields = getChangedFields(collection);
+  const submit = useCallback(
+    async (token: string) => {
+      const changedFields = getChangedFields(collection);
 
-    try {
-      const response = await fetch(
-        'http://localhost:8080/admin/update/collection/form-data',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            editedData: changedFields,
-            ref: collection.ref,
-          }),
+      try {
+        const response = await fetch(
+          'http://localhost:8080/admin/update/collection/form-data',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              editedData: changedFields,
+              ref: collection.ref,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log('Update successful:', data);
+        } else {
+          console.error('Update failed:', data.error);
         }
-      );
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Update successful:', data);
-      } else {
-        console.error('Update failed:', data.error);
+      } catch (error) {
+        console.error('Error submitting changes:', error);
       }
-    } catch (error) {
-      console.error('Error submitting changes:', error);
-    }
-  }, [getChangedFields, collection]);
+    },
+    [getChangedFields, collection]
+  );
 
   return {
     submitCollectionEdit: submit,
