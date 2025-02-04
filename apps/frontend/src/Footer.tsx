@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { IoCameraOutline } from 'react-icons/io5';
-import './styles/Footer.css';
+import './styles/Footer.scss';
 import { useFooterState } from './providers/FooterProvider';
 import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
 import { Link } from 'react-router-dom';
@@ -39,14 +39,14 @@ function Footer() {
           </a>
 
           {user && (
-            <Link to='/admin-page'>
-              <p className='footerLink'>Admin</p>
+            <Link to='/admin'>
+              <p className='admin-footer'>Admin</p>
             </Link>
           )}
 
           {user && (
             <SignOutButton>
-              <p className='footerLink'>Sign Out</p>
+              <p className='admin-footer'>Sign Out</p>
             </SignOutButton>
           )}
         </div>

@@ -97,3 +97,18 @@
   flex-direction: row;
   gap: 20px;
 }
+
+.admin-footer {
+  background: linear-gradient(to right, #ff7f50, #fd5e53, #f94e63, #d2386c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px; // Adjust as needed
+  font-weight: 500; /* font-medium */
+  transition: all 0.3s ease; /* transition-all */
+}
+
+.admin-footer:hover {
+  background: none; /* Remove the gradient background */
+  -webkit-text-fill-color: #ff7f50; /* Set text color to white */
+  transform: scale(0.95); /* Shrink effect */
+}

@@ -1,37 +1,37 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePhotos, useAdminTools } from '@film/photos-web';
 import { Collection, CollectionType, Photo } from '@film/photos-iso';
 import { EditAlbumCard } from '../components/EditAlbumCard';
-import '../styles/Admin.scss';
 import { LuSwitchCamera } from 'react-icons/lu';
 import { EditCollection } from '../components/EditCollection';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { Skeleton } from '../components';
+import { useNavigate } from 'react-router-dom';
 
-// import { CollectionSection } from './components/CollectionSection.tsx';
+import '../styles/Admin.scss';
 
 function AdminPage() {
-  const { homePhotos, collections, getPhotosbyCID, allPhotos } = usePhotos();
-  const [collectionId, setCollectionId] = useState<CollectionType>('all');
-  const photos = getPhotosbyCID;
-  ({ id: 'all' });
-  type ImageLoadStatus = Record<string, boolean>; // Define the type for imageLoadStatus
+  type ImageLoadStatus = Record<string, boolean>;
+  const [imageLoadStatus, setImageLoadStatus] = useState<ImageLoadStatus>({});
 
-  const [imageLoadStatus, setImageLoadStatus] = useState<ImageLoadStatus>({}); // Type-safe state
-  const [newPhoto, setNewPhoto] = useState<Photo | null>(null);
-
-  const handleNewPhotoClick = (photo: Photo) => {
-    setNewPhoto(photo);
-  };
-
-  const { swapHomeDisplay } = useAdminTools();
+  const navigate = useNavigate();
 
   const handleImageLoad = (id: string) => {
     setImageLoadStatus((prevStatus) => ({
       ...prevStatus,
       [id]: true, // Mark the image as loaded
     }));
+  };
+
+  const { homePhotos, collections, getPhotosbyCID, allPhotos } = usePhotos();
+  const [collectionId] = useState<CollectionType>('all');
+
+  const photos = getPhotosbyCID({ id: 'all' });
+
+  const { swapHomeDisplay } = useAdminTools();
+  const [newPhoto, setNewPhoto] = useState<Photo | null>(null);
+  const handleNewPhotoClick = (photo: Photo) => {
+    setNewPhoto(photo);
   };
 
   const [selectedCard, setSelectedCard] = useState<Collection | null>(null);
@@ -57,14 +57,16 @@ function AdminPage() {
     oldUrl: string;
     newUrl: string;
   }) => {
-    const r = await swapHomeDisplay({
+    await swapHomeDisplay({
       oldUrl: oldUrl,
       newUrl: newUrl,
     });
-
-    console.log(r, 'swapped');
     closePopup();
     window.location.reload(); // Refresh the page after the action
+  };
+
+  const routeToAdminCollectionEdit = (card: Collection) => {
+    navigate(`/admin/collection/${card.ref}`, { state: { card } });
   };
 
   return (
@@ -181,17 +183,10 @@ function AdminPage() {
         <h1 className='adminHeaders' style={{ color: '#ff7f50' }}>
           Edit Albums
         </h1>
-        {selectedCard ? (
-          <EditCollection
-            selectedCard={selectedCard}
-            setSelectedCard={setSelectedCard}
-          />
-        ) : (
-          <EditAlbumCard
-            collections={collections}
-            onSelectCard={setSelectedCard}
-          />
-        )}
+        <EditAlbumCard
+          collections={collections}
+          onSelectCard={routeToAdminCollectionEdit}
+        />
       </div>
     </div>
   );

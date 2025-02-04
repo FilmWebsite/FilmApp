@@ -13,7 +13,6 @@ import {
 import './styles/album-set.scss';
 
 const Collection: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { collection } = useParams<{ collection: CollectionType }>();
   const footerDispatch = useFooterDispatch();
 

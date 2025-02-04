@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Collection } from '@film/photos-iso';
+import { Collection, CollectionType } from '@film/photos-iso';
 import {
   usePhotos,
   useAdminTools,
@@ -10,47 +10,53 @@ import { MdDelete } from 'react-icons/md';
 import { FaPhotoFilm } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
 import { useAuth } from '@clerk/clerk-react';
-
+import { useParams, useLocation } from 'react-router-dom';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
 import '../styles/Admin.scss';
 
-type EditCollectionProps = {
-  selectedCard: Collection;
-  setSelectedCard: React.Dispatch<React.SetStateAction<Collection | null>>;
-};
+//
+// Child Component: Renders the edit form once we have the card data.
+// Note: This component always calls its hooks in the same order.
+//
+interface EditCollectionInnerProps {
+  finalCard: Collection;
+}
 
-const EditCollection = ({
-  selectedCard,
-  setSelectedCard,
-}: EditCollectionProps) => {
+const EditCollectionInner: React.FC<EditCollectionInnerProps> = ({
+  finalCard,
+}) => {
   const { getToken } = useAuth();
-
   const { getPhotosbyCID } = usePhotos();
   const { collectionCoverChange } = useAdminTools();
-  const photos = getPhotosbyCID({ id: selectedCard.id });
-  const { handleFormChange, submitCollectionEdit, isEdited } =
-    useAdminCollectionForm(selectedCard);
 
-  const handleCoverImageClick = (event: any) => {
-    const file: File = event.target.files[0];
+  // Now that finalCard is available, it's safe to call these hooks.
+  const photos = getPhotosbyCID({ id: finalCard.id });
+  const { handleFormChange, submitCollectionEdit, isEdited } =
+    useAdminCollectionForm(finalCard);
+
+  const handleCoverImageClick = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
     if (file) {
-      collectionCoverChange(file, selectedCard.ref);
+      collectionCoverChange(file, finalCard.ref);
     }
   };
 
   const handleIconClick = () => {
-    // @ts-ignore
-    document.getElementById('fileInput').click();
+    document.getElementById('fileInput')?.click();
   };
+
   return (
     <div>
-      <a onClick={() => setSelectedCard(null)}>Back</a>
       <form className='albumInfoForm'>
         <div className='selectedTop'>
           <div className='selectedAlbumImg'>
             <div className='relative h-[350px] w-full max-w-[350px] overflow-hidden cursor-pointer'>
               <img
-                src={selectedCard.cover_image}
-                alt={selectedCard.card_name}
+                src={finalCard.cover_image}
+                alt={finalCard.card_name}
                 className='photoImage'
                 onError={(e) => {
                   e.currentTarget.src = '/path/to/fallback-image.jpg';
@@ -60,14 +66,14 @@ const EditCollection = ({
             <div>
               <LuSwitchCamera
                 className='selectedAlbumIcon'
-                onClick={handleIconClick} // Triggers the file input click
+                onClick={handleIconClick}
               />
               <input
                 id='fileInput'
                 type='file'
                 accept='image/*'
-                style={{ display: 'none' }} // Hidden input
-                onChange={handleCoverImageClick} // Handles file selection
+                style={{ display: 'none' }}
+                onChange={handleCoverImageClick}
               />
             </div>
           </div>
@@ -82,7 +88,7 @@ const EditCollection = ({
                   onChange={(e) =>
                     handleFormChange('card_name', e.target.value)
                   }
-                  placeholder={selectedCard.card_name}
+                  placeholder={finalCard.card_name}
                 />
               </span>
 
@@ -94,10 +100,8 @@ const EditCollection = ({
                   onClick={async (e) => {
                     e.preventDefault();
                     const token = await getToken();
-
                     if (token) {
                       submitCollectionEdit(token);
-                      setSelectedCard(null);
                     }
                   }}
                 >
@@ -115,7 +119,7 @@ const EditCollection = ({
                   onChange={(e) =>
                     handleFormChange('text_color', e.target.value)
                   }
-                  placeholder={selectedCard.colors.textColor}
+                  placeholder={finalCard.colors.textColor}
                 />
               </span>
               <span>
@@ -124,7 +128,7 @@ const EditCollection = ({
                   type='text'
                   name='shadowColor'
                   className='editBox'
-                  placeholder={selectedCard.colors.shadowColor}
+                  placeholder={finalCard.colors.shadowColor}
                   onChange={(e) =>
                     handleFormChange('shadow_color', e.target.value)
                   }
@@ -138,11 +142,7 @@ const EditCollection = ({
                   type='text'
                   name='display_name'
                   className='editBox'
-                  placeholder={
-                    selectedCard.display_name
-                      ? selectedCard.display_name
-                      : 'null'
-                  }
+                  placeholder={finalCard.display_name || 'null'}
                   onChange={(e) =>
                     handleFormChange('display_name', e.target.value)
                   }
@@ -155,7 +155,7 @@ const EditCollection = ({
                   name='ref'
                   className='editBox'
                   placeholder='Contact Backend Team for ref change'
-                  disabled={true}
+                  disabled
                 />
               </span>
             </div>
@@ -173,10 +173,7 @@ const EditCollection = ({
       <div className='photoGrid'>
         {photos.map((pics, index) => (
           <div key={index} className='photoSection'>
-            <div
-              key={index}
-              className='relative h-[300px] w-full max-w-[300px] overflow-hidden'
-            >
+            <div className='relative h-[300px] w-full max-w-[300px] overflow-hidden'>
               <img
                 src={pics.url}
                 alt='grid item'
@@ -195,6 +192,60 @@ const EditCollection = ({
       </div>
     </div>
   );
+};
+
+//
+// Parent Component: Handles fetching the card data and conditionally rendering
+// the child component. The hooks in this component are always called in the same order.
+//
+const EditCollection: React.FC = () => {
+  const { ref } = useParams<{ ref: CollectionType }>();
+  const location = useLocation();
+  const card = location.state?.card;
+  const [collectionData, setCollectionData] = useState<Collection | null>(null);
+  const [loading, setLoading] = useState<boolean>(!card);
+
+  async function getCollection(ref: CollectionType) {
+    const collectionsRef = collection(db, 'collection');
+    const q = query(collectionsRef, where('ref', '==', ref));
+
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+      throw new Error('No collection found');
+    }
+
+    const docSnapshot = snapshot.docs[0];
+    const data = docSnapshot.data() as Omit<Collection, 'id'>;
+    return { id: docSnapshot.id, ...data };
+  }
+
+  useEffect(() => {
+    if (!card && ref) {
+      const fetchData = async () => {
+        try {
+          const match = await getCollection(ref);
+          setCollectionData(match);
+        } catch (error) {
+          console.error('Error fetching collection:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [card, ref]);
+
+  if (loading) return <div>Loading...</div>;
+
+  // Use either the card from location state or the fetched collectionData
+  const finalCard = card || collectionData;
+
+  // Even though finalCard might be null at first, this component always calls its hooks in the same order.
+  // We now render the child component only when we have valid data.
+  if (!finalCard) return <div>No collection data available</div>;
+
+  return <EditCollectionInner finalCard={finalCard} />;
 };
 
 export { EditCollection };

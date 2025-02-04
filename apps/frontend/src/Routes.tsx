@@ -10,6 +10,7 @@ import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.tsx';
 import { ProtectedRoute } from './ProtectedRoute.tsx';
+import { EditCollection } from './components/EditCollection.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -36,10 +37,19 @@ function FilmRoutes() {
         <Route path='/dedication' element={<Dedication />} />
 
         <Route
-          path='/admin-page'
+          path='/admin'
           element={
             <ProtectedRoute>
               <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/admin/collection/:ref'
+          element={
+            <ProtectedRoute>
+              <EditCollection />
             </ProtectedRoute>
           }
         />

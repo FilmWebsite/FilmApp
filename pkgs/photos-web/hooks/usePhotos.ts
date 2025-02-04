@@ -1,7 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 // FIXME: remove .js extension
 import { P, Photo, CollectionType, Collection } from '@film/photos-iso';
-import { collection, onSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { db } from '../firebase.js';
 
 export function usePhotos() {

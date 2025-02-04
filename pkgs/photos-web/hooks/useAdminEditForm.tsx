@@ -13,6 +13,7 @@ export function useAdminCollectionForm(collection: Collection) {
   });
 
   const getChangedFields = (originalData: Collection) => {
+    console.log(originalData, 'hi');
     let changedFields: Partial<CollectionFormData> = {};
 
     for (const key in formData) {

@@ -172,7 +172,7 @@ export async function createFilmServer() {
 
   node.post(
     '/admin/update/display',
-    ClerkExpressRequireAuth(),
+    // ClerkExpressRequireAuth(),
     async (req, res) => {
       if (!req.body.urls) {
         return res.status(400).send({ error: 'No data provided' });
