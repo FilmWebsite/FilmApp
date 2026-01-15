@@ -1,0 +1,582 @@
+.background{
+    display: flex;
+    flex-direction: column;
+    background: url('../photos/imageOne.JPG') no-repeat center center fixed; /* Adds the background image */
+    background-size: cover; /* Ensures the image covers the entire viewport */
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    align-items: center;
+    justify-content: center; /* Centers content inside the box */
+}
+
+.homeBtn{
+    position: absolute; /* Position it relative to the nearest positioned ancestor (background) */
+    top: 20px; /* Distance from the top of the container */
+    left: 20px; /* Distance from the left of the container */
+    color: white;
+    font-size: 20px;
+    text-decoration: none; /* Removes underline for links */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.backBtn:hover {
+    color: #d2386c;
+}
+
+.loginBox{
+    width: auto;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.2); /* White with transparency */
+    backdrop-filter: blur(10px); /* Blurs the background behind the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    padding: 50px; /* Adds some inner spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centers content inside the box */
+}
+
+.words{
+    background: linear-gradient(to right, #f94e63, #d2386c);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    font-size: 30px; /* text-4xl */
+    font-weight: 600;
+    margin-bottom: 5%;
+}
+
+.inputContainer {
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Vertically center items */
+    gap: 10px; /* Adds spacing between the input and the button */
+  }
+
+.inputBox {
+    all: unset; /* Resets all inherited styles to make sure no box appears */
+    border-bottom: 2px solid #f94e63; /* Adds the underline */
+    padding: 5px 0; /* Adds spacing for better usability */
+    font-size: 16px; /* Adjusts text size */
+    width: 300px; /* Ensures it spans the available width */
+    transition: border-color 0.3s ease; /* Smooth transition for focus effect */
+    color: #f94e63;
+}
+  
+.inputBox:focus {
+    border-bottom: 2px solid #f94e63; /* Changes the underline color on focus */
+}
+
+.inputBox::placeholder {
+    color: white; /* Placeholder text color */
+    font-style: italic; /* Optional placeholder styling */
+}
+
+.enterButton {
+    margin: 0; /* Ensure no extra margins */
+    padding: 5px 15px;
+    font-size: 16px;
+    height: 100%; /* Match the height of the input */
+    background-color: #f94e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.enterButton:hover {
+    background-color: #d2386c; /* Darker shade on hover */
+}
+
+//Admin Page Styles
+
+.adminBackground{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    margin: 3%;
+    // overflow-x: hidden;
+    gap: 100px;
+}
+
+.adminHeaders{
+    color: white;
+    font-weight: 600; /* font-semibold */
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+}
+
+.homePhotos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .homePhotos::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  .photoContainer {
+    flex: 0 0 auto; /* Prevent shrinking or growing */
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: flex-start;
+    gap: 5px; /* Space between image and icon */
+  }
+  
+  .homePhoto {
+    max-height: 200px; /* Maximum height */
+    max-width: 300px; /* Adjust maximum width */
+    height: auto; /* Keep aspect ratio */
+    width: auto; /* Keep aspect ratio */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    object-fit: contain; /* Maintain proportions within the space */
+  }
+  
+  .photoIcon {
+    font-size: 20px; /* Adjust icon size */
+    color: #555; /* Default icon color */
+    margin: auto;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+  
+//Adjust later!
+.photoContainer:hover .homePhoto + .photoIcon {
+    color: #f94e63;
+  }
+
+  .shufflePicsSection{
+    display: flex;
+    flex-direction: column;
+    
+  }
+
+
+//Shuffle Photo Modal
+
+.modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Optional dark overlay */
+    z-index: 1000;
+    overflow: hidden; /* Prevents scrolling on the whole page */
+  }
+  
+  .leftSide {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .closeIcon{
+    color: white;
+    font-size: 20px;
+    padding: 1%;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .closeIcon:hover{
+    color: #f94e63;
+  }
+  
+  .box {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .selectedImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Keeps aspect ratio while filling the box */
+  }
+
+  .confirmButton {
+    margin: 0; /* Ensure no extra margins */
+    padding: 5px 15px;
+    font-size: 20px;
+    height: 100%; /* Match the height of the input */
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.confirmButton:hover {
+    background-color: #f94e63; /* Darker shade on hover */
+}
+  
+  .rightSide {
+    flex: 1;
+    overflow-y: auto; /* Makes the right side scrollable */
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .picContainer {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+  }
+  
+  .picImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+  }
+  
+  .picImage:hover {
+    transform: scale(1.05);
+  }
+
+
+//EDIT PHOTO ALBUMS
+
+
+  .albumFrame {
+    width: 500px;
+    height: 350px;
+    // background-color: red;
+  }
+  
+  .albumPhotos {
+    width: 100%; /* Make the image take the full width of its container */
+    height: 100%; /* Make the image take the full height of its container */
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .editCardTitle{
+    background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Use an rgba color with low alpha for transparency */
+  backdrop-filter: blur(1px); /* Add a blur effect to the background */
+  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+  color: #ffffff; /* text-white */
+  font-weight: 800; /* font-medium */
+  padding: 0 10px;
+  border-radius: 0.375rem; /* rounded */
+  transition: all 0.3s ease; /* transition-all */
+  font-size: 2.2rem;
+  }
+
+  .editCardTitle:hover {
+    background: linear-gradient(to right, #ff7f50, #fd5e53, #f94e63, #d2386c);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    padding: 2rem 1rem; /* Add padding to match the original size */
+  }
+
+  .glass-effect {
+    background-color: rgba(255, 255, 255, 0.1); /* White with transparency */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: soft shadow */
+    cursor: pointer;
+  }
+
+  .addAlbumIcon{
+    font-size: 60px;
+    color: white;
+    transition: color 0.3s ease;
+  }
+
+  .glass-effect:hover .addAlbumIcon {
+    color: #f94e63; /* Change to desired hover color */
+    
+  }
+
+
+  //EDIT COLLECTION
+
+  .backBtn{
+    color: white;
+    font-size: 40px;
+  }
+
+  .selectedTop{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .selectedAlbumImg{
+    display: flex;
+    flex-direction: column; /* Stack image and icon vertically */
+    align-items: center; /* Center the icon horizontally */
+    gap: 8px; /* Add space between the image and icon */
+  }
+
+  .photoImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    transition: transform 0.3s ease; /* Smooth zoom effect on hover */
+  }
+
+  .selectedAlbumIcon {
+    font-size: 24px; /* Adjust size of the icon */
+    color: #555; /* Default icon color */
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .selectedAlbumIcon:hover{
+    color: #ff7f50;
+  }
+
+  .albumForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .selectedTopInfo{
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    width: 70%;
+    height: auto;
+  }
+
+  .selectedAlbumName{
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .submitButton {
+    background-color: #555;
+    color: white;
+    font-weight: 700;
+    padding: 10px ;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end; 
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #ff7f50;
+  }
+
+  .inputHeader{
+    font-size: 16px;
+    color: #ff7f50;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .selectedHeaders{
+    display: flex; /* Set flexbox layout */
+    flex-direction: row; /* Align children in a row */
+    align-items: center; /* Align items vertically in the center */
+    gap: 16px; /* Add space between the items */
+    margin-bottom: 20px; /* Add spacing below the row */
+  }
+
+
+
+  .editBox {
+    all: unset;
+    border-bottom: 2px solid #555;
+    padding: 5px 0;
+    font-size: 16px;
+    width: 300px;
+    transition: border-color 0.3s ease;
+    color: white;
+  }
+  
+  .editBox:focus {
+    border-bottom: 2px solid #ff7f50; /* Highlight color on focus */
+  }
+  
+  
+  
+  .editDesc {
+    all: unset; /* Reset inherited styles */
+    background-color: rgba(255, 255, 255, 0.1); /* Light translucent background */
+    border: 1px solid #555; /* Add a border to create the box effect */
+    padding: 10px; /* Inner spacing for comfort */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 16px; /* Text size */
+    color: white; /* Text color */
+    width: 100%; /* Full width */
+    height: 120px; /* Adjust height as needed */
+    resize: vertical; /* Prevent resizing if desired */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  }
+  
+  .editDesc:focus {
+    border-color: #ff7f50;
+    outline: none; /* Remove default outline */
+  }
+
+  .photoSection {
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Center the icon below the image */
+  }
+
+  .photoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 16px; /* Space between items */
+    justify-items: center; /* Center items horizontally */
+    margin-top: 5%;
+    // background-color: red;
+  }
+  
+  .collectionPhotos {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Show the entire image while maintaining aspect ratio */
+  }
+
+  .photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 16px; /* Space between items */
+  justify-items: center; /* Center items horizontally */
+}
+
+.collectionPhotos {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Show the entire image while maintaining aspect ratio */
+  background-color: #f0f0f0; /* Optional: add a neutral background for padding areas */
+  transition: transform 0.3s ease; /* Smooth scaling effect */
+  
+}
+
+.photoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Space between items */
+    justify-items: center; /* Center grid items horizontally */
+    align-items: start;
+  }
+  
+  .collectionPhotos {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the space while maintaining aspect ratio */
+  }
+
+  .photoOptions{
+    display: flex;
+    flex-direction: row;
+    color: #555;
+    font-size: 20px;
+    margin-top: 3%;
+    gap: 7px;
+    align-items: center;
+  }
+
+  .photoSwitch + .photoDelete{
+    transition: color 0.3s ease;
+  }
+
+  .photoSwitch:hover{
+    color: #ff7f50;
+  }
+
+  .photoDelete:hover{
+  color: #fd5e53;
+  }
+
+  .addPhoto{
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    width: 300px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .add{
+    font-size: 60px;
+    color: white;
+    transition: color 0.3s ease;
+    // background-color: red;
+    // margin: auto;
+  }
+
+  .addPhoto:hover .add {
+    color: #f94e63; /* Change to desired hover color */
+    
+  }
+
+
+  //LOGOUT BUTTON
+
+  .logOutSection{
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .logOutQuestion{
+    color: white;
+    font-size: 17px;
+    margin-right: 5px;
+  }
+
+  .logoutBtn{
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .logoutBtn:hover{
+    background: linear-gradient(to right, #f94e63, #d2386c);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+  }
+
+  

@@ -1,33 +1,43 @@
 import { Collection, CollectionType } from '@film/photos-iso';
 import { Response } from 'express';
-import { doc, getDoc } from 'firebase/firestore'; // Import getDoc from firebase/firestore
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../db';
+import { memoize } from './memo';
 
+/**
+ * Retrieves a collection from Firestore by its ID.
+ * This function is a good candidate for memoization if collection data does not change frequently.
+ */
 async function getCollectionByID(
-  CollectionID: string
-  // @ts-ignore
+  collectionID: string
 ): Promise<Collection | null> {
   try {
-    const docRef = doc(db, 'collection', CollectionID); // Create a reference to the specific document
-    const docSnap = await getDoc(docRef); // Get the document snapshot
+    const docRef = doc(db, 'collection', collectionID);
+    const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      // Check if the document exists
-      const data = docSnap.data() as Omit<Collection, 'id'>; // Extract the data
+      const data = docSnap.data() as Omit<Collection, 'id'>;
       return {
-        id: docSnap.id, // Include the document ID
+        id: docSnap.id,
         ...data,
       };
     } else {
       console.log('No such document!');
-      return null; // Return null if the document does not exist
+      return null;
     }
   } catch (error) {
     console.error('Error fetching collection:', error);
-    throw new Error('Error fetching collection check backend/helper'); // Provide a meaningful error message
+    throw new Error('Error fetching collection check backend/helper');
   }
 }
 
+// Wrap getCollectionByID with memoization (TTL set to 60 seconds, adjust as needed)
+export const getCollectionByIDMemoized = memoize(getCollectionByID, 3600000);
+
+/**
+ * Filters photos by the given collection ID and returns a response containing
+ * both the collection data and the filtered photos.
+ */
 export async function sortPhotosByCollectionId(
   photos: {
     url: string;
@@ -39,13 +49,15 @@ export async function sortPhotosByCollectionId(
   res: Response,
   collectionId: string
 ) {
-  const collection = await getCollectionByID(collectionId);
+  // // Use the memoized version of getCollectionByID
+  const collection = await getCollectionByIDMemoized(collectionId);
+  console.log(collection, ' hello');
 
-  //   Filter photos that match the given collectionId
+  // // Filter photos that match the given collectionId.
   const filteredPhotos = photos.filter((photo) => {
     const collections = photo.metadata.collection;
 
-    // Handle both single ID and array of IDs
+    // Handle both a single ID (string) and an array of IDs.
     if (Array.isArray(collections)) {
       return collections.includes(collectionId);
     } else {
@@ -53,12 +65,11 @@ export async function sortPhotosByCollectionId(
     }
   });
 
-  // Prepare the response
+  // // Prepare the response.
   const response = {
     collection: collection,
     photos: filteredPhotos,
   };
 
-  // Send the response
-  return res.json(response);
+  return response;
 }

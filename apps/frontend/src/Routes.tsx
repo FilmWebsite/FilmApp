@@ -4,10 +4,13 @@ import Footer from './Footer.tsx';
 import { offFooter, useFooterDispatch } from './providers/FooterProvider.tsx';
 import { Landing } from './Landing.tsx';
 import { Collection } from './Collection.tsx';
-
+import AdminLogin from './adminPages/AdminLogin.tsx';
+import AdminPage from './adminPages/AdminPage.tsx';
 import { About } from './About.tsx';
 import Downloads from './Downloads.tsx';
 import Dedication from './Dedication.tsx';
+import { ProtectedRoute } from './ProtectedRoute.tsx';
+import { EditCollection } from './components/EditCollection.tsx';
 
 function FilmRoutes() {
   const location = useLocation();
@@ -32,6 +35,24 @@ function FilmRoutes() {
         <Route path='/about' element={<About />} />
         <Route path='/downloads' element={<Downloads />} />
         <Route path='/dedication' element={<Dedication />} />
+
+        <Route
+          path='/admin'
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/admin/collection/:ref'
+          element={
+            <ProtectedRoute>
+              <EditCollection />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>

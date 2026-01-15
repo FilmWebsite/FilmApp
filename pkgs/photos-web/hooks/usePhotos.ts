@@ -1,13 +1,19 @@
 import { useEffect, useState, useCallback } from 'react';
 // FIXME: remove .js extension
 import { P, Photo, CollectionType, Collection } from '@film/photos-iso';
-import { collection, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { db } from '../firebase.js';
 
 export function usePhotos() {
   const [photosLoading, setPhotosLoading] = useState<boolean>(false);
   const [photos, setPhotos] = useState<Photo[] | null>();
-  const [c, setCollection] = useState<Collection[] | null>();
+  const [collections, setCollections] = useState<Collection[] | null>();
 
   const getPhotosandMetadata = async () => {
     setPhotosLoading(true);
@@ -34,10 +40,10 @@ export function usePhotos() {
     }
   }, [photos, photosLoading]);
 
-  const returnCollections = async (): Promise<Collection[]> => {
-    try {
-      const collectionsRef = collection(db, 'collection');
-      const snapshot = await getDocs(collectionsRef);
+  useEffect(() => {
+    // Set up a Firestore listener for the collections
+    const collectionsRef = collection(db, 'collection');
+    const unsubscribe = onSnapshot(collectionsRef, (snapshot) => {
       const collectionList = snapshot.docs.map((doc) => {
         const data = doc.data() as Omit<Collection, 'id'>;
         return {
@@ -45,11 +51,12 @@ export function usePhotos() {
           ...data,
         };
       });
-      return collectionList;
-    } catch (error) {
-      throw new Error('Error fetching collections check usePhotos.ts');
-    }
-  };
+      setCollections(collectionList);
+    });
+
+    // Clean up the listener on unmount
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -59,13 +66,13 @@ export function usePhotos() {
     fetchPhotos();
   }, [db]);
 
-  useEffect(() => {
-    const c = async () => {
-      setCollection(await returnCollections());
-    };
+  // useEffect(() => {
+  //   const c = async () => {
+  //     setCollection(await returnCollections());
+  //   };
 
-    c();
-  }, []);
+  //   c();
+  // }, []);
 
   const filterHomeDisplay = useCallback(() => {
     if (photos && !photosLoading) {
@@ -78,7 +85,7 @@ export function usePhotos() {
   }, [photos, photosLoading]);
 
   const getPhotosByCollectionId = useCallback(
-    ({ id }: { id: CollectionType }) => {
+    ({ id }: { id: CollectionType | string }) => {
       // @ts-ignore
 
       if (photos && !photosLoading) {
@@ -99,9 +106,10 @@ export function usePhotos() {
   return {
     photosLoading: photosLoading,
     getPhotosbyCID: getPhotosByCollectionId,
-    collections: c,
+    collections, // Updated to return the collections state
     homePhotos: filterHomeDisplay(),
-    allPhotos: photos,
+    // !admin testing only
+    allPhotos: photos?.slice(0, 5),
     aboutMedia: filterAboutMedia(),
   };
 }

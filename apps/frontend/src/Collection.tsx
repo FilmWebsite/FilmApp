@@ -13,7 +13,6 @@ import {
 import './styles/album-set.scss';
 
 const Collection: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { collection } = useParams<{ collection: CollectionType }>();
   const footerDispatch = useFooterDispatch();
 
@@ -45,17 +44,13 @@ const Collection: React.FC = () => {
     };
   }, [loading, footerDispatch]);
 
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image);
-  };
-
   if (loading) return <Loading />;
   // Create fallback
   if (error) return <p>Error</p>;
 
   return (
     collectionData && (
-      <div className='nyc-container'>
+      <div className='albumContainer'>
         <a href='/'>
           <IoChevronBackOutline className='icon' />
         </a>
@@ -67,12 +62,12 @@ const Collection: React.FC = () => {
           />
           <p className='albumInfo'>{collectionData.desc || 'Coming soon...'}</p>
         </div>
+
         <div className='Image-container'>
           <ImageRow
             // @ts-ignore
             current={data.collection.id}
             slides={photos}
-            handleImageClick={handleImageClick}
           />
         </div>
       </div>

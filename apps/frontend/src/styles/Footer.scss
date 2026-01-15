@@ -1,0 +1,114 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  /* flex-direction: row; */
+  align-items: center;
+  height: 130px;
+  padding: 6% 5%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.footer-none {
+  display: none;
+}
+
+.footerSignature {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+.subFooter {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+}
+
+.subFooterPages {
+  display: flex;
+  /* flex-direction: row;
+    text-align: center; */
+  /* color: #ffffff; */
+  /* width: 200px; */
+  background-color: #d2386c;
+  /* margin-right: 5%; */
+}
+
+.copyright {
+  color: white;
+  /* font-family: "Bebas Neue", sans-serif; */
+  font-size: 15px;
+  margin-left: auto;
+  cursor: pointer;
+  /* margin-bottom: 45px; */
+  /* margin-left: 20%; */
+}
+
+.footerTxt {
+  color: white;
+}
+
+.socialLinks {
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 10%;
+    margin-right: 10%; */
+  gap: 12px;
+}
+
+.socialLinksHeader {
+  color: #fd5e53;
+  font-size: 25px; /* text-4xl */
+  font-weight: 600; /* font-semibold */
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.footerLink {
+  color: #ffffff; /* text-white */
+  font-weight: 500; /* font-medium */
+  font-size: 15px;
+  transition: all 0.3s ease; /* transition-all */
+  /* font-family: "Bebas Neue", sans-serif; */
+}
+
+.footerLink:hover {
+  color: #ff7f50;
+  transform: scale(0.95); /* active:scale-95 */
+}
+
+.usefulLinks {
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 10%; */
+  margin-right: 8%;
+  gap: 12px;
+}
+
+.footerHeaders {
+  color: #f94e63;
+  font-size: 22px; /* text-4xl */
+  font-weight: 600; /* font-semibold */
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.admin-footer {
+  background: linear-gradient(to right, #ff7f50, #fd5e53, #f94e63, #d2386c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px; // Adjust as needed
+  font-weight: 500; /* font-medium */
+  transition: all 0.3s ease; /* transition-all */
+}
+
+.admin-footer:hover {
+  background: none; /* Remove the gradient background */
+  -webkit-text-fill-color: #ff7f50; /* Set text color to white */
+  transform: scale(0.95); /* Shrink effect */
+}

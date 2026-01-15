@@ -1,16 +1,20 @@
 import React from 'react';
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { IoCameraOutline } from 'react-icons/io5';
-import './styles/Footer.css';
+import './styles/Footer.scss';
 import { useFooterState } from './providers/FooterProvider';
+import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   const { showFooter } = useFooterState(); // Manage footer visibility globally
+  const { user } = useUser(); //
 
   return (
     <div className={showFooter ? 'footer' : 'footer-none'}>
       <div className='usefulLinks'>
         <h1 className='footerHeaders'>Useful Links</h1>
+
         <div className='links'>
           <a href='/' className='footerLink'>
             Home
@@ -24,6 +28,27 @@ function Footer() {
           <a href='/dedication' className='footerLink'>
             Dedication
           </a>
+
+          <a
+            href='https://www.instagram.com/d.dot._?igsh=MzRlODBiNWFlZA=='
+            className='footerLink'
+            target='_blank'
+            rel='noreferrer'
+          >
+            Instagram
+          </a>
+
+          {user && (
+            <Link to='/admin'>
+              <p className='admin-footer'>Admin</p>
+            </Link>
+          )}
+
+          {user && (
+            <SignOutButton>
+              <p className='admin-footer'>Sign Out</p>
+            </SignOutButton>
+          )}
         </div>
       </div>
 
@@ -55,9 +80,13 @@ function Footer() {
         </div>
       </div> */}
 
-      <a href='/albums-login' className='copyright'>
-        Copyright © 2024 DDot Studio
-      </a>
+      {!user && (
+        <SignInButton>
+          <p className='copyright'>Copyright © 2024 DDot Studio</p>
+        </SignInButton>
+      )}
+
+      {user && <p className='copyright'>Copyright © 2024 DDot Studio</p>}
     </div>
   );
 }
