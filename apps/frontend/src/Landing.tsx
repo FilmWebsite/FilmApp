@@ -30,6 +30,8 @@ const Landing = () => {
     // aboutMediaLoading,
   } = usePhotos();
 
+  console.log(homePhotos, 'photos');
+
   const footerDispatch = useFooterDispatch();
   const [allImagesLoaded, setAllImagesLoaded] = useState(false); // Track if all images are loaded
 
@@ -49,8 +51,6 @@ const Landing = () => {
   if (photosLoading || !collections) {
     return <Loading />;
   }
-
-  console.log(homePhotos, 'h');
 
   return (
     <div className='galleryBase'>

@@ -180,7 +180,35 @@ export async function createFilmServer() {
       const newFile = getFileFromUrl(req.body.urls.newUrl);
       const oldFile = getFileFromUrl(req.body.urls.oldUrl);
 
-      swapHomeDisplayNode(oldFile, newFile, res);
+      const files = await swapHomeDisplayNode(oldFile, newFile);
+      const swappedNew = files[0];
+      const swappedOld = files[1];
+
+      const cachedPhotos = await redisClient.get(cacheKey);
+      if (cachedPhotos) {
+        let photos = JSON.parse(cachedPhotos);
+
+        // Replace only the affected photos
+        photos = photos.map((photo: any) => {
+          if (photo.metadata.name === oldFile.name) {
+            console.log('hit');
+            return {
+              ...photo,
+              metadata: { ...photo.metadata, ...swappedOld },
+            };
+          }
+          if (photo.metadata.name === newFile.name) {
+            return {
+              ...photo,
+              metadata: { ...photo.metadata, ...swappedNew },
+            };
+          }
+          return photo;
+        });
+
+        // Save updated cache
+        await redisClient.set(cacheKey, JSON.stringify(photos));
+      }
     }
   );
 

@@ -1,10 +1,9 @@
 import { File } from '@google-cloud/storage';
+import { Storage } from '@google-cloud/storage'; // Example for Google Cloud Storage
+import { Readable } from 'stream';
+import { adminStorage } from '../firebaseAdmin';
 
-export async function swapHomeDisplayNode(
-  oldFile: File,
-  newFile: File,
-  res: any
-) {
+export async function swapHomeDisplayNode(oldFile: File, newFile: File) {
   let oldFileMeta = null;
   let newFileMeta = null;
 
@@ -35,15 +34,11 @@ export async function swapHomeDisplayNode(
       // @ts-ignore
       metadata: newFileSwapped,
     });
-    return res.status(200).send('Swapped');
+    return [newFileSwapped, oldUpdatedMeta];
   } catch (error) {
-    return res.status(500).send('Error');
+    return [];
   }
 }
-
-import { Storage } from '@google-cloud/storage'; // Example for Google Cloud Storage
-import { Readable } from 'stream';
-import { adminStorage } from '../firebaseAdmin';
 
 export async function changeCollectionCoverBackend(
   fileBuffer: Buffer,
