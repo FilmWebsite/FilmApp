@@ -1,92 +1,45 @@
-import React from 'react';
-import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
-import { IoCameraOutline } from 'react-icons/io5';
-import './styles/Footer.scss';
-import { useFooterState } from './providers/FooterProvider';
-import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
+import { IoCameraOutline } from "react-icons/io5";
+import "./styles/Footer.scss";
+import { useFooterState } from "./providers/FooterProvider";
+import { SignInButton, SignOutButton, useUser } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const { showFooter } = useFooterState(); // Manage footer visibility globally
-  const { user } = useUser(); //
+  // const { user } = useUser(); //
 
   return (
-    <div className={showFooter ? 'footer' : 'footer-none'}>
-      <div className='usefulLinks'>
-        <h1 className='footerHeaders'>Useful Links</h1>
+    <div className={showFooter ? "footer" : "footer-none"}>
+      <div className="usefulLinks">
+        <h1 className="footerHeaders">Links</h1>
 
-        <div className='links'>
-          <a href='/' className='footerLink'>
+        <div className="links">
+          <a href="/" className="footerLink">
             Home
           </a>
-          <a href='/about' className='footerLink'>
+          <a href="/about" className="footerLink">
             About
           </a>
-          <a href='/downloads' className='footerLink'>
+          <a href="/downloads" className="footerLink">
             Downloads
           </a>
-          <a href='/dedication' className='footerLink'>
+          <a href="/dedication" className="footerLink">
             Dedication
           </a>
 
           <a
-            href='https://www.instagram.com/d.dot._?igsh=MzRlODBiNWFlZA=='
-            className='footerLink'
-            target='_blank'
-            rel='noreferrer'
+            href="https://www.instagram.com/ddot_filmz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            className="footerLink"
+            target="_blank"
+            rel="noreferrer"
           >
             Instagram
           </a>
-
-          {user && (
-            <Link to='/admin'>
-              <p className='admin-footer'>Admin</p>
-            </Link>
-          )}
-
-          {user && (
-            <SignOutButton>
-              <p className='admin-footer'>Sign Out</p>
-            </SignOutButton>
-          )}
         </div>
       </div>
-
-      {/* <div className="socialLinks">
-        <h1 className="footerHeaders">Socials</h1>
-
-        <div className="socials">
-          <a
-            href="https://www.instagram.com/d.dot._?igsh=MzRlODBiNWFlZA=="
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FaInstagram size={25} className="social" id="Insta" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/doron-reid-1030221b5"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FaLinkedin size={25} className="social" id="LinkedIn" />
-          </a>
-          <a
-            href="https://github.com/doronr18"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FaGithub size={25} className="social" id="GitHub" />
-          </a>
-        </div>
-      </div> */}
-
-      {!user && (
-        <SignInButton>
-          <p className='copyright'>Copyright © 2024 DDot Studio</p>
-        </SignInButton>
-      )}
-
-      {user && <p className='copyright'>Copyright © 2024 DDot Studio</p>}
+      <p className="copyright">Copyright © 2024 DDot Studio</p>
     </div>
   );
 }

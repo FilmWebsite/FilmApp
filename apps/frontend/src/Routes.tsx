@@ -19,7 +19,7 @@ function FilmRoutes() {
   useEffect(() => {
     // Always hide the footer on specific pages where you don't want it to appear
     if (
-      ['/about', '/albums-login', '/albums-edit', '/downloads'].includes(
+      ['/albums-login', '/albums-edit', '/downloads'].includes(
         location.pathname
       )
     ) {

@@ -1,16 +1,18 @@
-import React from 'react';
-import { FaInstagram, FaYoutube } from 'react-icons/fa';
+import React, { useEffect } from "react";
+import { IoChevronBackOutline } from 'react-icons/io5';
+import "./styles/Dedication.scss";
 
-import './styles/Dedication.scss';
-import { usePhotos } from '@film/photos-web';
 
 function Dedication() {
   return (
-    <div className='dedicationPage'>
-      <div className='dedicationPageContent'>
-        <div className='dedicationLetterContainer'>
-          <p className='dedicationLetterHeader'>Dedicated to you all,</p>
-          <div className='dedicationLetter'>
+    <div className="dedicationPage">
+      <a href="/" className="icon">
+        <IoChevronBackOutline size={20} color="white" />
+      </a>
+      <div className="dedicationPageContent">
+        <div className="dedicationLetterContainer">
+          <p className="dedicationLetterHeader">Dedicated to you all,</p>
+          <div className="dedicationLetter">
             <p>
               As an only child, I found that friends were more than just
               companions; they became my family. Growing up without siblings, I
@@ -58,48 +60,13 @@ function Dedication() {
             <p>
               Sincerely,
               <br />
-              <span className='signatureText'>Doron Reid</span>
+              <span className="signatureText">Doron Reid</span>
             </p>
           </div>
         </div>
 
-        <div className='dedicationVideoContainer'>
-          <div className='dedicationVideo'></div>
-          <p className='dedicationVideoCredit'>Video Credit: Kofi</p>
-        </div>
-      </div>
-
-      <div className='videoCreditContainer'>
-        <div className='videoCreator' />
-        <div className='videoCreatorInfo'>
-          <div className='videoCreatorLine' />
-          <h1 className='videoCreatorName'>Kofi</h1>
-          <p className='videoCreditText'>
-            Hailing from Brooklyn, NY, KAST embodies the spirit of creativity
-            and innovation. Fueled by a love for creating, he is constantly
-            pushing boundaries and refining his craft. KAST is eager to
-            collaborate with like-minded individuals and bring fresh, innovative
-            ideas to life. With a vision that transcends conventional limits, he
-            is dedicated to making a lasting impact in the world of video
-            creation. You can explore his captivating work on Instagram and his
-            YouTube channel below.
-          </p>
-          <div className='videoCreatorLineSocialsBox'>
-            <a
-              href='https://www.instagram.com/kofi__/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <FaInstagram size={25} className='videoCreatorLineSocialMedia' />
-            </a>
-            <a
-              href='https://www.youtube.com/@kofi519'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <FaYoutube size={25} className='videoCreatorLineSocialMedia' />
-            </a>
-          </div>
+        <div className="dedicationVideoContainer">
+          <div className="dedicationVideo"></div>
         </div>
       </div>
     </div>
